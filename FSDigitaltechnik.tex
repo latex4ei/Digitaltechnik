@@ -16,11 +16,11 @@
 \author{Emanuel Regnath, Martin Zellner, Hendrik Böttcher}
 
 % Pakete laden
-\usepackage{scientific}
-\usepackage[utf8]{inputenc}	% Zeichenkodierung: UTF-8 (für Umlaute)   
+\usepackage[utf8x]{inputenc}	% Zeichenkodierung: UTF-8 (für Umlaute)   
 \usepackage[german]{babel}		% Deutsche Sprache
 \usepackage{multicol}			% Spaltenpaket
-\usepackage{latex4ei}
+\usepackage{amsmath}			% Mathematische Formelzeichen
+\usepackage{amssymb}			% Mathematische Formelzeichen
 \usepackage{esint}				% erweiterte Integralsymbole
 \usepackage{multicol}			% ermöglicht Seitenspalten  
 \usepackage{booktabs}			% bessere Tabellenlinien
@@ -28,11 +28,9 @@
 \usepackage{colortbl}			% für die Hintergrundfarbe einzelner Zellen in Tabellen
 \usepackage{graphicx}			% Grafiken
 \usepackage{pbox}				% Intelligent parbox: \pbox{maximum width}{blabalbalb \\ blabal}
+%\usepackage{undertilde}			% Tilde unter Zeichen
+\newcommand{\utilde}[1]{#1}
 \usepackage{scrtime}			% Uhrzeit
-\usepackage{parskip} 			%Verhindert das einrücken am Zeilenanfang
-\usepackage{graphicx}			% Zum Bilder einfügen benötigt
-\usepackage{titlesec}
-\usepackage{color}				% Ermöglicht farbigen Text
 
 %Farben
 \definecolor{lightgray}{rgb}{0.8,0.8,0.8}
@@ -60,34 +58,37 @@
 
 % Eigene Befehle
 \newcommand{\todayV}{\the\day.\the\month.\the\year}                     	    	% Datum D.M.YYYY
+\newcommand{\iset}[2]{\ensuremath{\bigl\{ \bigl. #1 \, \bigr| \, #2 \bigr\}}}		% intensional set
+\newcommand{\eset}[1]{\ensuremath{\bigl\{#1\bigr\}}}								% extensional set
+\newcommand{\norm}[1]{\ensuremath{\|#1\|}}											% Norm
+\newcommand{\gk}[1]{\ensuremath{\left\lfloor#1\right\rfloor}} 						% Gaußklammer
+\newcommand{\sprod}[2]{\ensuremath{\left\langle #1, #2 \right\rangle }}				% Skalarprodukt
+\newcommand{\abs}[1]{\ensuremath{\left\vert#1\right\vert}} 							% Betrag
+\newcommand{\mat}[1]{\ensuremath{\begin{bmatrix} #1 \end{bmatrix}}}					% Matrix
+\newcommand{\vect}[1]{\ensuremath{\begin{pmatrix} #1 \end{pmatrix}}}				% Vektor
+\newcommand{\mvect}[1]{\ensuremath{\left. \begin{matrix} #1 \end{matrix}  \right]}} % Matrixvektor
+\newcommand{\ma}[1]{\ensuremath{\utilde{\bs {#1}}}}
 
 % Abkürzungen
+\newcommand{\ul}[1]{\ensuremath{\underline{#1}}}								%Untersteichen
+\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}									%Überstreichen
+\newcommand{\Ra}[0]{\ensuremath{\Rightarrow}}									%Rightarrow
+\newcommand{\ra}[0]{\ensuremath{\rightarrow}} 									%Rightarrow
 \newcommand{\n}[0]{\ensuremath{\overline}}										%NOT
+\newcommand{\bs}[1]{\ensuremath{\boldsymbol{#1}}}								%Fett und kursiv im mathmode
+\newcommand{\diff}{\ensuremath{\ \mathrm d}}									%delta
+\newcommand{\grad}{\ensuremath{\mathrm{grad}\ }}								%Gradient
 \renewcommand{\div}{\ensuremath{\mathrm{div}\ }}								%Divergenz
-
+\newcommand{\rot}{\ensuremath{\mathrm{rot}\ }}									%Rotation
+\newcommand{\Sp}{\ensuremath{\mathrm{Sp}\ }}									%Spur
+	% Für Mengen
+	\newcommand{\N}{\ensuremath{\mathbb N}}
+	\newcommand{\R}{\ensuremath{\mathbb R}}
+	\newcommand{\C}{\ensuremath{\mathbb C}}
 
 %Überschreibungen
 \renewcommand{\arraystretch}{1.2}
 \renewcommand{\vec}[1]{\ensuremath{\underline{\boldsymbol {#1}}}}
-
-% .:: Überschriften anpassen
-% ======================================================================
-
-\definecolor{sectioncolor}{RGB}{40,40,128}
-
-%\titleformat{ command }[ shape ]{ format }{ label }{ sep }{ before-code }[ after-code ]
-\titleformat{\section}{\Large \bfseries}{\thesection .}{0.5em}{\color{sectioncolor}}[\color{sectioncolor} \hrule \hrule]
-\titleformat{\subsection}{\large \bfseries}{\thesubsection .}{0.3em}{}[ ]
-
-%\titlespacing{Überschriftart}{keine Ahnung}{Abstand oberhalb}{Abstand unterhalb}
-\titlespacing{\section}{0em}{1.0em}{0.1em}
-\titlespacing{\subsection}{0em}{0.2em}{-0.4em}
-\titlespacing{\subsubsection}{0em}{0em}{-0.5em}
-\setlength{\parskip}{1pt}
-
-\sisetup{per-mode=fraction}
-\sisetup{sticky-per=true}
-\AtBeginDocument{\sisetup{math-rm=\mathrm, text-rm=\rmfamily}}
 
 
 % Dokumentbeginn
@@ -109,20 +110,17 @@
 \parbox{4cm}{
 	\emph{\huge{Digitale Schaltungen}}
 }
-\vspace{-10pt}
+
 % ======================================================================
 \section{Moore'sches Gesetz}
-\sectionbox{
-	\begin{itemize}
-		\item alle 18-24 Monate verdoppelt sich die Anzahl der Transistoren auf gleicher Fläche
-		\item Exponentielles Wachstum der Transistorzahl, exponentieller Rückgange des Preises pro Transistor
-		\item Herstellungskosten (Fixkosten, Variable Kosten, Technologiefaktor), Entwicklerproduktivität, Verlustleistungsdichte
-	\end{itemize}
-}
+\begin{itemize} \itemsep0pt
+	\item alle 18-24 Monate verdoppelt sich die Anzahl der Transistoren auf gleicher Fläche
+	\item Exponentielles Wachstum der Transistorzahl, exponentieller Rückgange des Preises pro Transistor
+	\item Herstellungskosten (Fixkosten, Variable Kosten, Technologiefaktor), Entwicklerproduktivität, Verlustleistungsdichte
+\end{itemize}
 
 \section{Einheiten}
-\sectionbox{
-
+\begin{multicols}{3}
 \begin{tabular}{c | c}
 	Potenz & Vorsatz \\ \midrule
 	$10^{12}$ & T \\
@@ -130,10 +128,8 @@
 	$10^{6}$ & M \\
 	$10^{3}$ & k \\
 	$10^{2}$ & h \\
-	$10^{1}$ & da \\ 
-	&
+	$10^{1}$ & da 
 \end{tabular}
-\quad 
 \begin{tabular}{c | c}
 	Potenz & Vorsatz \\ \midrule
 	$10^{-1}$ & d \\
@@ -144,7 +140,6 @@
 	$10^{-12}$ & p \\
 	$10^{-15}$ & f
 \end{tabular}
-\quad 
 \begin{tabular}{ r | l }
 $Hz$ & $s^{-1}$ \\
 N & $kg m s^{-2} $ \\
@@ -156,38 +151,26 @@ $F $ & $ C V^{-1} $ \\
 $\Omega $ & $ V A^{-1} $\\
 $ H $ & $ V s  A^{-1}$
 \end{tabular}
-
-$\text{Bit} \xrightarrow{\cdot 8} \text{Byte} \xrightarrow{\cdot 1024} \text{kByte} \xrightarrow{\cdot 1024} \text{MByte}$
-}
+\end{multicols}
+$Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdot 1024} MByte$\\
 
 \section{Polyadische Zahlensysteme}
-\symbolbox{
-\begin{tabular*}{\columnwidth}{@{\extracolsep}r l r l  r l @{}}
-$Z$ & Zahl & $p$& \#Ziffern vorne  & $d_i$ & Ziffer \\
-$r$ & Basis & $n$ & \#Nachkommastellen \\ 
+$Z = \sum\limits^{p-1}_{i = -n} r^i \cdot d_i = d_{p-1}...d_1 d_0 . d_{-1} ... d_n$\\
+$Z$:Zahl, \ \ $r$:Basis, \ \ $d_i$:Ziffer, \ \ $p$:\#Ziffern vorne \ \ $n$:\#Nachkommastellen
 
-\end{tabular*}
-}
-
-\sectionbox{
-	$Z = \sum\limits^{p-1}_{i = -n} r^i \cdot d_i = d_{p-1}...d_1 d_0 . d_{-1} ... d_n$\\
 Binäres Zahlensystem:\\
 $d_{i2} \in {0,1}$ \qquad
-$B = \sum\limits_{i=-n}^{p-1} 2^i \cdot d_i$ $\quad d_{-n}: LSB; \quad d_{p-1}: MSB$
-
+$B = \sum\limits_{i=-n}^{p-1} 2^i \cdot d_i$ $\quad d_{-n}: LSB; \quad d_{p-1}: MSB$ \\
 \begin{tabular}{l|l}
 Octalsystem: & Hexadezimalsystem:\\
 $d_{i8} \in {0,1,2,3,4,5,6,7}$ & $d_{i16} \in {0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F}$\\
 \end{tabular}\\
+\\
 
-
-Benötigte Bits: $N: n$ Bit  $M: 2n$ Bit \quad
-$N + M = 2n +1$ Bit \quad
+Benötigte Bits: $N: n$ Bit  $M: 2n$ Bit \\
+$N + M = 2n +1$ Bit \\
 $N \cdot M = 3n$ Bit
-}
-
-	\sectionbox{
-		\subsection{Umrechnung}
+	\subsection{Umrechnung}
 	\begin{tabular}{l|l|l}
 			& $Z \ge 1$ & $Z < 1$\\ \midrule
 		$r \rightarrow 10$ & $Z_{10} = \sum r^i \cdot d_i$ & $Z_{10} = \sum r^{-i} \cdot d_{-i}$\\
@@ -196,45 +179,33 @@ $N \cdot M = 3n$ Bit
 		& $58 / 8 = 7\text{Rest}\ 2 (LSB)$ & $0.4 \cdot 2 = 0.8 \text{ Übertrag } 0 (MSB)$\\
 		& $7 / 8 = 0\text{ Rest } 7 (MSB)$ & $0.8 \cdot 2 = 1.6 \text{ Übertrag } 1$ \\
 	\end{tabular}
-	}
 
-	\sectionbox{
-		\subsection{Zweierkomplement \qquad Wertebereich: $-2^{n-1} \le Z \le 2^{n-1} -1$}
+	\subsection{Zweierkomplement \qquad Wertebereich: $-2^{n-1} \le Z \le 2^{n-1} -1$}
 	Wandle 2 in -2 um:\\
 		\begin{tabular}{l|l}
 			1. Invertieren aller Bits  & $0010 \ \Rightarrow 1101$\\
 			2. Addition von 1	& $1101 + 1 = 1110$\\
 			3. Ignoriere Überträge beim MSB & $\Rightarrow \ -2_{10} = 1110_2$\\
 		\end{tabular}
-	}
-	
-	\sectionbox{
-		\subsection{Gleitkommadarstellung nach IEEE 754}
+	\subsection{Gleitkommadarstellung nach IEEE 754}
 	\begin{tabular}{l|l}
-		Wert $= (-1)^s \cdot 2^{e-127} \cdot 1.f$ & Bsp: $-0.625 = -1 \cdot 2^{-1} \cdot 1.01_2$\\
+		$Wert = (-1)^s \cdot 2^{e-127} \cdot 1.f$ & Bsp: $-0.625 = -1 \cdot 2^{-1} \cdot 1.01_2$\\
 		$s$: Vorzeichen, $e$: Exponent, $f$: Mantisse & $\Ra\ s = 1$, $e = 126$, $f = 01_2$\\ 
 	\end{tabular}
 	\\[0.5em]
-	Spezialwerte: Wert $= 0 \Leftrightarrow e=0$ \qquad $Wert = \infty \Leftrightarrow e=255$ \\
-	
-	Bitverteilung(single/double):
+	Spezialwerte: $Wert = 0 \Leftrightarrow e=0$ \qquad $Wert = \infty \Leftrightarrow e=255$ \\
+	Bitverteilung(single/double):\\
 	\begin{tabular}{|c|c|c|} \hline 
-		$s(1)$ & \quad $e(8/11)$ \quad\qquad & \qquad\qquad\ $f(23/52)$\qquad\qquad\qquad \\ \hline
+		$s(1)$ & \quad $e(8/11)$ \quad\qquad & \qquad\qquad\qquad\ $f(23/52)$ \qquad\qquad\qquad\qquad \\ \hline
 	\end{tabular}
-	}
 
 \section{Halbleiter}
-\sectionbox{
-\tablebox{
-	\begin{tabular*}{\columnwidth}{@{\extracolsep\fill}lccccc@{}}
-	\ctrule
-		& Isolator & Metall & undotiert & N-Typ & P-Typ \\ \cmrule
+\begin{tabular}{l|c|c|c|c|c}
+	& Isolator & Metall & undotiert & N-Typ & P-Typ \\ \hline
 	Ladungsträger & Keine & $e^-$ & $e^- / e^+$ & $e^-$ & $e^+$ \\
 	Leitfähigkeit & Keine & Sehr hoch & $\propto T$ & Hoch & Mittel\\  
-	\ctrule
-	\end{tabular*}
-}
-}
+\end{tabular}
+
 
 \section{MOS-FET's}
 % ======================================================================
@@ -242,8 +213,7 @@ $N \cdot M = 3n$ Bit
 \parbox{4.0cm}{ \includegraphics{./img/ds/mosfet.pdf} \\ $V_{Pinch-Off} = V_{GS} - V_{th}$ } \parbox{3.0cm}{ \includegraphics{./img/ds/char_nmos.pdf} } 
 
 
-	\sectionbox{
-		\subsection{Bauteilparameter}
+	\subsection{Bauteilparameter}
 	Verstärkung: \framebox{
 			$\beta = K' \frac{W}{L} \text{ mit } K' = \frac{\mu \epsilon_{0x} \epsilon_0}{t_{0x}} $
 		} \\
@@ -263,11 +233,9 @@ $N \cdot M = 3n$ Bit
 		Aber: große Fläche.
 		\item nMos schaltet schneller als pMOS 
 	\end{itemize}
-	}
 	
 	
-\sectionbox{
-		\subsection{pMos und nMos}
+	\subsection{pMos und nMos}
 	\pbox{3.0cm}{ \includegraphics{./img/ds/cmos.pdf} } 
 	\pbox{10.0cm}{
 	\begin{tabular}{c|c|c|c}
@@ -299,34 +267,23 @@ $N \cdot M = 3n$ Bit
 
 	\end{cases}
 	\end{equation*}
-}
 
 
 
-\sectionbox{
-	\subsection{Disjunktive Normalform (DNF/SOP)}
+\subsection{Disjunktive Normalform (DNF/SOP)}
 Eins-Zeilen der Wertetabelle ODER verknüpfen: \\
 $Z = \overline A \cdot \overline B + \overline C \cdot D$
-}
 
-\sectionbox{
-	\subsection{Konjunktive Normalform (KNF/POS)}
+\subsection{Konjunktive Normalform (KNF/POS)}
 Null-Zeilen der Wertetabelle negieren und UND verknüpfen: \\	
 $Z = ( \ol A + \ol C) \cdot ( \ol A + \ol D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$
-}
 
-\sectionbox{
-	\subsection{Umwandlung in jeweils andere Form}
-	
-\cookbox{Vorgehen}{
-	\item Doppeltes Negieren der Funktion: $ Z = \overline {\overline{\overline A \cdot \overline B + \overline C \cdot D}}$ \\ 
-	\item Umformung "'untere"'  Negation (DeMorgan) : $ Z = \ol{\ol{\ol A \cdot \ol B} \cdot \ol{\ol C \cdot D}} = \ol{(A+B) \cdot (C+\ol D)}$ \\ 
-	\item Ausmultiplizieren: $ Z = \ol{(A+B) \cdot (C+\ol D)} = \ol{A\cdot C + A\cdot \ol D + B \cdot C + B \cdot \ol D}$ \\ 
-	\item Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$ \\ 
-	\item Analog von KNF nach DNF.
-
-} 
-}
+\subsection{Umwandlung in jeweils andere Form}
+1. Doppeltes Negieren der Funktion: $ Z = \overline {\overline{\overline A \cdot \overline B + \overline C \cdot D}}$\\
+2. Umformung "'untere"'  Negation (DeMorgan) : $ Z = \ol{\ol{\ol A \cdot \ol B} \cdot \ol{\ol C \cdot D}} = \ol{(A+B) \cdot (C+\ol D)}$\\
+3. Ausmultiplizieren: $ Z = \ol{(A+B) \cdot (C+\ol D)} = \ol{A\cdot C + A\cdot \ol D + B \cdot C + B \cdot \ol D}$\\
+4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$\\
+Analog von KNF nach DNF.
 \section{CMOS - Logik}
 % ======================================================================
 Komplementäre Logik liefert grundsätzlich negierte Ausgänge. $\Rightarrow$ NAND einfacher als AND.\\
@@ -338,34 +295,25 @@ Drei Grundgatter der CMOS-Technologie:\\
 	Falls $GND$ und $V_{DD}$ vertauscht würden, dann $NAND \ra AND$ und $NOR \ra OR$\\
 	Allerdings schlechte Pegelgenerierung.
 	
-	\sectionbox{
-		\subsection{Gatterdesign}
+	\subsection{Gatterdesign}
 	\emph{Vorteil:}	 (Fast) nur bei Schaltvorgängen Verlustleistung - wenig statische Verluste
-	
-		\tablebox{
-			\begin{tabular*}{\columnwidth}{@{\extracolsep\fill}ccc@{}}
-			\ctrule
-				Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\ \cmrule
+	\begin{tabular}{l|l|l}
+		Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\ \midrule
 		Transistoren & \textbf{n}Mos & \textbf{p}Mos \\
 		AND & Serienschaltung	 & Parallelschaltung \\
 		OR & Parallelschaltung & Serienschaltung \\
-			\ctrule
-			\end{tabular*}
-		}
-	
+	\end{tabular}\\
 	1. Möglichkeit: Direkt; ggf. Inverter vor die Eingänge und Ausgänge schalten.\\
 	2. Möglichkeit: Mit bullshit Algebra die Funktion nur mit NAND und NOR darstellen.\\
-	}
 
-	\sectionbox{
-		\subsection{CMOS Verlustleistung}
+	\subsection{CMOS Verlustleistung}
 	Inverterschaltvorgang $V_A: 0 \ra 1$:\\
 	\includegraphics{./img/ds/char_inverter.pdf}
 	
 	\begin{tabular}{ll}
-		\emph{Dynamische Verlustleistung}	& $P_{\ir dyn} = P_{\ir cap} + P_{\ir short}$\\
-		\quad Kapazitive Verluste & $P_{\ir cap} = \alpha_{01} f C_L V_{DD}^2$\\
-		\quad Kurzschlussstrom	& $P_{\ir short} = \alpha_{01} f \beta_n \tau (V_{DD} - 2V_{tn})^3$\\[0.8em]
+		\emph{Dynamische Verlustleistung}	& $P_{dyn} = P_{cap} + P_{short}$\\
+		\quad Kapazitive Verluste & $P_{cap} = \alpha_{01} f C_L V_{DD}^2$\\
+		\quad Kurzschlussstrom	& $P_{short} = \alpha_{01} f \beta_n \tau (V_{DD} - 2V_{tn})^3$\\[0.8em]
 		\quad Schalthäufigkeit & $\alpha_{0 \rightarrow 1} = \frac{\text{Schaltvorgänge(pos. Flanke)}}{\text{\# Betrachtete Takte}}$\\
 	\end{tabular}\\
 	
@@ -373,38 +321,26 @@ Drei Grundgatter der CMOS-Technologie:\\
 	$\approx \;$ $V_{DD} 1/\propto $ Schaltzeit: $\frac{V_{DD2}}{V_{DD1}} = \frac{t_{D1}}{t_{D2}}$ (bei Schaltnetzen $t_{log}$)\\
 	Verzögerungszeit $\propto$ $\frac{1}{V_{DD} - V_{th}}$\\
 
-	\emph{Statische Verlustleistung} $P_{\ir stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
+	\emph{Statische Verlustleistung} $P_{stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
 	
-	Abhängigkeit: $V_{DD}\uparrow:P_{\ir stat}\uparrow$ \qquad $V_{\ir th}\uparrow:P_{\ir stat}\downarrow$ \quad (aber nicht proportional)\\
+	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)\\
 
-	}
 
 \section{Sequentielle Logik}
-... Logik mit Gedächtnis.
-
-\sectionbox{
-	\subsection{Bedingungen}
-
-\tablebox{
-	\begin{tabular*}{\columnwidth}{@{\extracolsep\fill}cc@{}}
-	\ctrule
-		$t_{\ir Setup}$ & Stabilitätszeit vor der aktiven Taktflanke\\
-$t_{\ir hold}$ & Stabilitätszeit nach  der aktiven Taktflanke\\
-$t_{\ir c2q}$ & Eingang wird spätestens nach $t_{\ir c2q}$ am Ausgang verfügbar\\
-Max. Taktperiode &  $t_{\ir clk} \ge t_{1,c2q} + t_{\ir logic,max} + t_{\ir 2,setup}$  \\
- Max. Taktfrequenz & $f_{\ir max} = \left\lfloor \frac{1}{t_{\ir clk}} \right\rfloor$ \qquad (Nicht aufrunden) \\
- Holdzeitbedingung & $t_{\ir hold} \le t_{\ir c2q} + t_{\ir logic,min}$  $\ra$ Dummy Gatter einbauen\\
- Durchsatz & $\frac{1 \text{Sample}}{t_{\ir clk,pipe}} = f$ \\
- Latenz & $t_{\ir clk} \cdot \#$Pipelinestufen (das zwischen den FFs) \\ 
-	\ctrule
-	\end{tabular*}
-}
-
-}
+... Logik mit Gedächtnis. Bedingungen: \\
+\begin{tabular}{c | l}
+$t_{Setup}$ & Stabilitätszeit vor der aktiven Taktflanke\\
+$t_{hold}$ & Stabilitätszeit nach  der aktiven Taktflanke\\
+$t_{c2q}$ & Eingang wird spätestens nach $t_{c2q}$ am Ausgang verfügbar\\
+Max. Taktperiode &  $t_{clk} \ge t_{1,c2q} + t_{logic,max} + t_{2,setup}$  \\
+ Max. Taktfrequenz & $f_{max} = \left\lfloor \frac{1}{t_{clk}} \right\rfloor$ \qquad (Nicht aufrunden) \\
+ Holdzeitbedingung & $t_{hold} \le t_{c2q} + t_{logic,min}$  $\ra$ Dummy Gatter einbauen\\
+ Durchsatz & $\frac{1 \text{Sample}}{t_{clk,pipe}} = f$ \\
+ Latenz & $t_{clk} \cdot \#$Pipelinestufen (das zwischen den FFs) \\
+\end{tabular}
 
 
-\sectionbox{
-	\subsection{Pipelining}
+\subsection{Pipelining} % (fold)
 Nur bei synchronen(taktgesteuerten) Schaltungen möglich!
 \begin{itemize} \itemsep0pt
 	\item Aufteilen langer kombinatorischer Pfade durch Einfügen zusätzlicher Registerstufen\\
@@ -414,12 +350,11 @@ Nur bei synchronen(taktgesteuerten) Schaltungen möglich!
 	\item Gesamtlatenz wird eher größer
 	\item Taktfrequenz erhöht sich
 \end{itemize}
-}
+% subsection Pipelining (end)
 
-\sectionbox{
-	\subsection{Parallel Processing} % (fold)
+\subsection{Parallel Processing} % (fold)
 
-Durchsatz = $\frac{\#\text{Modul}}{t_{\ir clk,Modul}} = f$ \qquad \quad Latenz = $t_{\ir clk}$
+Durchsatz = $\frac{\#\text{Modul}}{t_{clk,Modul}} = f$ \qquad \quad Latenz = $t_{clk}$
 \begin{itemize} \itemsep0pt
 	\item Paralleles, gleichzeitiges Verwenden mehrere identischer Schaltnetze
 	\item Zusätzliche Kontrolllogik nötig (Multiplexer)
@@ -427,8 +362,7 @@ Durchsatz = $\frac{\#\text{Modul}}{t_{\ir clk,Modul}} = f$ \qquad \quad Latenz =
 	\item Durchsatz steigt mit der Zahl der Verarbeitungseinheiten \\
 	ABER: deutlich höherer Ressourcenverbrauch
 \end{itemize}
-}
-
+% subsection Parallel Processing (end)
 
 \section{Volladdierer (VA) / Ripple-C(u)arry-Adder}
 \parbox{5.0cm}{ \includegraphics{./img/ds/volladdierer.pdf} }
@@ -439,56 +373,41 @@ Summenbit $S_n = c_n \oplus p_n$\\
 Carry-out: $c_{n+1} = c_n \cdot p_n + g_n$\\ \\
 Laufzeiten: \\
 $t_{sn} = \begin{cases} t_{cn} + t_{xor} & t_{cn} > t_{xor} \\ 2 t_{xor} & sonst \end{cases}$\\ }\\
-$t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and} + t_{or} & p_n = 0, g_n = 0 \\ t_{cn} + t_{and} + t_{or} & p_n = 1 \end{cases}$
+$t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and} + t_{or} & p_n = 0, g_n = 0 \\ t_{cn} + t_{and} + t_{or} & p_n = 1 \end{cases}$\\
 
 
 
 
 \section{Speicherelemente}
-\sectionbox{
-	\subsection{Definitionen}
+	\emph{Flüchtig} Speicherinhalt gehen verloren, wenn Versorgungsspannung $V_{DD}$ wegfällt - Bsp: *RAM\\
+	\emph{Nicht Flüchtig} Speicherinhalt bleibt auch ohne $V_{DD}$ erhalten - Bsp: Flash\\
+	\emph{Asynchron} Daten werden sofort geschrieben/gelesen.\\
+	\emph{Synchron} Daten werden erst mit $clk_{0 \ra 1}$ geschrieben.\\
+	\emph{Dynamisch} Ohne Refreshzyklen gehen auch bei angelegter $V_{DD}$ Daten verloren -  Bsp: DRAM\\
+	\emph{Statisch} Behält den Zustand bei solange $V_{DD}$ anliegt (keine Refreshzyklen nötig) - Bsp: SRAM\\
 	\begin{description}
-	\item[Flüchtig] Speicherinhalt gehen verloren, wenn Versorgungsspannung $V_{DD}$ wegfällt - Bsp: *RAM
-	\item[Nicht Flüchtig] Speicherinhalt bleibt auch ohne $V_{DD}$ erhalten - Bsp: Flash
-	\item[Asynchron] Daten werden sofort geschrieben/gelesen.
-	\item[Synchron] Daten werden erst mit $clk_{0 \ra 1}$ geschrieben.
-	\item[Dynamisch] Ohne Refreshzyklen gehen auch bei angelegter $V_{DD}$ Daten verloren -  Bsp: DRAM
-	\item[Statisch] Behält den Zustand bei solange $V_{DD}$ anliegt (keine Refreshzyklen nötig) - Bsp: SRAM
 		\item[Bandbreite:] Bitanzahl, die gleichzeitig gelesen/geschrieben werden kann.
 		\item[Latenz:] Zeitverzögerung zwischen Anforderung und Ausgabe von Daten.
 		\item[Zykluszeit:] Minimale Zeitdifferenz zweier Schreib/Lesezugriffe.
 	\end{description}
 	
 	\framebox{$\text{Speicherkapazität} = \text{Wortbreite} \cdot 2^\text{Adressbreite}$ }
-}
 
-	\sectionbox{
-		\subsection{Flip-Flop}
-		\parbox{6cm}{{2}
+	\subsection{Flip-Flop}
+	\begin{multicols}{2}
 	besteht aus zwei enable-Latches \\
-	\emph{Flip-Flop:} ändert Zustand bei steigender / (fallender) Taktflanke.}
+	\emph{Flip-Flop:} ändert Zustand bei steigender / (fallender) Taktflanke.\\
 	\begin{tabular}{c|c|c} $clk$ & $Q$ & $\ol Q$ \\ \hline $0 \ra 1$ & $D$ & $\ol D$ \\ sonst & $Q$ & $\ol Q$ \end{tabular}
-	}
-	
-	\sectionbox{
-		\subsection{Register}
+	\end{multicols}
+	\subsection{Register}
 	Ring aus zwei Invertern.
-	}
-	
-	\sectionbox{
+
 	\subsection{Latch}
-	\parbox{7cm}{
-	\emph{Set-Reset Latch:}
-	
-	Zwei gegenseitig rückgekoppelte NAND-Gatter. $0$ an R/S schaltet.
-	
-	\emph{Enable-Latch:} ändert Speicherzustand auf $D$ nur wenn $e=1$:
-	}
-	\begin{tabular}{c|c} e & Q \\ \hline 0 & Q \\ 1 & D \end{tabular}
-	}
-	
-\sectionbox{
-		\subsection{DRAM Zelle (dynamisch)}
+	\begin{multicols}{2}
+	\emph{Set-Reset Latch:} \\ Zwei gegenseitig rückgekoppelte NAND-Gatter. $0$ an R/S schaltet. \\
+	\emph{Enable-Latch:} ändert Speicherzustand auf $D$ nur wenn $e=1$: \begin{tabular}{c|c} e & Q \\ \hline 0 & Q \\ 1 & D \end{tabular}
+	\end{multicols}
+	\subsection{DRAM Zelle (dynamisch)}
 
 	\parbox{3.0cm}{ \includegraphics{./img/ds/DRAM.pdf} }
 	\parbox{6.0cm}{ 
@@ -503,7 +422,8 @@ $t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and}
 			$\Ra$ Kondensator wird auf entsprechendes Potential aufgeladen oder entladen, je nach vorherigem Wert
 		\end{itemize}
 	}
-	\textbf{Lesen}
+	
+	\paragraph{Lesen}
 	\begin{itemize}\itemsep0pt
 		\item Wortleitung wird aktiviert, d.h. auf $V_{DD}$ gelegt. 
 		\item Bitleitung wird auf $V_{DD} / 2$ vorgeladen.
@@ -513,32 +433,24 @@ $t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and}
 		$\ra$ $\Delta V = \left(V_X - \frac{V_{DD}}{2}\right) \cdot \frac{C_S}{C_S + C_{BL}}$ \quad i.d.R $C_{BL} >> C_S \ra \Delta V$ sehr klein \\
 		$\ra $ Leseverstärker nötig!
 	\end{itemize}
-}
 
 \begin{multicols}{2}	
-	\sectionbox{
-		\subsection{SRAM Zelle (statisch)}
+	\subsection{SRAM Zelle (statisch)}
 	\includegraphics{./img/ds/SRAM.pdf}
-	}
 
 
-	\sectionbox{
-		\subsection{ROM - Read Only Memory}
+	\subsection{ROM - Read Only Memory}
 	\includegraphics{./img/ds/ROM.pdf}
-	}
 \end{multicols}
 
-\sectionbox{
-		\subsection{Flash (nicht flüchtig)}
+	\subsection{Flash (nicht flüchtig)}
 	nMos Transistor mit zusätzlichem floating Gate in der Oxidschicht.\\
 	\includegraphics{./img/ds/flash.pdf} \qquad \includegraphics{./img/ds/flashsymbol.pdf}\\
 	‚0’ speichern: $V_{GS} = V_{DS} = 4 \cdot V_{DD}$, S an GND\\
-	‚0’ löschen: S von GND trennen, G an GND und D an 4mal VDD
-}
+	‚0’ löschen: S von GND trennen, G an GND und D an 4mal VDD\\
  
 
-\sectionbox{
-	\subsection{Organisation von Speichern} 
+\subsection{Organisation von Speichern} 
 
 \begin{itemize} \itemsep0pt
 	\item 1 Byte besteht aus 8 Bit
@@ -549,19 +461,21 @@ Aufteilung:\\
 Speicherkapazität $= 2^M \cdot 2^N$ Bester Fall für $M=N$\\ 
 \# Reihen $= N$\\
 $2^M = W \cdot 2^K$\\
-\# Spalten $= K$
-}
-
-
-
-\newpage
+\# Spalten $= K$\\
 
 
 
 
-	\section{Automaten} % (fold)
-\symbolbox{
-\begin{tabular}{r l} 
+
+
+
+
+
+\section{Automaten} % (fold)
+
+DFA 6-Tupel $\eset{I, O, S, R, f, g}$ \\
+
+\begin{tabular}{r | l} 
 $I$ & Eingabealphabet \\
 $O$ &  Ausgabealphabet \\
 $S$ & Menge von Zuständen \\
@@ -569,12 +483,6 @@ $R \subseteq S$ &  Menge der Anfangszustände \\
 $f: S \times I \ra S$  &  Übergangsrelation \\
 $g$ & Ausgaberelation \\
 \end{tabular}
-}
-\sectionbox{
-
-DFA 6-Tupel $\eset{I, O, S, R, f, g}$ \\
-
-
 
 \includegraphics{./img/ds/automaten.pdf}\\
 
@@ -585,17 +493,14 @@ DFA 6-Tupel $\eset{I, O, S, R, f, g}$ \\
  $g: S \ra O$ & $g: S \times I \ra O$
 \end{tabular}
 
-}
-\sectionbox{
-	\subsection{Vorgehensweise} % (fold)
+\subsection{Vorgehensweise} % (fold)
 \begin{itemize}
 	\item $I, O$ bestimmen
 	\item $S$ festlegen 
 	\item $R$ bestimmen
 	\item $f,g$ bestimmen
 \end{itemize}
-
-}
+% subsection Vorgehensweise (end)
 
 % Ende der Spalten
 \end{multicols}
