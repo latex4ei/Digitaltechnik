@@ -15,3 +15,7 @@ packages
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+
+## Custom
+desktop.ini
+/*.pdf
