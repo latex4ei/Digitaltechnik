@@ -89,6 +89,7 @@
 %Überschreibungen
 \renewcommand{\arraystretch}{1.2}
 \renewcommand{\vec}[1]{\ensuremath{\underline{\boldsymbol {#1}}}}
+\newcommand{\imglog}{\includegraphics[width=.85cm]}
 
 
 % Dokumentbeginn
@@ -167,45 +168,152 @@ $d_{i8} \in {0,1,2,3,4,5,6,7}$ & $d_{i16} \in {0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F}$
 \end{tabular}\\
 \\
 
-Benötigte Bits: $N: n$ Bit  $M: 2n$ Bit \\
-$N + M = 2n +1$ Bit \\
-$N \cdot M = 3n$ Bit
+Benötigte Bits: $N: n$ Bit.  $M: m$ Bit \\
+$N + M: \max\{n,m\}+1$ Bit \\
+$N \cdot M: n+m$ Bit
 	\subsection{Umrechnung}
 	\begin{tabular}{l|l|l}
 			& $Z \ge 1$ & $Z < 1$\\ \midrule
 		$r \rightarrow 10$ & $Z_{10} = \sum r^i \cdot d_i$ & $Z_{10} = \sum r^{-i} \cdot d_{-i}$\\
-		& $101_2 \ra 1 \cdot 1 + 0\cdot 2 + 1 \cdot 4$ & $0.11_2 \ra 1\cdot 0.5 + 1\cdot 0.25$\\ \midrule
+		& $101_2 \ra 1 \cdot 4 + 0\cdot 2 + 1 \cdot 1$ & $0.11_2 \ra 1\cdot 0.5 + 1\cdot 0.25$\\ \midrule
 		$10 \rightarrow r$ & $d_i = Z_{10} \% r^i$ & \\
 		& $58 / 8 = 7\text{Rest}\ 2 (LSB)$ & $0.4 \cdot 2 = 0.8 \text{ Übertrag } 0 (MSB)$\\
 		& $7 / 8 = 0\text{ Rest } 7 (MSB)$ & $0.8 \cdot 2 = 1.6 \text{ Übertrag } 1$ \\
 	\end{tabular}
 
 	\subsection{Zweierkomplement \qquad Wertebereich: $-2^{n-1} \le Z \le 2^{n-1} -1$}
-	Wandle 2 in -2 um:\\
 		\begin{tabular}{l|l}
+			\textbf{$Z \rightarrow -Z$} & Bsp: Wandle 2 in -2 um\\
 			1. Invertieren aller Bits  & $0010 \ \Rightarrow 1101$\\
 			2. Addition von 1	& $1101 + 1 = 1110$\\
 			3. Ignoriere Überträge beim MSB & $\Rightarrow \ -2_{10} = 1110_2$\\
 		\end{tabular}
 	\subsection{Gleitkommadarstellung nach IEEE 754}
-	\begin{tabular}{l|l}
-		$Wert = (-1)^s \cdot 2^{e-127} \cdot 1.f$ & Bsp: $-0.625 = -1 \cdot 2^{-1} \cdot 1.01_2$\\
-		$s$: Vorzeichen, $e$: Exponent, $f$: Mantisse & $\Ra\ s = 1$, $e = 126$, $f = 01_2$\\ 
-	\end{tabular}
-	\\[0.5em]
-	Spezialwerte: $Wert = 0 \Leftrightarrow e=0$ \qquad $Wert = \infty \Leftrightarrow e=255$ \\
 	Bitverteilung(single/double):\\
 	\begin{tabular}{|c|c|c|} \hline 
 		$s(1)$ & \quad $e(8/11)$ \quad\qquad & \qquad\qquad\qquad\ $f(23/52)$ \qquad\qquad\qquad\qquad \\ \hline
+	\end{tabular} \\[0.5em]
+	$s$: Vorzeichen, $e$: Exponent, $f$: Mantisse \\ \\
+	\begin{tabular}{l|l}
+		\textbf{IEEE $\rightarrow$ Wert $Z$} & Bsp: $s = 1$, $e = 126$, $f = 01_2$\\		
+		$Z = (-1)^s \cdot  1.f \cdot 2^{e-127}$ & $Z=-1 \cdot 2^{-1} \cdot 1.01_2 = -0.101_2= -0.625$\\ \\ 
+		\textbf{Wert $Z$ $\rightarrow$ IEEE} & Bsp: $Z=11.25$ \\
+		$s=0$(positiv), $s=1$(negativ) & $s=0$\\
+		$Z_{10} \rightarrow Z_2$ (beim Komma teilen) & $Z = 1011.01_2$\\
+		$Z_2$ n-mal shiften $\rightarrow$ $1.xxx\dots$ & $Z=1.01101_2\cdot 2^3$ \\
+		Exponent $e_{10}=n+127 \rightarrow e_2$ & $e=3+127=130=10000010_2$\\
+		Mantisse $f_2=xxx\dots$ & $f=01101000\dots_2$
+	\end{tabular}
+		\\[0.5em]
+		\textbf{Spezialwerte:} $Wert = 0 \Leftrightarrow e=0$ \qquad $Wert = \infty \Leftrightarrow e=255$
+
+
+\section{Boolsche Algebra}
+	\begin{tabular}{l|l|l}
+		            & Boolesche Algebra                                     & Mengenalgebra                                         \\
+		            & $({0,1};\cdot , +, \overline{x})$                     & $(P(G);\cap , \cup, \overline{A};G,\emptyset )$       \\ \hline
+		Kommutativ  & $x \cdot y = y \cdot x$                               & $A \cap B = B \cap A$                                 \\
+		            & $x + y = y + x$                                       & $A \cup B = B \cup A$                                 \\
+		Assoziativ  & $x \cdot (y \cdot z) = (x \cdot y) \cdot z$           & $(A \cap B) \cap C = A \cap (B \cap C)$               \\
+		            & $x + (y + z) = (x + y) + z$                           & $(A \cup B) \cup C = A \cap (B \cup C)$               \\
+		Distributiv & $x \cdot (y + z) = x \cdot y + x \cdot z$             & $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$      \\
+		            & $x + (y \cdot z) = (x + y) \cdot (x + z)$             & $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$      \\
+		Indempotenz & $x \cdot x = x$                                       & $A \cap A = A$                                        \\
+		            & $x + x = x$                                           & $A \cup A = A$                                        \\
+		Absorbtion  & $x \cdot (x+y) = x$                                   & $A \cap (A \cup B) = A$                               \\
+		            & $x + (x \cdot y) = x$                                 & $A \cup (A \cap B) = A$                               \\
+		Neutral     & $x \cdot 1 = x$                                       & $A \cap G = A$                                        \\
+		            & $x + 0 = x$                                           & $A \cup \emptyset = A$                                \\
+		Dominant    & $x \cdot 0 = 0$                                       & $A \cap \emptyset = \emptyset$                        \\
+		            & $x + 1 = 1$                                           & $A \cup G = G$                                        \\
+		Komplement  & $x \cdot \overline{x} = 0$                            & $A \cap \overline{A} = \emptyset$                     \\
+		            & $x + \overline{x} = 1$                                & $A \cup \overline{A} = G$                             \\
+		            & $\overline{\overline{x}} = x$                         & $\overline{\overline{A}} = A$                         \\
+		De Morgan   & $\overline{x \cdot y} = \overline{x} + \overline{y}$  & $\overline{A \cap B} = \overline{A} \cup \overline{B}$\\
+		            & $\overline{x + y} = \overline{x} \cdot \overline{y}$ & $\overline{A \cup B} = \overline{A} \cap \overline{B}$
+	\end{tabular}
+	\\
+	
+	
+	\subsection{Multiplexer}
+	\begin{tabular}{ll}
+		$f = x \cdot a + \overline x \cdot b$ & (2 Eingänge $a,b$ und 1 Steuereingang $x$)\\
+		$f = \ol x_1 \ol x_2 a + \ol x_1 x_2 b + x_1  \ol x_2 c + x_1 x_2d$ & (Eingänge: $a,b,c,d$  Steuerung: $x_1$, $x_2$)\\
 	\end{tabular}
 
+
+
+	\subsection{Wichtige Begriffe}
+	\begin{tabular}{l|l|l}
+		Wichtige Begriffe: & Definition & Bemerkung\\ \hline
+		Signalvariable & $x$ & $\hat x \in \eset{0,1}$ \\
+		Literal & $l_i = x_i$ oder $\overline{x_i}$ & $i \in I_0=\eset{1,...,n}$\\
+		Minterme,0-Kuben & M0C $\ni m_j = \prod\limits_{i\in I_0} l_i$ & $|$M0C$| = 2^n$ \\
+		d-Kuben & MC $\ni c_j = \prod\limits_{i\in I_j \subseteq I_0} l_i$ & $|$MC$|=3^n$\\
+		Distanz & $\delta(c_i,c_j) = \bigl| \iset{l}{l \in c_i \land \overline{l}\in c_j}  \bigr|$ & $\delta_{ij} = \delta(c_i,c_j)$ \\
+		Implikanten & $MI = \iset{c \in MC}{c \subseteq f}$ &  \\
+		Primimplikanten & $MPI = \iset{p \in MI}{p \not\subset c \ \forall c \in MI}$ & $MPI \subseteq MI \subseteq MC$\\
+	\end{tabular}\\ \\ \\
+	\begin{tabular}{l|l|l}	
+		SOP (DNF) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
+		POS (KNF) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
+		CSOP (nur 1)& Menge aller Minterme & analog CPOS \\
+		VollSOP (nur 1)& Menge aller Primimplikanten & Bestimmung siehe Quine Methode\\
+		& & oder Schichtenalgorithmus\\
+		MinSOP (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
+	\end{tabular}
+	\\ \\
+	FPGA: Field Programmable Gate Array\\
+	LUT: Look Up Table\\
+
+
+	\subsection{Boolesche Operatoren (Wahrheitstabelle WT)}
+	\begin{tabular}{c|c||c|c|c|c|c|c}
+		& & \imglog{./img/logic/and-us.png} & \imglog{./img/logic/or-us.png} & \imglog{./img/logic/xor-us.png} & \imglog{./img/logic/nand-us.png} & \imglog{./img/logic/nor-us.png} & \imglog{./img/logic/xnor-us.png} \\
+		& & \imglog{./img/logic/and-din.png} & \imglog{./img/logic/or-din.png} & \imglog{./img/logic/xor-din.png} & \imglog{./img/logic/nand-din.png} & \imglog{./img/logic/nor-din.png} & \imglog{./img/logic/xnor-din.png} \\
+		& & \imglog{./img/logic/and-iec.png} & \imglog{./img/logic/or-iec.png} & \imglog{./img/logic/xor-iec.png} & \imglog{./img/logic/nand-iec.png} & \imglog{./img/logic/nor-iec.png} & \imglog{./img/logic/xnor-iec.png} \\
+		x & y &    AND     &  OR   &     XOR     &         NAND          &       NOR        &          EQV           \\
+		  &   & $x\cdot y$ & $x+y$ & $x\oplus y$ & $\overline{x\cdot y}$ & $\overline{x+y}$ & $\overline{x\oplus y}$ \\ \hline\hline
+		0 & 0 &     0      &   0   &      0      &           1           &        1         &           1            \\ \hline
+		0 & 1 &     0      &   1   &      1      &           1           &        0         &           0            \\ \hline
+		1 & 0 &     0      &   1   &      1      &           1           &        0         &           0            \\ \hline
+		1 & 1 &     1      &   1   &      0      &           0           &        0         &           1
+	\end{tabular}
+Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
+
+
+\section{Beschreibungsformen}
+	\subsection{Disjunktive Normalform/Sum of products (DNF/SOP)}
+	\textbf{Eins-Zeilen} als \textbf{Minterme} schreiben und alle Minterme mit \textbf{ODER} verknüpfen: \\
+	$Z = \overline A \cdot \overline B + \overline C \cdot D$
+	
+	\subsection{Konjunktive Normalform/Product of sums (KNF/POS)}
+	\textbf{Null-Zeilen negiert als Maxterm} schreiben und \textbf{UND} verknüpfen: \\	
+	$Z = ( \ol A + \ol C) \cdot ( \ol A + \ol D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$
+	
+	\subsection{Umwandlung in jeweils andere Form}
+	1. Doppeltes Negieren der Funktion: $ Z = \overline {\overline{\overline A \cdot \overline B + \overline C \cdot D}}$\\
+	2. Umformung "'untere"'  Negation (DeMorgan) : $ Z = \ol{\ol{\ol A \cdot \ol B} \cdot \ol{\ol C \cdot D}} = \ol{(A+B) \cdot (C+\ol D)}$\\
+	3. Ausmultiplizieren: $ Z = \ol{(A+B) \cdot (C+\ol D)} = \ol{A\cdot C + A\cdot \ol D + B \cdot C + B \cdot \ol D}$\\
+	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$\\
+	Analog von KNF nach DNF.
+	
+	\subsection{Shannon Entwicklung}
+		$f = x_i \cdot f_{x_i} + \ol x_i \cdot f_{\ol x_i} = (x_i + f_{\ol x_i})\cdot ( \ol x_i + f_{x_i}) = (f_{x_i} \oplus f_{\ol x_i}) \cdot x_i \oplus f_{\ol x_i}$ \\
+		$\ol f = x_i \cdot \ol f_{x_i} + \ol x_i \cdot \ol f_{\ol x_i}$
+	\subsection{Umwandlung in jeweils andere Form}
+	1. Doppeltes Negieren der Funktion: $ f = \overline {\overline{\overline x \cdot \overline y + \overline z \cdot w}}$\\
+	2. Umformung "'untere"'  Negation (DeMorgan) : $ f = \ol{\ol{\ol x \cdot \ol y} \cdot \ol{\ol z \cdot w}} = \ol{(x+y) \cdot (z+\ol w)}$\\
+	3. Ausmultiplizieren: $ f = \ol{(x+y) \cdot (z+\ol w)} = \ol{x\cdot z + x\cdot \ol w + y \cdot z + y \cdot \ol w}$\\
+	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ f= \ol{xz} \cdot \ol{x \ol w} \cdot \ol{yz} \cdot \ol{y\ol w} = ( \ol x + \ol z) \cdot ( \ol x + w) \cdot ( \ol y + \ol z) \cdot ( \ol y + w)$\\
+	Analog von POS nach SOP.\\
+	
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
 	& Isolator & Metall & undotiert & N-Typ & P-Typ \\ \hline
 	Ladungsträger & Keine & $e^-$ & $e^- / e^+$ & $e^-$ & $e^+$ \\
 	Leitfähigkeit & Keine & Sehr hoch & $\propto T$ & Hoch & Mittel\\  
 \end{tabular}
-
 
 \section{MOS-FET's}
 % ======================================================================
@@ -215,14 +323,14 @@ $N \cdot M = 3n$ Bit
 
 	\subsection{Bauteilparameter}
 	Verstärkung: \framebox{
-			$\beta = K' \frac{W}{L} \text{ mit } K' = \frac{\mu \epsilon_{0x} \epsilon_0}{t_{0x}} $
+			$\beta = K' \frac{W}{L} \text{ mit } K' = \frac{\mu \varepsilon_{ox} \varepsilon_0}{t_{0x}} $
 		} \\
 	\begin{tabular} {r | l}
 		Kanalweite & W  \\
 		Kanallänge & L  \\
 		Elektronenbeweglichkeit & $\mu$\quad $\mu_n \approx 250 \cdot 10^{-4} \frac{m^2}{Vs}$, $\mu_p \approx 100 \cdot 10^{-4} \frac{m^2}{Vs}$ \\
-		rel. Dielektrizität des Gateoxyds & $\epsilon_{ox} \approx 3,9$ \\
-		Dielektrizitätskonstante & $\epsilon_0 = 8.8541878 \cdot 10^{-12} \frac{\mathrm{A\,s}}{\mathrm{V\,m}}$ \\
+		rel. Dielektrizität des Gateoxyds & $\varepsilon_{ox} \approx 3,9$ \\
+		Dielektrizitätskonstante & $\varepsilon_0 = 8.8541878 \cdot 10^{-12} \frac{\mathrm{A\,s}}{\mathrm{V\,m}}$ \\
 		Gateoxyddicke & $t_{ox}$ \\
 		Verstärkung & $\beta = \frac{\mu_n \varepsilon_{ox} \varepsilon_0}{t_{ox}} \cdot \frac{W}{L} = K' \frac{W}{L} = \frac{\mu_n C_G}{L^2}$ \\
 		Kapazität & $C_G = \varepsilon_{ox} \varepsilon_0 \frac{WL}{t_{ox}}$ \\
@@ -234,7 +342,6 @@ $N \cdot M = 3n$ Bit
 		\item nMos schaltet schneller als pMOS 
 	\end{itemize}
 	
-	
 	\subsection{pMos und nMos}
 	\pbox{3.0cm}{ \includegraphics{./img/ds/cmos.pdf} } 
 	\pbox{10.0cm}{
@@ -245,20 +352,18 @@ $N \cdot M = 3n$ Bit
 		& & & \\
 		$\underset{\text{normally off}}{\text{nMos}}$ & niedrigeren Potential & $\bs{> 0}$ & $-(GND)$ \\
 	\end{tabular}\\[0.5cm]
-	}\\	
+	}
 	
-	Drainstromformel:\\
-	nMos (p-dotiertes Substrat, n-dotierte Drain/Source), schlechter pull up (Pegeldegenerierung)
+	\subsection{Drainstrom}
+	\textbf{nMos} (p-dotiertes Substrat, n-dotierte Drain/Source), schlechter pull up (Pegeldegenerierung)
 	\begin{equation*}
 	\!\!\! I_d = \begin{cases}
 	0, &\text{ für }  U_{gs} - U_{th} \le 0 \qquad \qquad  \text{(Sperrber.)}\\[0.2em]
 	 \beta [(u_{gs} - U_{th}) \cdot u_{ds} - \frac{1}{2} u_{ds}^2] , &\text{ für }  0 \le U_{gs} - U_{th} \ge u_{ds} \  \text{(linearer Ber.)}\\\\[0.2em]
 	 \frac{1}{2} \beta \cdot (u_{gs} - U_{th})^2, &\text{ für }  0 \le U_{gs} - U_{th} \le u_{ds} \  \text{(Sättigungsber.)}\\
-
 	\end{cases}
 	\end{equation*}
-	Drainstromformel: \\
-	pMos (n-dotiertes Substrat, p-dotierte Drain/Source), schlechter pull down (Pegeldegenerierung)
+	\textbf{pMos} (n-dotiertes Substrat, p-dotierte Drain/Source), schlechter pull down (Pegeldegenerierung)
 	\begin{equation*}
 	\!\!\! I_d = \begin{cases}
 	0, &\text{ für }  U_{gs} - U_{th} \ge 0 \qquad \qquad  \text{(Sperrber.)}\\[0.2em]
@@ -268,63 +373,126 @@ $N \cdot M = 3n$ Bit
 	\end{cases}
 	\end{equation*}
 
-
-
-\subsection{Disjunktive Normalform (DNF/SOP)}
-Eins-Zeilen der Wertetabelle ODER verknüpfen: \\
-$Z = \overline A \cdot \overline B + \overline C \cdot D$
-
-\subsection{Konjunktive Normalform (KNF/POS)}
-Null-Zeilen der Wertetabelle negieren und UND verknüpfen: \\	
-$Z = ( \ol A + \ol C) \cdot ( \ol A + \ol D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$
-
-\subsection{Umwandlung in jeweils andere Form}
-1. Doppeltes Negieren der Funktion: $ Z = \overline {\overline{\overline A \cdot \overline B + \overline C \cdot D}}$\\
-2. Umformung "'untere"'  Negation (DeMorgan) : $ Z = \ol{\ol{\ol A \cdot \ol B} \cdot \ol{\ol C \cdot D}} = \ol{(A+B) \cdot (C+\ol D)}$\\
-3. Ausmultiplizieren: $ Z = \ol{(A+B) \cdot (C+\ol D)} = \ol{A\cdot C + A\cdot \ol D + B \cdot C + B \cdot \ol D}$\\
-4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$\\
-Analog von KNF nach DNF.
 \section{CMOS - Logik}
 % ======================================================================
-Komplementäre Logik liefert grundsätzlich negierte Ausgänge. $\Rightarrow$ NAND einfacher als AND.\\
+	\emph{Vorteil:}	 (Fast) nur bei Schaltvorgängen Verlustleistung - wenig statische Verluste \\
 Drei Grundgatter der CMOS-Technologie:\\
 	\begin{tabular}{ccc}
 		NOT (2 Trans.) & NAND (4 Trans.) & NOR (4 Trans.)\\
-		\includegraphics{./img/ds/mosfet_not.pdf} \quad & \includegraphics{./img/ds/mosfet_nand.pdf} \quad & \includegraphics{./img/ds/mosfet_nor.pdf} \\
+		\includegraphics{./img/ds/mosfet_not.pdf} \qquad & \includegraphics{./img/ds/mosfet_nand.pdf} \qquad & \includegraphics{./img/ds/mosfet_nor.pdf} \\
 	\end{tabular}\\
 	Falls $GND$ und $V_{DD}$ vertauscht würden, dann $NAND \ra AND$ und $NOR \ra OR$\\
 	Allerdings schlechte Pegelgenerierung.
 	
 	\subsection{Gatterdesign}
-	\emph{Vorteil:}	 (Fast) nur bei Schaltvorgängen Verlustleistung - wenig statische Verluste
 	\begin{tabular}{l|l|l}
-		Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\ \midrule
+		Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\ \hline
 		Transistoren & \textbf{n}Mos & \textbf{p}Mos \\
 		AND & Serienschaltung	 & Parallelschaltung \\
 		OR & Parallelschaltung & Serienschaltung \\
 	\end{tabular}\\
 	1. Möglichkeit: Direkt; ggf. Inverter vor die Eingänge und Ausgänge schalten.\\
-	2. Möglichkeit: Mit bullshit Algebra die Funktion nur mit NAND und NOR darstellen.\\
-
+	2. Möglichkeit: Mit bullshit Algebra die Funktion nur mit NAND und NOR darstellen.
+	
 	\subsection{CMOS Verlustleistung}
 	Inverterschaltvorgang $V_A: 0 \ra 1$:\\
 	\includegraphics{./img/ds/char_inverter.pdf}
 	
+	\emph{Dynamische Verlustleistung} \qquad \ $P_{dyn} = P_{cap} + P_{short}$\\
 	\begin{tabular}{ll}
-		\emph{Dynamische Verlustleistung}	& $P_{dyn} = P_{cap} + P_{short}$\\
-		\quad Kapazitive Verluste & $P_{cap} = \alpha_{01} f C_L V_{DD}^2$\\
+		\quad Kapazitive Verluste \qquad \ \quad \ & $P_{cap} = \alpha_{01} f C_L V_{DD}^2$\\
 		\quad Kurzschlussstrom	& $P_{short} = \alpha_{01} f \beta_n \tau (V_{DD} - 2V_{tn})^3$\\[0.8em]
 		\quad Schalthäufigkeit & $\alpha_{0 \rightarrow 1} = \frac{\text{Schaltvorgänge(pos. Flanke)}}{\text{\# Betrachtete Takte}}$\\
 	\end{tabular}\\
-	
 	Abhängig von den Signalflanken, mit Schaltfunktionen verknüpft\\ 
 	$\approx \;$ $V_{DD} 1/\propto $ Schaltzeit: $\frac{V_{DD2}}{V_{DD1}} = \frac{t_{D1}}{t_{D2}}$ (bei Schaltnetzen $t_{log}$)\\
-	Verzögerungszeit $\propto$ $\frac{1}{V_{DD} - V_{th}}$\\
-
-	\emph{Statische Verlustleistung} $P_{stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
+	\textbf{Verzögerungszeit} $\propto$ $\frac{C_Lt_{ox}L_p}{W_p\mu_p\varepsilon(V_{DD} - V_{th})}$
 	
-	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)\\
+	Steigend mit: Kapazitiver Last, Oxiddicke, Kanallänge, Schwellspannung
+	
+	Sinkend mit: Kanalweite, Ladungsträger Beweglichkeit, Oxyd Dielektrizität, Versorgungsspannung \\ \\
+	\emph{Statische Verlustleistung} $P_{stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
+	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)
 
+\section{Logikminimierung}
+	\subsection{Nomenklatur}
+	\begin{itemize}\itemsep0pt
+	\item $m_i$ Minterm: UND-Term in dem alle Variablen vorkommen
+	\item $M_i$ Maxterm: ODER-Term in dem alle Variablen vorkommen
+	\item $c_i$ Implikant: UND-Term in dem freie Variablen vorkommen können
+	\item $C_i$ Implikat: ODER-Term in dem freie Variablen vorkommen können
+	\item $p_i$ Primimplikant: UND-Term mit maximal freien Variablen
+	\item $P_i$ Primimplikat: ODER-Term mit maximal freien Variablen
+	\end{itemize}
+
+	\subsection{Karnaugh-Diagramm} % (fold)
+		Zyklische Gray-Codierung: 2dim:$00,01,11,10$ 3dim:$000,001,011,010,110,111,101,100$
+		
+	\begin{tabular}{l | c | c |  c | r}
+	$_z\!\!\diagdown \!\!^{xy}$ & 00 	& 	01	&	11 	&	10	 	\\ \midrule
+	0		&	1 \cellcolor{gray}	&	0	&	0	&	0		\\	
+	1		&	X \cellcolor{gray}	&	1 \cellcolor{lightgray}	&	1 \cellcolor{lightgray}	&	0		\\	
+	\end{tabular}
+	Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + y \cdot z$\\
+	Don't Care Werte ausnutzen!
+	% subsection Karnaugh- Diagramm (end)
+
+	\subsection{Quine Methode}
+	geg.: DNF/SOP oder Wertetabelle von $f(x)$ \\
+	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
+	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
+	Absorptionsgesetz: $a + a\cdot b = a$
+	
+	\begin{enumerate}
+		\item KDNF/CSOP bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
+		\item Alle Minterme in Tabelle eintragen (Index von m ist (binär)Wert des Minterms)
+		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmolzen (Resolutionsgesetz)
+		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
+		\item Wenn möglich 2-Kubus bilden.
+		\item Wenn keine Kubenbildung mehr möglich $\ra$ Primimplikanten
+	\end{enumerate}
+	Beispiel (Quine Methode):
+	
+	\begin{tabular}{l | c | c  || c | c | c || c | c | r}
+	      & 0-Kubus & A & 1-Kubus & R & A & 2-Kubus  & A \\
+	$m_1$ & $\overline x_1 \overline x_2 x_3$ & $\surd$ & $\overline x_2 x_3$ & $m_1 \& m_5$ & $p_1$ & &\\
+	$m_4$ & $x_1 \overline x_2 \overline x_3$ & $\surd$ & $x_1 \overline x_2$ & $m_4 \& m_5$ & $\surd$ & $x_1$ &   $p_2$\\
+	$m_5$ & $x_1 \overline x_2  x_3$ & $\surd$  & $x_1 \overline x_3$ & $m_4 \& m_6$ & $\surd$& &\\
+	$m_6$ & $x_1 x_2 \overline x_3$ & $ \surd$ & $x_1 x_3$ & $ m_5 \& m_7$ & $ \surd$ & &\\
+	$m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
+	\end{tabular} \\ \\
+	$\Ra f(x_1,x_2,x_3)=p_1+p_2=\ol x_2x_3 + x_1$
+	
+	\subsection{Resolventenmethode} % (fold)
+	\label{sec:Resolventenmethode}
+		Ziel: alle Primimplikanten \\ \\
+		Wende folgende Gesetze an: \\
+		Absorptionsgesetz: $a + ab = a$ \\
+		allgemeines Resolutionsgesetz: $x \cdot a + \overline x \cdot b = x \cdot a + \overline x \cdot b + ab$ \\
+		\\
+		Anwendung mit Schichtenalgorithmus
+		\begin{enumerate}
+			\item schreibe die Funktion $f$ in die 0. Schicht
+			\item bilde \textbf{alle möglichen} Resolventen aus der 0. Schicht und schreibe sie in die nächste Schicht als ODER Verknüpfungen (Resolventen zu $f$ "hinzufügen")
+			\item überprüfe ob Resolventen aus der 1. Schicht Kuben aus Schicht 0 überdecken(Absorbtion) und streiche diese Kuben aus Schicht 0
+			\item Schicht i besteht aus den möglichen Resolventen von Schicht 0 bis $(i-1)$. Abgestrichene Kuben aus vorherigen Schichten brauchen \textbf{nicht} mehr beachtet werden.
+			\item Sobald in der i-ten Schicht +1 steht oder keine weiteren Resolventen gebildet werden können, ist man fertig. 
+			$\Ra $ alle nicht ausgestrichenen Terme bilden die VollSOP
+		\end{enumerate}
+		
+		\begin{tabular}{l | r}
+		$f(x_1, \ldots, x_n)$ & Schicht \\ \midrule
+		$x \cdot w + \overline x \cdot w + x \cdot y \cdot w \cdot \overline z + \overline x \cdot y \cdot w \cdot \overline z + \overline y \cdot w \cdot \overline z $& $0$ \\
+		$+ w + y \cdot w \cdot \overline z$ & $1$ \\
+		$+ w \cdot \overline z $ & $2$ \\
+		$+ w$ &$ 3$
+		\end{tabular}
+	% section Resolventenmethode (end)
+
+	\subsection{Quine's und McCluskey's Bestimmung der MinSOP}
+	Geg: CSOP ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP\\
+	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
+	Alternativ: Mit Überdeckungstabelle bestimmen.
 
 \section{Sequentielle Logik}
 ... Logik mit Gedächtnis. Bedingungen: \\
@@ -332,7 +500,7 @@ Drei Grundgatter der CMOS-Technologie:\\
 $t_{Setup}$ & Stabilitätszeit vor der aktiven Taktflanke\\
 $t_{hold}$ & Stabilitätszeit nach  der aktiven Taktflanke\\
 $t_{c2q}$ & Eingang wird spätestens nach $t_{c2q}$ am Ausgang verfügbar\\
-Max. Taktperiode &  $t_{clk} \ge t_{1,c2q} + t_{logic,max} + t_{2,setup}$  \\
+ Min. Taktperiode &  $t_{clk} \ge t_{1,c2q} + t_{logic,max} + t_{2,setup}$  \\
  Max. Taktfrequenz & $f_{max} = \left\lfloor \frac{1}{t_{clk}} \right\rfloor$ \qquad (Nicht aufrunden) \\
  Holdzeitbedingung & $t_{hold} \le t_{c2q} + t_{logic,min}$  $\ra$ Dummy Gatter einbauen\\
  Durchsatz & $\frac{1 \text{Sample}}{t_{clk,pipe}} = f$ \\
@@ -561,147 +729,6 @@ $g$ & Ausgaberelation \\
 
 \setcounter{section}{0}			% Zähler für Sections zurücksetzen
 
-\section{Boolsche Algebra}
-	\begin{tabular}{l|l|l}
-		& Mengenalgebra & Boolesche Algebra \\ 
-		& $(P(G);\cap , \cup, \overline{A};G,\emptyset )$ & $({0,1};\cdot , +, \overline{x})$ \\ \midrule
-		Kommutativ 		& $A \cap B = B \cap A$ & $x \cdot y = y \cdot x$  \\ 
-						& $A \cup B = B \cup A$ & $x + y = y + x$\\
-		Assoziativ 		& $(A \cap B) \cap C = A \cap (B \cap C)$ & $x \cdot (y \cdot z) = (x \cdot y) \cdot z$\\
-						& $(A \cup B) \cup C = A \cap (B \cup C)$ & $x + (y + z) = (x + y) + z$\\
-		Distributiv 	& $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$ & $x \cdot (y + z) = x \cdot y + x \cdot z$\\
-						& $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$ & $x + (y \cdot z) = (x + y) \cdot (x + z)$\\
-		Indempotenz		& $A \cap A = A$ & $x \cdot x = x$ \\
-						& $A \cup A = A$ & $x + x = x$\\
-		Absorbtion		& $A \cap (A \cup B) = A$ & $x \cdot (x+y) = x$ \\
-						& $A \cup (A \cap B) = A$ & $x + (x \cdot y) = x$ \\
-		Neutral			& $A \cap G = A$ & $x \cdot 1 = x$ \\
-						& $A \cup \emptyset = A$ & $x + 0 = x$ \\
-		Dominant		& $A \cap \emptyset = \emptyset$ & $x \cdot 0 = 0$ \\
-						& $A \cup G = G$ & $x + 1 = 1$ \\
-		Komplement		& $A \cap \overline{A} = \emptyset$ & $x \cdot \overline{x} = 0$\\
-						& $A \cup \overline{A} = G$ & $x + \overline{x} = 1$\\
-						& $\overline{\overline{A}} = A$ & $\overline{\overline{x}} = x$\\
-		De Morgan		& $\overline{A \cap B} = \overline{A} \cup \overline{B}$ & $\overline{x \cdot y} = \overline{x} + \overline{y}$\\
-						& $\overline{A \cup B} = \overline{A} \cap \overline{B}$ & $\overline{x + y} = \overline{x} \cdot \overline{y}$\\
-
-	\end{tabular}
-	\\
-	
-	
-	\subsection{Multiplexer}
-	\begin{tabular}{ll}
-		$f = x \cdot a + \overline x \cdot b$ & (2 Eingänge $a,b$ und 1 Steuereingang $x$)\\
-		$f = \ol x_1 \ol x_2 a + \ol x_1 x_2 b + x_1  \ol x_2 c + x_1 x_2d$ & (Eingänge: $a,b,c,d$  Steuerung: $x_1$, $x_2$)\\
-	\end{tabular}
-
-
-
-	\subsection{Wichtige Begriffe}
-	\begin{tabular}{l|l|l}
-		Wichtige Begriffe: & Definition & Bemerkung\\ \hline
-		Signalvariable & $x$ & $\hat x \in \eset{0,1}$ \\
-		Literal & $l_i = x_i$ oder $\overline{x_i}$ & $i \in I_0=\eset{1,...,n}$\\
-		Minterme,0-Kuben & M0C $\ni m_j = \prod\limits_{i\in I_0} l_i$ & $|$M0C$| = 2^n$ \\
-		d-Kuben & MC $\ni c_j = \prod\limits_{i\in I_j \subseteq I_0} l_i$ & $|$MC$|=3^n$\\
-		Distanz & $\delta(c_i,c_j) = \bigl| \iset{l}{l \in c_i \land \overline{l}\in c_j}  \bigr|$ & $\delta_{ij} = \delta(c_i,c_j)$ \\
-		Implikanten & $MI = \iset{c \in MC}{c \subseteq f}$ &  \\
-		Primimplikanten & $MPI = \iset{p \in MI}{p \not\subset c \ \forall c \in MI}$ & $MPI \subseteq MI \subseteq MC$\\
-	\end{tabular}\\ \\ \\
-	\begin{tabular}{l|l|l}	
-		SOP (DNF) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
-		POS (KNF) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
-		CSOP (nur 1)& Menge aller Minterme & analog CPOS \\
-		VollSOP (nur 1)& Menge aller Primimplikanten & Bestimmung siehe Quine Methode\\
-		& & oder Schichtenalgorithmus\\
-		MinSOP (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
-	\end{tabular}
-	\\ \\
-	FPGA: Field Programmable Gate Array\\
-	LUT: Look Up Table\\
-
-
-	\subsection{Boolesche Operatoren (Wahrheitstabelle WT)}
-	\begin{tabular}{c|c||c|c|c|c|c|c}
-		x & y & AND & OR & XOR & NAND & NOR & EQV \\ 
-		& & $x\cdot y$ & $x+y$ & $x\oplus y$ & $\overline{x\cdot y}$ & $\overline{x+y}$ & $\overline{x\oplus y}$ \\ \hline \hline
-		0 & 0 & 0 & 0 & 0 & 1 & 1 & 1  \\ \hline
-		0 & 1 & 0 & 1 & 1 & 1 & 0 & 0 \\ \hline
-		1 & 0 & 0 & 1 & 1 & 1 & 0 & 0 \\ \hline
-		1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 \\
-	\end{tabular}
-
-Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
-
-
-
-\section{Beschreibungsformen}
-
-\subsection{Sum of products (SOP/DNF)}
-Eins-Zeilen der Wertetabelle ODER verknüpfen: \\
-$f = \overline x \cdot \overline y + \overline z \cdot w$
-
-\subsection{Product of sums (POS/KNF)}
-Null-Zeilen der Wertetabelle negieren und UND verknüpfen: \\	
-$f = ( \ol x + \ol z) \cdot ( \ol x + \ol w) \cdot ( \ol y + \ol z) \cdot ( \ol y + w)$ 
-
-\subsection{Shannon Entwicklung}
-	$f = x_i \cdot f_{x_i} + \ol x_i \cdot f_{\ol x_i} = (x_i + f_{\ol x_i})\cdot ( \ol x_i + f_{x_i}) = (f_{x_i} \oplus f_{\ol x_i}) \cdot x_i \oplus f_{\ol x_i}$ \\
-	$\ol f = x_i \cdot \ol f_{x_i} + \ol x_i \cdot \ol f_{\ol x_i}$
-\subsection{Umwandlung in jeweils andere Form}
-1. Doppeltes Negieren der Funktion: $ f = \overline {\overline{\overline x \cdot \overline y + \overline z \cdot w}}$\\
-2. Umformung "'untere"'  Negation (DeMorgan) : $ f = \ol{\ol{\ol x \cdot \ol y} \cdot \ol{\ol z \cdot w}} = \ol{(x+y) \cdot (z+\ol w)}$\\
-3. Ausmultiplizieren: $ f = \ol{(x+y) \cdot (z+\ol w)} = \ol{x\cdot z + x\cdot \ol w + y \cdot z + y \cdot \ol w}$\\
-4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ f= \ol{xz} \cdot \ol{x \ol w} \cdot \ol{yz} \cdot \ol{y\ol w} = ( \ol x + \ol z) \cdot ( \ol x + w) \cdot ( \ol y + \ol z) \cdot ( \ol y + w)$\\
-Analog von POS nach SOP.\\
-
-\subsection{Quine Methode}
-geg.: SOP oder Wertetabelle \\
-ges.: alle Primimplikanten (VollSOP)  \\
-\\
-spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
-Absorptionsgesetz: $a + a\cdot b = a$
-
-\begin{itemize}
-	\item CSOP bestimmen (z.B. $f(x,y,z,w) = xy\overline z + x \overline y z + xyz$)
-	\item alle Minterme in Tabelle eintragen (Index von m ist (binär)Wert des Minterms)
-	\item Wenn Kubenabstand = 1 (ein "don't care") in 1-Kubus aufnehmen und $A$ abhaken. Wenn nicht ist dieser Minterm bereits ein Primimplikant.
-	\item der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
-	\item Wenn möglich 2-Kubus bilden.
-	\item Wenn keine Kubenbildung mehr möglich $\ra$ VollSOP
-\end{itemize}
-Beispiel (Quine Methode):
-
-\begin{tabular}{l | c | c  || c | c | c || c | c | r}
-$m_0$ & 0-Kubus & A & 1-Kubus & R & A & 2-Kubus  & A \\
-$m_1$ & $\overline x_1 \overline x_2 x_3$ & $\surd$ & $\overline x_2 x_3$ & $m_1 \& m_5$ & $p_1$ & &\\
-$m_4$ & $x_1 \overline x_2 \overline x_3$ & $\surd$ & $x_1 \overline x_2$ & $m_4 \& m_5$ & $\surd$ & $x_1$ &   $p_2$\\
-$m_5$ & $x_1 \overline x_2  x_3$ & $\surd$  & $x_1 \overline x_3$ & $m_4 \& m_6$ & $\surd$& &\\
-$m_6$ & $x_1 x_2 \overline x_3$ & $ \surd$ & $x_1 x_3$ & $ m_5 \& m_7$ & $ \surd$ & &\\
-$m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
-\end{tabular}
-
-	\subsection{Quine's und McCluskey's Bestimmung der MinSOP}
-	Geg: CSOP ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP\\
-	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
-	Alternativ: Mit Überdeckungstabelle bestimmen.
-
-	\subsection{Kubengraph}
-	\parbox{3.0cm}{\includegraphics{./img/ds/kubengraph.pdf} }
-	\parbox{6.0cm}{Kubenabstand $\delta(c_1, c_2)$: Kleinste Anzahl an Kanten, die nötig sind, um $c_i$ und $c_j$ zu verbinden bzw.
-	Anzahl an Literalen die in $c_1$ negiert und in $c_2$ nicht negiert vorkommen.\\
-	
-	\framebox{ \#Literale = \#Raumdimensionen - \#Kubusdimensionen }\\
-	Max. Kubenabstand: \#Dimensionen - \#Kubusdimensionen(größter Kubus) \\
-	} \\
-	überdeckte Minterme: $2^{\text{Kubendimension}}$
-	\subsection{(R)OBDD}
-	(\textbf{R}educed) \textbf{O}rdered \textbf{B}inary \textbf{D}ecision \textbf{D}iagram\\
-	\parbox{2.0cm}{ \includegraphics{./img/ds/robdd.pdf} }
-	\parbox{5.0cm}{ ROBDD $\rightarrow$ SOP: Alle Pfade zur 1 verodern:\\ $f = x + \overline xy$ \\ 
-					ROBDD $ \ra$ POS: Alle Pfade zu 0 verodern, kompletten Term negieren, DeMorgan anwenden} \\
-	
-
 
 \section{Funktionale Dekomposition} % (fold)
 \label{sub:Funktionale Dekomposition}
@@ -849,46 +876,6 @@ sind abstrakte Maschinen mit $r$ Zuständen $S_i \in S$ , die auf sequentielle E
 Für eine Eingangssequenz der Länge $k$ sind bei $S_i$ und $S_j$ die Ausgaben gleich und die Zustandsübergänge gleich bzw. $k-1$ Äquivalent.\\
 \paragraph{Totale Äquivalenz $S_i \sim S_j$} falls für alle Einganssequenzen die Ausgaben und die Zustandsübergänge äquivalent sind. \\ $\ra$ Zeige: es lassen sich keine weiteren Äquivalenzklassen bilden.\\
 
-
-\section{Karnaugh- Diagramm} % (fold)
-	Zyklische Gray-Codierung: 2dim:$00,01,11,10$ 3dim:$000,001,011,010,110,111,101,100$
-	
-\begin{tabular}{l | c | c |  c | r}
-$_z\!\!\diagdown \!\!^{xy}$ & 00 	& 	01	&	11 	&	10	 	\\ \midrule
-0		&	1 \cellcolor{gray}	&	0	&	0	&	0		\\	
-1		&	X \cellcolor{gray}	&	1 \cellcolor{lightgray}	&	1 \cellcolor{lightgray}	&	0		\\	
-\end{tabular}
-Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + y \cdot z$\\
-Don't Care Werte ausnutzen!\\
-% section Karnaugh- Diagramm (end)
-
-
-\section{Resolventenmethode} % (fold)
-\label{sec:Resolventenmethode}
-	Ziel: alle Primimplikanten \\
-	
-	Wende folgende Gesetze an: \\
-	Absorptionsgesetz: $a + ab = a$ \\
-	allgemeines Resolutionsgesetz: $x \cdot a + \overline x \cdot b = x \cdot a + \overline x \cdot b + ab$ \\
-	\\
-	Anwendung mit Schichtenalgorithmus
-	\begin{enumerate}
-		\item schreibe die Funktion $f$ in die 0. Schicht
-		\item bilde \textbf{alle möglichen} Resolventen aus der 0. Schicht und schreibe sie in die nächste Schicht als ODER Verknüpfungen (Resolventen zu $f$ "hinzufügen")
-		\item überprüfe ob Resolventen aus der 1. Schicht Kuben aus Schicht 0 überdecken(Absorbtion) und streiche diese Kuben aus Schicht 0
-		\item Schicht i besteht aus den möglichen Resolventen von Schicht 0 bis $(i-1)$. Abgestrichene Kuben aus vorherigen Schichten brauchen \textbf{nicht} mehr beachtet werden.
-		\item Sobald in der i-ten Schicht +1 steht oder keine weiteren Resolventen gebildet werden können, ist man fertig. 
-		$\Ra $ alle nicht ausgestrichenen Terme bilden die VollSOP
-	\end{enumerate}
-	
-	\begin{tabular}{l | r}
-	$f(x_1, \ldots, x_n)$ & Schicht \\ \midrule
-	$x \cdot w + \overline x \cdot w + x \cdot y \cdot w \cdot \overline z + \overline x \cdot y \cdot w \cdot \overline z + \overline y \cdot w \cdot \overline z $& $0$ \\
-	$+ w + y \cdot w \cdot \overline z$ & $1$ \\
-	$+ w \cdot \overline z $ & $2$ \\
-	$+ w$ &$ 3$
-	\end{tabular}
-% section Resolventenmethode (end)
 
 \section{Laufzeit}
 

@@ -15,6 +15,7 @@ packages
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+*.gz
 
 ## Custom
 desktop.ini
