@@ -109,7 +109,7 @@
 	\includegraphics[height=2cm]{./img/Logo.pdf}
 }
 \parbox{4cm}{
-	\emph{\huge{Digitale Schaltungen}}
+	\emph{\huge{Digitaltechnik}}
 }
 
 % ======================================================================
@@ -284,11 +284,11 @@ Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 
 \section{Beschreibungsformen}
 	\subsection{Disjunktive Normalform/Sum of products (DNF/SOP)}
-	\textbf{Eins-Zeilen} als \textbf{Minterme} schreiben und alle Minterme mit \textbf{ODER} verknüpfen: \\
-	$Z = \overline A \cdot \overline B + \overline C \cdot D$
+	\textbf{Eins-Zeilen} als \textbf{Implikanten} (UND) schreiben und alle Implikanten mit \textbf{ODER} verknüpfen: \\
+	$Z = \overline A \cdot \overline B + \overline C \cdot D$ 
 	
 	\subsection{Konjunktive Normalform/Product of sums (KNF/POS)}
-	\textbf{Null-Zeilen negiert als Maxterm} schreiben und \textbf{UND} verknüpfen: \\	
+	\textbf{Null-Zeilen negiert als Implikat} (ODER)  schreiben und alle Implikaten \textbf{UND} verknüpfen: \\	
 	$Z = ( \ol A + \ol C) \cdot ( \ol A + \ol D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$
 	
 	\subsection{Umwandlung in jeweils andere Form}
@@ -307,6 +307,98 @@ Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 	3. Ausmultiplizieren: $ f = \ol{(x+y) \cdot (z+\ol w)} = \ol{x\cdot z + x\cdot \ol w + y \cdot z + y \cdot \ol w}$\\
 	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ f= \ol{xz} \cdot \ol{x \ol w} \cdot \ol{yz} \cdot \ol{y\ol w} = ( \ol x + \ol z) \cdot ( \ol x + w) \cdot ( \ol y + \ol z) \cdot ( \ol y + w)$\\
 	Analog von POS nach SOP.\\
+
+\section{Logikminimierung}
+	\subsection{Nomenklatur}
+	\begin{itemize}\itemsep0pt
+	\item $m_i$ Minterm: UND-Term in dem alle Variablen vorkommen
+	\item $M_i$ Maxterm: ODER-Term in dem alle Variablen vorkommen
+	\item $c_i$ Implikant: UND-Term in dem freie Variablen vorkommen können
+	\item $C_i$ Implikat: ODER-Term in dem freie Variablen vorkommen können
+	\item $p_i$ Primimplikant: UND-Term mit maximal freien Variablen
+	\item $P_i$ Primimplikat: ODER-Term mit maximal freien Variablen
+	\end{itemize}
+
+	\subsection{Karnaugh-Diagramm} % (fold)
+		Zyklische Gray-Codierung: 2dim:$00,01,11,10$ 3dim:$000,001,011,010,110,111,101,100$
+		
+	\begin{tabular}{l | c | c |  c | r}
+	$_z\!\!\diagdown \!\!^{xy}$ & 00 	& 	01	&	11 	&	10	 	\\ \midrule
+	0		&	1 \cellcolor{gray}	&	0	&	0	&	0		\\	
+	1		&	X \cellcolor{gray}	&	1 \cellcolor{lightgray}	&	1 \cellcolor{lightgray}	&	0		\\	
+	\end{tabular}
+	Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + y \cdot z$\\
+	Don't Care Werte ausnutzen!
+	% subsection Karnaugh- Diagramm (end)
+
+	\subsection{Quine Methode}
+	geg.: DNF/SOP oder Wertetabelle von $f(x)$ \\
+	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
+	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
+	Absorptionsgesetz: $a + a\cdot b = a$
+	
+	\begin{enumerate}
+		\item KDNF/CSOP bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
+		\item Alle Minterme in Tabelle eintragen (Index von m ist (binär)Wert des Minterms)
+		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmolzen (Resolutionsgesetz)
+		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
+		\item Wenn möglich 2-Kubus bilden.
+		\item Wenn keine Kubenbildung mehr möglich $\ra$ Primimplikanten
+	\end{enumerate}
+	Beispiel (Quine Methode):
+	
+	\begin{tabular}{l | c | c  || c | c | c || c | c | r}
+	      & 0-Kubus & A & 1-Kubus & R & A & 2-Kubus  & A \\
+	$m_1$ & $\overline x_1 \overline x_2 x_3$ & $\surd$ & $\overline x_2 x_3$ & $m_1 \& m_5$ & $p_1$ & &\\
+	$m_4$ & $x_1 \overline x_2 \overline x_3$ & $\surd$ & $x_1 \overline x_2$ & $m_4 \& m_5$ & $\surd$ & $x_1$ &   $p_2$\\
+	$m_5$ & $x_1 \overline x_2  x_3$ & $\surd$  & $x_1 \overline x_3$ & $m_4 \& m_6$ & $\surd$& &\\
+	$m_6$ & $x_1 x_2 \overline x_3$ & $ \surd$ & $x_1 x_3$ & $ m_5 \& m_7$ & $ \surd$ & &\\
+	$m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
+	\end{tabular} \\ \\
+	$\Ra f(x_1,x_2,x_3)=p_1+p_2=\ol x_2x_3 + x_1$
+	
+	\subsection{Resolventenmethode} % (fold)
+	\label{sec:Resolventenmethode}
+		Ziel: alle Primimplikanten \\ \\
+		Wende folgende Gesetze an: \\
+		Absorptionsgesetz: $a + ab = a$ \\
+		allgemeines Resolutionsgesetz: $x \cdot a + \overline x \cdot b = x \cdot a + \overline x \cdot b + ab$ \\
+		\\
+		Anwendung mit Schichtenalgorithmus
+		\begin{enumerate}
+			\item schreibe die Funktion $f$ in die 0. Schicht
+			\item bilde \textbf{alle möglichen} Resolventen aus der 0. Schicht und schreibe sie in die nächste Schicht als ODER Verknüpfungen (Resolventen zu $f$ "hinzufügen")
+			\item überprüfe ob Resolventen aus der 1. Schicht Kuben aus Schicht 0 überdecken(Absorbtion) und streiche diese Kuben aus Schicht 0
+			\item Schicht i besteht aus den möglichen Resolventen von Schicht 0 bis $(i-1)$. Abgestrichene Kuben aus vorherigen Schichten brauchen \textbf{nicht} mehr beachtet werden.
+			\item Sobald in der i-ten Schicht +1 steht oder keine weiteren Resolventen gebildet werden können, ist man fertig. 
+			$\Ra $ alle nicht ausgestrichenen Terme bilden die VollSOP
+		\end{enumerate}
+		
+		\begin{tabular}{l | r}
+		$f(x_1, \ldots, x_n)$ & Schicht \\ \midrule
+		$x \cdot w + \overline x \cdot w + x \cdot y \cdot w \cdot \overline z + \overline x \cdot y \cdot w \cdot \overline z + \overline y \cdot w \cdot \overline z $& $0$ \\
+		$+ w + y \cdot w \cdot \overline z$ & $1$ \\
+		$+ w \cdot \overline z $ & $2$ \\
+		$+ w$ &$ 3$
+		\end{tabular}
+	% section Resolventenmethode (end)
+
+	\subsection{Quine's und McCluskey's Bestimmung der MinSOP}
+	Geg: CSOP ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP\\
+	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
+	Alternativ: Mit Überdeckungstabelle bestimmen. Bsp:\\
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		          &      \multicolumn{4}{c|}{Minterme}  &      \\ \hline
+		Primterme &  $m_1$  &  $m_2$  & \dots &  $m_N$  & $L(p_i)$   \\ \bottomrule[1pt]
+		  $p_1$   & $\surd$ &         &       &         & $L(p_1)$   \\ \hline
+		  $p_2$   & $\surd$ &         &       & $\surd$ & $L(p_2)$   \\ \hline
+		 \vdots   &         &         &       &         &  \vdots    \\ \hline
+		  $p_K$   &         & $\surd$ &       &         & $L(p_K)$   \\ \hline
+	\end{tabular} \\
+	$K$: Anzahl der Primterme\\
+	$N$: Anzahl der Minterme \\
+	$L(p_I)$: Kosten/Länge der Primimplikanten
 	
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
@@ -414,85 +506,18 @@ Drei Grundgatter der CMOS-Technologie:\\
 	\emph{Statische Verlustleistung} $P_{stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
 	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)
 
-\section{Logikminimierung}
-	\subsection{Nomenklatur}
-	\begin{itemize}\itemsep0pt
-	\item $m_i$ Minterm: UND-Term in dem alle Variablen vorkommen
-	\item $M_i$ Maxterm: ODER-Term in dem alle Variablen vorkommen
-	\item $c_i$ Implikant: UND-Term in dem freie Variablen vorkommen können
-	\item $C_i$ Implikat: ODER-Term in dem freie Variablen vorkommen können
-	\item $p_i$ Primimplikant: UND-Term mit maximal freien Variablen
-	\item $P_i$ Primimplikat: ODER-Term mit maximal freien Variablen
-	\end{itemize}
+\section{Volladdierer (VA) / Ripple-C(u)arry-Adder}
+\parbox{5.0cm}{ \includegraphics{./img/ds/volladdierer.pdf} }
+\pbox{6.0cm}{
+Generate $g_n = a_n \cdot b_n$\\
+Propergate $p_n = a_n \oplus b_n$\\
+Summenbit $S_n = c_n \oplus p_n$\\
+Carry-out: $c_{n+1} = c_n \cdot p_n + g_n$\\ \\
+Laufzeiten: \\
+$t_{sn} = \begin{cases} t_{cn} + t_{xor} & t_{cn} > t_{xor} \\ 2 t_{xor} & sonst \end{cases}$\\ }\\
+$t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and} + t_{or} & p_n = 0, g_n = 0 \\ t_{cn} + t_{and} + t_{or} & p_n = 1 \end{cases}$\\
 
-	\subsection{Karnaugh-Diagramm} % (fold)
-		Zyklische Gray-Codierung: 2dim:$00,01,11,10$ 3dim:$000,001,011,010,110,111,101,100$
-		
-	\begin{tabular}{l | c | c |  c | r}
-	$_z\!\!\diagdown \!\!^{xy}$ & 00 	& 	01	&	11 	&	10	 	\\ \midrule
-	0		&	1 \cellcolor{gray}	&	0	&	0	&	0		\\	
-	1		&	X \cellcolor{gray}	&	1 \cellcolor{lightgray}	&	1 \cellcolor{lightgray}	&	0		\\	
-	\end{tabular}
-	Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + y \cdot z$\\
-	Don't Care Werte ausnutzen!
-	% subsection Karnaugh- Diagramm (end)
 
-	\subsection{Quine Methode}
-	geg.: DNF/SOP oder Wertetabelle von $f(x)$ \\
-	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
-	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
-	Absorptionsgesetz: $a + a\cdot b = a$
-	
-	\begin{enumerate}
-		\item KDNF/CSOP bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
-		\item Alle Minterme in Tabelle eintragen (Index von m ist (binär)Wert des Minterms)
-		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmolzen (Resolutionsgesetz)
-		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
-		\item Wenn möglich 2-Kubus bilden.
-		\item Wenn keine Kubenbildung mehr möglich $\ra$ Primimplikanten
-	\end{enumerate}
-	Beispiel (Quine Methode):
-	
-	\begin{tabular}{l | c | c  || c | c | c || c | c | r}
-	      & 0-Kubus & A & 1-Kubus & R & A & 2-Kubus  & A \\
-	$m_1$ & $\overline x_1 \overline x_2 x_3$ & $\surd$ & $\overline x_2 x_3$ & $m_1 \& m_5$ & $p_1$ & &\\
-	$m_4$ & $x_1 \overline x_2 \overline x_3$ & $\surd$ & $x_1 \overline x_2$ & $m_4 \& m_5$ & $\surd$ & $x_1$ &   $p_2$\\
-	$m_5$ & $x_1 \overline x_2  x_3$ & $\surd$  & $x_1 \overline x_3$ & $m_4 \& m_6$ & $\surd$& &\\
-	$m_6$ & $x_1 x_2 \overline x_3$ & $ \surd$ & $x_1 x_3$ & $ m_5 \& m_7$ & $ \surd$ & &\\
-	$m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
-	\end{tabular} \\ \\
-	$\Ra f(x_1,x_2,x_3)=p_1+p_2=\ol x_2x_3 + x_1$
-	
-	\subsection{Resolventenmethode} % (fold)
-	\label{sec:Resolventenmethode}
-		Ziel: alle Primimplikanten \\ \\
-		Wende folgende Gesetze an: \\
-		Absorptionsgesetz: $a + ab = a$ \\
-		allgemeines Resolutionsgesetz: $x \cdot a + \overline x \cdot b = x \cdot a + \overline x \cdot b + ab$ \\
-		\\
-		Anwendung mit Schichtenalgorithmus
-		\begin{enumerate}
-			\item schreibe die Funktion $f$ in die 0. Schicht
-			\item bilde \textbf{alle möglichen} Resolventen aus der 0. Schicht und schreibe sie in die nächste Schicht als ODER Verknüpfungen (Resolventen zu $f$ "hinzufügen")
-			\item überprüfe ob Resolventen aus der 1. Schicht Kuben aus Schicht 0 überdecken(Absorbtion) und streiche diese Kuben aus Schicht 0
-			\item Schicht i besteht aus den möglichen Resolventen von Schicht 0 bis $(i-1)$. Abgestrichene Kuben aus vorherigen Schichten brauchen \textbf{nicht} mehr beachtet werden.
-			\item Sobald in der i-ten Schicht +1 steht oder keine weiteren Resolventen gebildet werden können, ist man fertig. 
-			$\Ra $ alle nicht ausgestrichenen Terme bilden die VollSOP
-		\end{enumerate}
-		
-		\begin{tabular}{l | r}
-		$f(x_1, \ldots, x_n)$ & Schicht \\ \midrule
-		$x \cdot w + \overline x \cdot w + x \cdot y \cdot w \cdot \overline z + \overline x \cdot y \cdot w \cdot \overline z + \overline y \cdot w \cdot \overline z $& $0$ \\
-		$+ w + y \cdot w \cdot \overline z$ & $1$ \\
-		$+ w \cdot \overline z $ & $2$ \\
-		$+ w$ &$ 3$
-		\end{tabular}
-	% section Resolventenmethode (end)
-
-	\subsection{Quine's und McCluskey's Bestimmung der MinSOP}
-	Geg: CSOP ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP\\
-	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
-	Alternativ: Mit Überdeckungstabelle bestimmen.
 
 \section{Sequentielle Logik}
 ... Logik mit Gedächtnis. Bedingungen: \\
@@ -531,19 +556,6 @@ Durchsatz = $\frac{\#\text{Modul}}{t_{clk,Modul}} = f$ \qquad \quad Latenz = $t_
 	ABER: deutlich höherer Ressourcenverbrauch
 \end{itemize}
 % subsection Parallel Processing (end)
-
-\section{Volladdierer (VA) / Ripple-C(u)arry-Adder}
-\parbox{5.0cm}{ \includegraphics{./img/ds/volladdierer.pdf} }
-\pbox{6.0cm}{
-Generate $g_n = a_n \cdot b_n$\\
-Propergate $p_n = a_n \oplus b_n$\\
-Summenbit $S_n = c_n \oplus p_n$\\
-Carry-out: $c_{n+1} = c_n \cdot p_n + g_n$\\ \\
-Laufzeiten: \\
-$t_{sn} = \begin{cases} t_{cn} + t_{xor} & t_{cn} > t_{xor} \\ 2 t_{xor} & sonst \end{cases}$\\ }\\
-$t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and} + t_{or} & p_n = 0, g_n = 0 \\ t_{cn} + t_{and} + t_{or} & p_n = 1 \end{cases}$\\
-
-
 
 
 \section{Speicherelemente}
