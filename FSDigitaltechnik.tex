@@ -157,9 +157,8 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 
 \section{Polyadische Zahlensysteme}
 $Z = \sum\limits^{p-1}_{i = -n} r^i \cdot d_i = d_{p-1}...d_1 d_0 . d_{-1} ... d_n$\\
-$Z$:Zahl, \ \ $r$:Basis, \ \ $d_i$:Ziffer, \ \ $p$:\#Ziffern vorne \ \ $n$:\#Nachkommastellen
-
-Binäres Zahlensystem:\\
+$Z$:Zahl, \ \ $r$:Basis, \ \ $d_i$:Ziffer, \ \ $p$:\#Ziffern vorne \ \ $n$:\#Nachkommastellen\\\\
+\textbf{Binäres Zahlensystem:}\\
 $d_{i2} \in {0,1}$ \qquad
 $B = \sum\limits_{i=-n}^{p-1} 2^i \cdot d_i$ $\quad d_{-n}: LSB; \quad d_{p-1}: MSB$ \\
 \begin{tabular}{l|l}
@@ -177,13 +176,14 @@ $N \cdot M: n+m$ Bit
 		$r \rightarrow 10$ & $Z_{10} = \sum r^i \cdot d_i$ & $Z_{10} = \sum r^{-i} \cdot d_{-i}$\\
 		& $101_2 \ra 1 \cdot 4 + 0\cdot 2 + 1 \cdot 1$ & $0.11_2 \ra 1\cdot 0.5 + 1\cdot 0.25$\\ \midrule
 		$10 \rightarrow r$ & $d_i = Z_{10} \% r^i$ & \\
-		& $58 / 8 = 7\text{Rest}\ 2 (LSB)$ & $0.4 \cdot 2 = 0.8 \text{ Übertrag } 0 (MSB)$\\
+		& $58 / 8 = 7\text{ Rest}\ 2 (LSB)$ & $0.4 \cdot 2 = 0.8 \text{ Übertrag } 0 (MSB)$\\
 		& $7 / 8 = 0\text{ Rest } 7 (MSB)$ & $0.8 \cdot 2 = 1.6 \text{ Übertrag } 1$ \\
+		& (Ende wenn 0 erreicht) & (Wiederholen bis 1 oder Periodizität)
 	\end{tabular}
 
 	\subsection{Zweierkomplement \qquad Wertebereich: $-2^{n-1} \le Z \le 2^{n-1} -1$}
 		\begin{tabular}{l|l}
-			\textbf{$Z \rightarrow -Z$} & Bsp: Wandle 2 in -2 um\\
+			\textbf{$Z \rightarrow -Z$} (Umkehrung gleich) & Bsp: Wandle 2 in -2 um\\
 			1. Invertieren aller Bits  & $0010 \ \Rightarrow 1101$\\
 			2. Addition von 1	& $1101 + 1 = 1110$\\
 			3. Ignoriere Überträge beim MSB & $\Rightarrow \ -2_{10} = 1110_2$\\
@@ -194,21 +194,59 @@ $N \cdot M: n+m$ Bit
 		$s(1)$ & \quad $e(8/11)$ \quad\qquad & \qquad\qquad\qquad\ $f(23/52)$ \qquad\qquad\qquad\qquad \\ \hline
 	\end{tabular} \\[0.5em]
 	$s$: Vorzeichen, $e$: Exponent, $f$: Mantisse \\ \\
-	\begin{tabular}{l|l}
+	\textbf{Spezialwerte:} $Z = 0 \Leftrightarrow e=0$ \qquad $Z = + (-)\infty \Leftrightarrow e=255, s=0(1)$ \\ \\
+	\begin{tabular}{l|p{4.5cm}}
 		\textbf{IEEE $\rightarrow$ Wert $Z$} & Bsp: $s = 1$, $e = 126$, $f = 01_2$\\		
-		$Z = (-1)^s \cdot  1.f \cdot 2^{e-127}$ & $Z=-1 \cdot 2^{-1} \cdot 1.01_2 = -0.101_2= -0.625$\\ \\ 
-		\textbf{Wert $Z$ $\rightarrow$ IEEE} & Bsp: $Z=11.25$ \\
+		$Z = (-1)^s \cdot  1.f \cdot 2^{e-127}$ & $Z=-1 \cdot 2^{-1} \cdot 1.01_2 = -0.101_2= -0.625$ \\ \midrule
+		\textbf{Wert $Z$ $\rightarrow$ IEEE} (Binärdarstellung) & Bsp: $Z=11.25$ \\
 		$s=0$(positiv), $s=1$(negativ) & $s=0$\\
-		$Z_{10} \rightarrow Z_2$ (beim Komma teilen) & $Z = 1011.01_2$\\
+		$Z \rightarrow Z_2$ (beim Komma teilen) & $Z = 1011.01_2$\\
 		$Z_2$ n-mal shiften $\rightarrow$ $1.xxx\dots$ & $Z=1.01101_2\cdot 2^3$ \\
-		Exponent $e_{10}=n+127 \rightarrow e_2$ & $e=3+127=130=10000010_2$\\
-		Mantisse $f_2=xxx\dots$ & $f=01101000\dots_2$
+		Exponent $e=n+127 \rightarrow e_2$ & $e=3+127=130=10000010_2$\\
+		Mantisse $f_2=xxx\dots$ & $f=01101000\dots_2$ \\ \midrule
+		\textbf{Wert $Z$ $\rightarrow$ IEEE} (Formel) & Bsp: $Z=11.25$ \\
+		$s=0$(positiv), $s=1$(negativ) & $s=0$\\
+		$E=\lfloor \log_2\abs{Z}\rfloor$ & $E=\lfloor \log_2\abs{11.25}\rfloor=\lfloor3,49\dots\rfloor=3$\\
+		$e=E+127 \rightarrow e_2$ & $e=3+127=130=10000010_2$\\
+		$f=\left(\frac{\abs{Z}}{2^E}-1\right) \cdot 2^{23} \rightarrow f_2$  & $f=\left(\frac{\abs{11.25}}{2^3}-1\right)\cdot 2^{23}=3407872= 01101000\dots_2 $
 	\end{tabular}
-		\\[0.5em]
-		\textbf{Spezialwerte:} $Wert = 0 \Leftrightarrow e=0$ \qquad $Wert = \infty \Leftrightarrow e=255$
-
-
+	
+\section{Zeichenkodierung}
+	\subsection{ASCII}
+	American Standard Code for Information Exchange \\
+	Fixe Codewortlänge (7 Bit, 128 Zeichen)\\
+	$0x00 - 0x7F$
+	\subsection{UTF-8}
+	Universal Character Set Transformation Format \\
+	Variable Codewortlänge (1-4 Byte) $\rightarrow$ Effizient \\
+	\paragraph{Schema}	
+	\begin{itemize}
+	\item MSB = 0 $\rightarrow$ 8 Bit (restliche Bit nach ASCII)
+	\item MSB = 1 $\rightarrow$ 16, 24 oder 32 Bit 
+	 \begin{itemize}
+	
+	\item Byte 1: Die ersten 3, 4, 5 Bit geben die Länge des Codewortes an (110, 1110, 11110)
+	\item Byte 2-4: Beginnen mit Bitfolge 10
+	\end{itemize}
+	\end{itemize}
+	
 \section{Boolsche Algebra}
+
+	\subsection{Boolesche Operatoren (Wahrheitstabelle WT)}
+	\begin{tabular}{c|c!{\vrule width 1pt}c|c|c|c|c|c}
+		& & \imglog{./img/logic/and-us.png} & \imglog{./img/logic/or-us.png} & \imglog{./img/logic/xor-us.png} & \imglog{./img/logic/nand-us.png} & \imglog{./img/logic/nor-us.png} & \imglog{./img/logic/xnor-us.png} \\
+		& & \imglog{./img/logic/and-din.png} & \imglog{./img/logic/or-din.png} & \imglog{./img/logic/xor-din.png} & \imglog{./img/logic/nand-din.png} & \imglog{./img/logic/nor-din.png} & \imglog{./img/logic/xnor-din.png} \\
+		& & \imglog{./img/logic/and-iec.png} & \imglog{./img/logic/or-iec.png} & \imglog{./img/logic/xor-iec.png} & \imglog{./img/logic/nand-iec.png} & \imglog{./img/logic/nor-iec.png} & \imglog{./img/logic/xnor-iec.png} \\
+		x & y &    AND     &  OR   &     XOR     &         NAND          &       NOR        &          EQV           \\
+		  &   & $x\cdot y$ & $x+y$ & $x\oplus y$ & $\overline{x\cdot y}$ & $\overline{x+y}$ & $\overline{x\oplus y}$ \\ \hline\hline
+		0 & 0 &     0      &   0   &      0      &           1           &        1         &           1            \\ \hline
+		0 & 1 &     0      &   1   &      1      &           1           &        0         &           0            \\ \hline
+		1 & 0 &     0      &   1   &      1      &           1           &        0         &           0            \\ \hline
+		1 & 1 &     1      &   1   &      0      &           0           &        0         &           1
+	\end{tabular}
+	Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
+
+	\subsection{Gesetze der booleschen Algebra}
 	\begin{tabular}{l|l|l}
 		            & Boolesche Algebra                                     & Mengenalgebra                                         \\
 		            & $({0,1};\cdot , +, \overline{x})$                     & $(P(G);\cap , \cup, \overline{A};G,\emptyset )$       \\ \hline
@@ -232,8 +270,27 @@ $N \cdot M: n+m$ Bit
 		De Morgan   & $\overline{x \cdot y} = \overline{x} + \overline{y}$  & $\overline{A \cap B} = \overline{A} \cup \overline{B}$\\
 		            & $\overline{x + y} = \overline{x} \cdot \overline{y}$ & $\overline{A \cup B} = \overline{A} \cap \overline{B}$
 	\end{tabular}
-	\\
-	
+
+
+	\subsection{Boolesche Funktionen}	
+	\begin{equation*}
+	f:\{0,1\}^n\ra \{0,1\} \qquad \qquad f(\vec{x})=f(x_1,x_2,\dots,x_n) 
+	\end{equation*} \\
+	Einsmenge $F$ von $f$: $F=\{\vec{x}\in \{0,1\}^n|f(\vec{x})=1\}$ \\
+	Nullmenge $\overline F$ von $f$: $\overline F=\{\vec{x}\in \{0,1\}^n|f(\vec{x})=0\}$
+	\paragraph{Kofaktor bezüglich}
+	\begin{itemize}\itemsep0pt
+	\item $x_i: f_{x_i}=f|_{x_i=1}=f(x_1,\dots,1,\dots,x_n)$
+	\item $\overline x_i: f_{\overline x_i}=f|_{x_i=0}=f(x_1,\dots,0,\dots,x_n)$
+	\end{itemize}
+	\paragraph{Eigenschaften von $f(\vec{x})$}
+	\begin{itemize}\itemsep0pt
+		\item tautologisch $\Leftrightarrow f(\vec{x})=1 \qquad \forall \vec x \in \{0,1\}^n$
+		\item tautologisch $\Leftrightarrow f(\vec{x})=1 \qquad \forall \vec x \in \{0,1\}^n$
+		\item kontradiktorisch $\Leftrightarrow f(\vec{x})=0 \qquad \forall \vec x \in \{0,1\}^n$
+				\item unabhängig von $x_i \Leftrightarrow f_{x_i} = f_{\overline x_i}$
+						\item abhängig von $x_i \Leftrightarrow f_{x_i} \ne f_{\overline x_i}$
+			\end{itemize}
 	
 	\subsection{Multiplexer}
 	\begin{tabular}{ll}
@@ -257,7 +314,8 @@ $N \cdot M: n+m$ Bit
 	\begin{tabular}{l|l|l}	
 		SOP (DNF) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
 		POS (KNF) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
-		CSOP (nur 1)& Menge aller Minterme & analog CPOS \\
+		CSOP (KDNF)& Summe aller Minterme & WT: 1-Zeilen sind Minterme\\
+		CPOS (KKNF)& Menge aller Maxterme & WT: 0-Zeilen negiert sind Maxterme \\
 		VollSOP (nur 1)& Menge aller Primimplikanten & Bestimmung siehe Quine Methode\\
 		& & oder Schichtenalgorithmus\\
 		MinSOP (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
@@ -267,19 +325,6 @@ $N \cdot M: n+m$ Bit
 	LUT: Look Up Table\\
 
 
-	\subsection{Boolesche Operatoren (Wahrheitstabelle WT)}
-	\begin{tabular}{c|c||c|c|c|c|c|c}
-		& & \imglog{./img/logic/and-us.png} & \imglog{./img/logic/or-us.png} & \imglog{./img/logic/xor-us.png} & \imglog{./img/logic/nand-us.png} & \imglog{./img/logic/nor-us.png} & \imglog{./img/logic/xnor-us.png} \\
-		& & \imglog{./img/logic/and-din.png} & \imglog{./img/logic/or-din.png} & \imglog{./img/logic/xor-din.png} & \imglog{./img/logic/nand-din.png} & \imglog{./img/logic/nor-din.png} & \imglog{./img/logic/xnor-din.png} \\
-		& & \imglog{./img/logic/and-iec.png} & \imglog{./img/logic/or-iec.png} & \imglog{./img/logic/xor-iec.png} & \imglog{./img/logic/nand-iec.png} & \imglog{./img/logic/nor-iec.png} & \imglog{./img/logic/xnor-iec.png} \\
-		x & y &    AND     &  OR   &     XOR     &         NAND          &       NOR        &          EQV           \\
-		  &   & $x\cdot y$ & $x+y$ & $x\oplus y$ & $\overline{x\cdot y}$ & $\overline{x+y}$ & $\overline{x\oplus y}$ \\ \hline\hline
-		0 & 0 &     0      &   0   &      0      &           1           &        1         &           1            \\ \hline
-		0 & 1 &     0      &   1   &      1      &           1           &        0         &           0            \\ \hline
-		1 & 0 &     0      &   1   &      1      &           1           &        0         &           0            \\ \hline
-		1 & 1 &     1      &   1   &      0      &           0           &        0         &           1
-	\end{tabular}
-Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 
 
 \section{Beschreibungsformen}
@@ -295,24 +340,18 @@ Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 	1. Doppeltes Negieren der Funktion: $ Z = \overline {\overline{\overline A \cdot \overline B + \overline C \cdot D}}$\\
 	2. Umformung "'untere"'  Negation (DeMorgan) : $ Z = \ol{\ol{\ol A \cdot \ol B} \cdot \ol{\ol C \cdot D}} = \ol{(A+B) \cdot (C+\ol D)}$\\
 	3. Ausmultiplizieren: $ Z = \ol{(A+B) \cdot (C+\ol D)} = \ol{A\cdot C + A\cdot \ol D + B \cdot C + B \cdot \ol D}$\\
-	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$\\
-	Analog von KNF nach DNF.
+	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$\\ \\
+	Analog von KNF (POS) nach DNF (SOP).
 	
 	\subsection{Shannon Entwicklung}
 		$f = x_i \cdot f_{x_i} + \ol x_i \cdot f_{\ol x_i} = (x_i + f_{\ol x_i})\cdot ( \ol x_i + f_{x_i}) = (f_{x_i} \oplus f_{\ol x_i}) \cdot x_i \oplus f_{\ol x_i}$ \\
 		$\ol f = x_i \cdot \ol f_{x_i} + \ol x_i \cdot \ol f_{\ol x_i}$
-	\subsection{Umwandlung in jeweils andere Form}
-	1. Doppeltes Negieren der Funktion: $ f = \overline {\overline{\overline x \cdot \overline y + \overline z \cdot w}}$\\
-	2. Umformung "'untere"'  Negation (DeMorgan) : $ f = \ol{\ol{\ol x \cdot \ol y} \cdot \ol{\ol z \cdot w}} = \ol{(x+y) \cdot (z+\ol w)}$\\
-	3. Ausmultiplizieren: $ f = \ol{(x+y) \cdot (z+\ol w)} = \ol{x\cdot z + x\cdot \ol w + y \cdot z + y \cdot \ol w}$\\
-	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ f= \ol{xz} \cdot \ol{x \ol w} \cdot \ol{yz} \cdot \ol{y\ol w} = ( \ol x + \ol z) \cdot ( \ol x + w) \cdot ( \ol y + \ol z) \cdot ( \ol y + w)$\\
-	Analog von POS nach SOP.\\
 
 \section{Logikminimierung}
 	\subsection{Nomenklatur}
 	\begin{itemize}\itemsep0pt
-	\item $m_i$ Minterm: UND-Term in dem alle Variablen vorkommen
-	\item $M_i$ Maxterm: ODER-Term in dem alle Variablen vorkommen
+	\item $m_i$ Minterm: UND-Term in dem alle Variablen vorkommen (aus KDNF)
+	\item $M_i$ Maxterm: ODER-Term in dem alle Variablen vorkommen (aus KKNF)
 	\item $c_i$ Implikant: UND-Term in dem freie Variablen vorkommen können
 	\item $C_i$ Implikat: ODER-Term in dem freie Variablen vorkommen können
 	\item $p_i$ Primimplikant: UND-Term mit maximal freien Variablen
@@ -384,7 +423,7 @@ Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 	% section Resolventenmethode (end)
 
 	\subsection{Quine's und McCluskey's Bestimmung der MinSOP}
-	Geg: CSOP ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP\\
+	Geg: CSOP/KDNF ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP (Minimalform)\\
 	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
 	Alternativ: Mit Überdeckungstabelle bestimmen. Bsp:\\
 	\begin{tabular}{|c|c|c|c|c|c|}
@@ -415,7 +454,7 @@ Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 
 	\subsection{Bauteilparameter}
 	Verstärkung: \framebox{
-			$\beta = K' \frac{W}{L} \text{ mit } K' = \frac{\mu \varepsilon_{ox} \varepsilon_0}{t_{0x}} $
+			$\beta = K' \frac{W}{L} \text{ mit } K' = \frac{\mu \varepsilon_{ox} \varepsilon_0}{t_{0x}} \qquad [\beta]=\frac{A}{V^2}$ 
 		} \\
 	\begin{tabular} {r | l}
 		Kanalweite & W  \\
@@ -478,11 +517,11 @@ Drei Grundgatter der CMOS-Technologie:\\
 	
 	\subsection{Gatterdesign}
 	\begin{tabular}{l|l|l}
-		Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\ \hline
-		Transistoren & \textbf{n}Mos & \textbf{p}Mos \\
+		Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\
+		Transistoren & \textbf{n}Mos & \textbf{p}Mos \\ \hline
 		AND & Serienschaltung	 & Parallelschaltung \\
 		OR & Parallelschaltung & Serienschaltung \\
-	\end{tabular}\\
+	\end{tabular}\\ \\
 	1. Möglichkeit: Direkt; ggf. Inverter vor die Eingänge und Ausgänge schalten.\\
 	2. Möglichkeit: Mit bullshit Algebra die Funktion nur mit NAND und NOR darstellen.
 	
@@ -495,6 +534,7 @@ Drei Grundgatter der CMOS-Technologie:\\
 		\quad Kapazitive Verluste \qquad \ \quad \ & $P_{cap} = \alpha_{01} f C_L V_{DD}^2$\\
 		\quad Kurzschlussstrom	& $P_{short} = \alpha_{01} f \beta_n \tau (V_{DD} - 2V_{tn})^3$\\[0.8em]
 		\quad Schalthäufigkeit & $\alpha_{0 \rightarrow 1} = \frac{\text{Schaltvorgänge(pos. Flanke)}}{\text{\# Betrachtete Takte}}$\\
+		\quad Schalthäufigkeit (periodisch) & $\alpha = \frac{f_\text{switch}}{f_\text{clk}}$\\
 	\end{tabular}\\
 	Abhängig von den Signalflanken, mit Schaltfunktionen verknüpft\\ 
 	$\approx \;$ $V_{DD} 1/\propto $ Schaltzeit: $\frac{V_{DD2}}{V_{DD1}} = \frac{t_{D1}}{t_{D2}}$ (bei Schaltnetzen $t_{log}$)\\
