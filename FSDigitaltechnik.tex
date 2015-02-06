@@ -422,7 +422,7 @@ $N \cdot M: n+m$ Bit
 		\end{tabular}
 	% section Resolventenmethode (end)
 
-	\subsection{Quine's und McCluskey's Bestimmung der MinSOP}
+	\subsection{Überlagerung Bestimmung der MinSOP}
 	Geg: CSOP/KDNF ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP (Minimalform)\\
 	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
 	Alternativ: Mit Überdeckungstabelle bestimmen. Bsp:\\
@@ -437,7 +437,7 @@ $N \cdot M: n+m$ Bit
 	\end{tabular} \\
 	$K$: Anzahl der Primterme\\
 	$N$: Anzahl der Minterme \\
-	$L(p_I)$: Kosten/Länge der Primimplikanten
+	$L(p_i)$: Kosten/Länge der Primimplikanten
 	
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
@@ -546,16 +546,24 @@ Drei Grundgatter der CMOS-Technologie:\\
 	\emph{Statische Verlustleistung} $P_{stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
 	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)
 
-\section{Volladdierer (VA) / Ripple-C(u)arry-Adder}
+\section{Volladdierer (VA)/Ripple-C(u)arry-Adder}
 \parbox{5.0cm}{ \includegraphics{./img/ds/volladdierer.pdf} }
 \hspace*{-.7cm}\parbox{5.0cm}{ \includegraphics[width=5.0cm]{./img/ds/volladdierer-iec.png} } \\
-Generate $g_n = a_n \cdot b_n$\\
-Propergate $p_n = a_n \oplus b_n$\\
-Summenbit $S_n = c_n \oplus p_n$\\
-Carry-out $c_{n+1} = c_n \cdot p_n + g_n$\\ \\
+\textbf{Generate} $g_n = a_n \cdot b_n$\\
+\textbf{Propergate} $p_n = a_n \oplus b_n$\\
+\textbf{Summenbit} $S_n = c_n \oplus p_n= a_n \oplus b_n \oplus c_n$\\
+$S_n = \underbrace{a_n\ol{b_n} \ol{c_n} + \ol{a_n}b_n\ol{c_n} + \ol{a_n}\ol{b_n}c_n}_{\text{genau ein Eingang high}} + \underbrace{a_nb_nc_n}_{\text{alle Eingänge high}}$(Ungerade Anzahl von Eingängen 1) \\
+\textbf{Carry-out} $c_{n+1} = c_n \cdot p_n + g_n$\\
+$c_{n+1}=\underbrace{a_nb_n\ol{c_n} + a_n\ol{b_n}c_n + \ol{a_n}b_nc_n}_{\text{zwei Eingänge 1}} + \underbrace{a_nb_nc_n}_{\text{drei Eingänge 1}}$ (Mindesten zwei Eingänge 1)
+\\ \\
 \textbf{Laufzeiten} \\
 $t_{sn} = \begin{cases} t_{cn} + t_{xor} & t_{cn} > t_{xor} \\ 2 t_{xor} & sonst \end{cases}$\\ \\
-$t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and} + t_{or} & p_n = 0, g_n = 0 \\ t_{cn} + t_{and} + t_{or} & p_n = 1 \end{cases}$\\
+$t_{cn+1} = 
+\begin{cases}
+	t_{and} + t_{or}           & a_n = b_n = 1 \qquad \qquad (g_n=1)   \\
+	t_{xor} + t_{and} + t_{or} & a_n = b_n = 0 \qquad \qquad  (p_n = 0, g_n = 0) \\
+	t_{cn} + t_{and} + t_{or}  & a_n \ne b_n \qquad \qquad \qquad  (p_n = 1)
+\end{cases}$\\
 
 \section{Sequentielle Logik}
 Logik mit Gedächtnis (Speicher).
