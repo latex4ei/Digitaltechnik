@@ -612,11 +612,9 @@ Logik mit Gedächtnis (Speicher).
 	\emph{Synchron} Daten werden erst mit $clk_{0 \ra 1}$ geschrieben.\\
 	\emph{Dynamisch} Ohne Refreshzyklen gehen auch bei angelegter $V_{DD}$ Daten verloren -  Bsp: DRAM\\
 	\emph{Statisch} Behält den Zustand bei solange $V_{DD}$ anliegt (keine Refreshzyklen nötig) - Bsp: SRAM\\
-	\begin{description}
-		\item[Bandbreite:] Bitanzahl, die gleichzeitig gelesen/geschrieben werden kann.
-		\item[Latenz:] Zeitverzögerung zwischen Anforderung und Ausgabe von Daten.
-		\item[Zykluszeit:] Minimale Zeitdifferenz zweier Schreib/Lesezugriffe.
-	\end{description}
+	\emph{Bandbreite:} Bitanzahl, die gleichzeitig gelesen/geschrieben werden kann.
+	\emph{Latenz:} Zeitverzögerung zwischen Anforderung und Ausgabe von Daten.
+	\emph{Zykluszeit:} Minimale Zeitdifferenz zweier Schreib/Lesezugriffe.
 	
 	\framebox{$\text{Speicherkapazität} = \text{Wortbreite} \cdot 2^\text{Adressbreite}$ }
 
@@ -641,7 +639,7 @@ Logik mit Gedächtnis (Speicher).
 		}
 		\parbox{.5cm}{\ }
 		\parbox{2cm}{
-			\begin{tabular}{c|c|c} $clk$ & $Q$ & $\ol Q$ \\ \hline $0 \ra 1$ & $D$ & $\ol D$ \\ sonst & $Q$ & $\ol Q$ \end{tabular}
+			\begin{tabular}{c|c|c} clk & $Q$ & $\ol Q$ \\ \hline $0 \ra 1$ & $D$ & $\ol D$ \\ sonst & $Q$ & $\ol Q$ \end{tabular}
 		}
 
 
@@ -667,14 +665,6 @@ $g$ & Ausgaberelation \\
  $s'=f(s,i)$, $o=g(s)$ &  $s'=f(s,i)$, $o=g(s,i)$ \\
  $g: S \ra O$ & $g: S \times I \ra O$
 \end{tabular}
-
-\subsection{Vorgehensweise} % (fold)
-\begin{itemize}
-	\item $I, O$ bestimmen
-	\item $S$ festlegen 
-	\item $R$ bestimmen
-	\item $f,g$ bestimmen
-\end{itemize}
 % subsection Vorgehensweise (end)
 
 % Ende der Spalten
