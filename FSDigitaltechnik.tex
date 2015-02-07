@@ -473,6 +473,26 @@ $N \cdot M: n+m$ Bit
 		\item nMos schaltet schneller als pMOS 
 	\end{itemize}
 	
+	\subsection{Drainstrom}
+		\textbf{nMos} (p-dotiertes Substrat, n-dotierte Drain/Source), schlechter pull up (Pegeldegenerierung)
+		\begin{equation*}
+		\!\!\! I_d = \begin{cases}
+		0, &\text{ für }  U_{gs} - U_{th} \le 0 \qquad \qquad  \text{(Sperrber.)}\\[0.2em]
+		 \beta [(u_{gs} - U_{th}) \cdot u_{ds} - \frac{1}{2} u_{ds}^2] , &\text{ für }  0 \le U_{gs} - U_{th} \ge u_{ds} \  \text{(linearer Ber.)}\\\\[0.2em]
+		 \frac{1}{2} \beta \cdot (u_{gs} - U_{th})^2, &\text{ für }  0 \le U_{gs} - U_{th} \le u_{ds} \  \text{(Sättigungsber.)}\\
+		\end{cases}
+		\end{equation*}
+		\textbf{pMos} (n-dotiertes Substrat, p-dotierte Drain/Source), schlechter pull down (Pegeldegenerierung)
+		\begin{equation*}
+		\!\!\! I_d = \begin{cases}
+		0, &\text{ für }  U_{gs} - U_{th} \ge 0 \qquad \qquad  \text{(Sperrber.)}\\[0.2em]
+		- \beta [(u_{gs} - U_{th}) \cdot u_{ds} - \frac{1}{2} u_{ds}^2] , &\text{ für }  0 \ge U_{gs} - U_{th} \le u_{ds} \  \text{(linearer Ber.)}\\\\[0.2em]
+		- \frac{1}{2} \beta \cdot (u_{gs} - U_{th})^2, &\text{ für }  0 \ge U_{gs} - U_{th} \ge u_{ds} \  \text{(Sättigungsber.)}\\
+	
+		\end{cases}
+		\end{equation*}
+
+	
 	\subsection{pMos und nMos}
 	\pbox{3.0cm}{ \includegraphics{./img/ds/cmos.pdf} } 
 	\pbox{10.0cm}{
@@ -485,25 +505,6 @@ $N \cdot M: n+m$ Bit
 	\end{tabular}\\[0.5cm]
 	}
 	
-	\subsection{Drainstrom}
-	\textbf{nMos} (p-dotiertes Substrat, n-dotierte Drain/Source), schlechter pull up (Pegeldegenerierung)
-	\begin{equation*}
-	\!\!\! I_d = \begin{cases}
-	0, &\text{ für }  U_{gs} - U_{th} \le 0 \qquad \qquad  \text{(Sperrber.)}\\[0.2em]
-	 \beta [(u_{gs} - U_{th}) \cdot u_{ds} - \frac{1}{2} u_{ds}^2] , &\text{ für }  0 \le U_{gs} - U_{th} \ge u_{ds} \  \text{(linearer Ber.)}\\\\[0.2em]
-	 \frac{1}{2} \beta \cdot (u_{gs} - U_{th})^2, &\text{ für }  0 \le U_{gs} - U_{th} \le u_{ds} \  \text{(Sättigungsber.)}\\
-	\end{cases}
-	\end{equation*}
-	\textbf{pMos} (n-dotiertes Substrat, p-dotierte Drain/Source), schlechter pull down (Pegeldegenerierung)
-	\begin{equation*}
-	\!\!\! I_d = \begin{cases}
-	0, &\text{ für }  U_{gs} - U_{th} \ge 0 \qquad \qquad  \text{(Sperrber.)}\\[0.2em]
-	- \beta [(u_{gs} - U_{th}) \cdot u_{ds} - \frac{1}{2} u_{ds}^2] , &\text{ für }  0 \ge U_{gs} - U_{th} \le u_{ds} \  \text{(linearer Ber.)}\\\\[0.2em]
-	- \frac{1}{2} \beta \cdot (u_{gs} - U_{th})^2, &\text{ für }  0 \ge U_{gs} - U_{th} \ge u_{ds} \  \text{(Sättigungsber.)}\\
-
-	\end{cases}
-	\end{equation*}
-
 \section{CMOS - Logik}
 % ======================================================================
 	\emph{Vorteil:}	 (Fast) nur bei Schaltvorgängen Verlustleistung - wenig statische Verluste \\
