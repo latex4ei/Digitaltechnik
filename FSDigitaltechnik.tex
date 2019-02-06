@@ -154,81 +154,6 @@ $ H $ & $ V s  A^{-1}$
 \end{tabular}
 \end{multicols}
 $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdot 1024} MByte$\\
-
-\section{Polyadische Zahlensysteme}
-$Z = \sum\limits^{p-1}_{i = -n} r^i \cdot d_i = d_{p-1}...d_1 d_0 . d_{-1} ... d_n$\\
-$Z$:Zahl, \ \ $r$:Basis, \ \ $d_i$:Ziffer, \ \ $p$:\#Ziffern vorne \ \ $n$:\#Nachkommastellen\\\\
-\textbf{Binäres Zahlensystem:}\\
-$d_{i2} \in {0,1}$ \qquad
-$B = \sum\limits_{i=-n}^{p-1} 2^i \cdot d_i$ $\quad d_{-n}: LSB; \quad d_{p-1}: MSB$ \\
-\begin{tabular}{l|l}
-Octalsystem: & Hexadezimalsystem:\\
-$d_{i8} \in {0,1,2,3,4,5,6,7}$ & $d_{i16} \in {0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F}$\\
-\end{tabular}\\
-\\
-
-Benötigte Bits: $N: n$ Bit.  $M: m$ Bit \\
-$N + M: \max\{n,m\}+1$ Bit \\
-$N \cdot M: n+m$ Bit
-	\subsection{Umrechnung}
-	\begin{tabular}{l|l|l}
-			& $Z \ge 1$ & $Z < 1$\\ \midrule
-		$r \rightarrow 10$ & $Z_{10} = \sum r^i \cdot d_i$ & $Z_{10} = \sum r^{-i} \cdot d_{-i}$\\
-		& $101_2 \ra 1 \cdot 4 + 0\cdot 2 + 1 \cdot 1$ & $0.11_2 \ra 1\cdot 0.5 + 1\cdot 0.25$\\ \midrule
-		$10 \rightarrow r$ & $d_i = Z_{10} \% r^i$ & \\
-		& $58 / 8 = 7\text{ Rest}\ 2 (LSB)$ & $0.4 \cdot 2 = 0.8 \text{ Übertrag } 0 (MSB)$\\
-		& $7 / 8 = 0\text{ Rest } 7 (MSB)$ & $0.8 \cdot 2 = 1.6 \text{ Übertrag } 1$ \\
-		& (Ende wenn 0 erreicht) & (Wiederholen bis 1 oder Periodizität)
-	\end{tabular}
-
-	\subsection{Zweierkomplement \qquad Wertebereich: $-2^{n-1} \le Z \le 2^{n-1} -1$}
-		\begin{tabular}{l|l}
-			\textbf{$Z \rightarrow -Z$} (Umkehrung gleich) & Bsp: Wandle 2 in -2 um\\
-			1. Invertieren aller Bits  & $0010 \ \Rightarrow 1101$\\
-			2. Addition von 1	& $1101 + 1 = 1110$\\
-			3. Ignoriere Überträge beim MSB & $\Rightarrow \ -2_{10} = 1110_2$\\
-		\end{tabular}
-	\subsection{Gleitkommadarstellung nach IEEE 754}
-	Bitverteilung(single/double):\\
-	\begin{tabular}{|c|c|c|} \hline 
-		$s(1)$ & \quad $e(8/11)$ \quad\qquad & \qquad\qquad\qquad\ $f(23/52)$ \qquad\qquad\qquad\qquad \\ \hline
-	\end{tabular} \\[0.5em]
-	$s$: Vorzeichen, $e$: Exponent, $f$: Mantisse \\ \\
-	\textbf{Spezialwerte:} $Z = 0 \Leftrightarrow e=0$ \qquad $Z = + (-)\infty \Leftrightarrow e=255, s=0(1)$ \\ \\
-	\begin{tabular}{l|p{4.5cm}}
-		\textbf{IEEE $\rightarrow$ Wert $Z$} & Bsp: $s = 1$, $e = 126$, $f = 01_2$\\		
-		$Z = (-1)^s \cdot  1.f \cdot 2^{e-127}$ & $Z=-1 \cdot 2^{-1} \cdot 1.01_2 = -0.101_2= -0.625$ \\ \midrule
-		\textbf{Wert $Z$ $\rightarrow$ IEEE} (Binärdarstellung) & Bsp: $Z=11.25$ \\
-		$s=0$(positiv), $s=1$(negativ) & $s=0$\\
-		$Z \rightarrow Z_2$ (beim Komma teilen) & $Z = 1011.01_2$\\
-		$Z_2$ n-mal shiften $\rightarrow$ $1.xxx\dots$ & $Z=1.01101_2\cdot 2^3$ \\
-		Exponent $e=n+127 \rightarrow e_2$ & $e=3+127=130=10000010_2$\\
-		Mantisse $f_2=xxx\dots$ & $f=01101000\dots_2$ \\ \midrule
-		\textbf{Wert $Z$ $\rightarrow$ IEEE} (Formel) & Bsp: $Z=11.25$ \\
-		$s=0$(positiv), $s=1$(negativ) & $s=0$\\
-		$E=\lfloor \log_2\abs{Z}\rfloor$ & $E=\lfloor \log_2\abs{11.25}\rfloor=\lfloor3,49\dots\rfloor=3$\\
-		$e=E+127 \rightarrow e_2$ & $e=3+127=130=10000010_2$\\
-		$f=\left(\frac{\abs{Z}}{2^E}-1\right) \cdot 2^{23} \rightarrow f_2$  & $f=\left(\frac{\abs{11.25}}{2^3}-1\right)\cdot 2^{23}=3407872= 01101000\dots_2 $
-	\end{tabular}
-	
-\section{Zeichenkodierung}
-	\subsection{ASCII}
-	American Standard Code for Information Exchange \\
-	Fixe Codewortlänge (7 Bit, 128 Zeichen)\\
-	$0x00 - 0x7F$
-	\subsection{UTF-8}
-	Universal Character Set Transformation Format \\
-	Variable Codewortlänge (1-4 Byte) $\rightarrow$ Effizient \\
-	\paragraph{Schema}	
-	\begin{itemize}
-	\item MSB = 0 $\rightarrow$ 8 Bit (restliche Bit nach ASCII)
-	\item MSB = 1 $\rightarrow$ 16, 24 oder 32 Bit 
-	 \begin{itemize}
-	
-	\item Byte 1: Die ersten 3, 4, 5 Bit geben die Länge des Codewortes an (110, 1110, 11110)
-	\item Byte 2-4: Beginnen mit Bitfolge 10
-	\end{itemize}
-	\end{itemize}
 	
 \section{Boolsche Algebra}
 
@@ -343,10 +268,6 @@ $N \cdot M: n+m$ Bit
 	4. Umformung "'obere"'  Negation (DeMorgan) :\\ $ Z= \ol{AC} \cdot \ol{A \ol D} \cdot \ol{BC} \cdot \ol{B\ol D} = ( \ol A + \ol C) \cdot ( \ol A + D) \cdot ( \ol B + \ol C) \cdot ( \ol B + D)$\\ \\
 	Analog von KNF (POS) nach DNF (SOP).
 	
-	\subsection{Shannon Entwicklung}
-		$f = x_i \cdot f_{x_i} + \ol x_i \cdot f_{\ol x_i} = (x_i + f_{\ol x_i})\cdot ( \ol x_i + f_{x_i}) = (f_{x_i} \oplus f_{\ol x_i}) \cdot x_i \oplus f_{\ol x_i}$ \\
-		$\ol f = x_i \cdot \ol f_{x_i} + \ol x_i \cdot \ol f_{\ol x_i}$
-
 \section{Logikminimierung}
 	\subsection{Nomenklatur}
 	\begin{itemize}\itemsep0pt
@@ -359,6 +280,8 @@ $N \cdot M: n+m$ Bit
 	\end{itemize}
 
 	\subsection{Karnaugh-Diagramm} % (fold)
+	\textbf{Vorteile}: sehr anschaulich\\
+	\textbf{Nachteile}: Gray-Kodierung notwendig, nur wenige Inputvariablen\\
 		Zyklische Gray-Codierung: 2dim:$00,01,11,10$ 3dim:$000,001,011,010,110,111,101,100$
 		
 	\begin{tabular}{l | c | c |  c | r}
@@ -371,6 +294,8 @@ $N \cdot M: n+m$ Bit
 	% subsection Karnaugh- Diagramm (end)
 
 	\subsection{Quine Methode}
+	\textbf{Vorteile}: automatisierbar (DEA/FSM), beliebig viele Inputvariablen\\
+	\textbf{Nachteile}: viele paarweise Vergleiche, Erweiterung auf KKNF oder KDNF notwendig, viele Min- und Maxterme\\
 	geg.: DNF/SOP oder Wertetabelle von $f(x)$ \\
 	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
 	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
@@ -379,7 +304,7 @@ $N \cdot M: n+m$ Bit
 	\begin{enumerate}
 		\item KDNF/CSOP bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
 		\item Alle Minterme in Tabelle eintragen (Index von m ist (binär)Wert des Minterms)
-		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmolzen (Resolutionsgesetz)
+		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz)
 		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
 		\item Wenn möglich 2-Kubus bilden.
 		\item Wenn keine Kubenbildung mehr möglich $\ra$ Primimplikanten
@@ -398,6 +323,7 @@ $N \cdot M: n+m$ Bit
 	
 	\subsection{Resolventenmethode} % (fold)
 	\label{sec:Resolventenmethode}
+		\textbf{Vorteile}: Keine KDNF Notwendig, skaliert für viele Inputvariablen\\
 		Ziel: alle Primimplikanten \\ \\
 		Wende folgende Gesetze an: \\
 		Absorptionsgesetz: $a + ab = a$ \\
@@ -437,7 +363,8 @@ $N \cdot M: n+m$ Bit
 	\end{tabular} \\
 	$K$: Anzahl der Primterme\\
 	$N$: Anzahl der Minterme \\
-	$L(p_i)$: Kosten/Länge der Primimplikanten
+	$L(p_i)$: Kosten/Länge der Primimplikanten\\
+	\textbf{Vorgehen}: erst alle \textbf{überdeckenden} Spalten, dann alle \textbf{überdeckten} Zeilen streichen.
 	
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
@@ -666,6 +593,33 @@ $g$ & Ausgaberelation \\
  $s'=f(s,i)$, $o=g(s)$ &  $s'=f(s,i)$, $o=g(s,i)$ \\
  $g: S \ra O$ & $g: S \times I \ra O$
 \end{tabular}
+
+\begin{multicols}{2}
+\noindent\textbf{Vorteile}
+\begin{itemize} \itemsep0pt
+ \item Kein kombinatorischer Pfad von Eingängen zu Ausgängen
+ \item Wichtig für Begrenzung der Logiktiefe in sequentiellen Schaltwerken, insb. bei Verkettung
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize} \itemsep0pt
+ \item Hohe Anzahl an Zuständen
+\end{itemize}
+\pagebreak
+\textbf{Vorteile}
+\begin{itemize} \itemsep0pt
+ \item Weniger Zustände
+ \item Übersichtliche Beschreibung
+ \item Allgemeinster Fall einer FSM
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize} \itemsep0pt
+ \item Lange kombinatorische Pfade bei Verkettung
+ \item in der Praxis zu vermeiden
+\end{itemize}
+
+
+\end{multicols}
+
 % subsection Vorgehensweise (end)
 
 % Ende der Spalten
