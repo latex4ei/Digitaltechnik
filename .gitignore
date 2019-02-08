@@ -1,3 +1,8 @@
+build/
+
+FSDigitaltechnik-detailed-version-ws2012-13.pdf
+FSDigitaltechnik.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -107,5 +112,4 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
-FSDigitaltechnik.pdf
-FSDigitaltechnik-detailed-version-ws2012-13.pdf
+StochastischeSignale.pdf

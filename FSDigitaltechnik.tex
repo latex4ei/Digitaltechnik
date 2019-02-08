@@ -106,7 +106,7 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %=======================================================================
 \parbox{2.3cm}{
-	\includegraphics[height=2cm]{./img/Logo.pdf}
+	\includegraphics[height=2cm]{img/Logo.pdf}
 }
 \parbox{4cm}{
 	\emph{\huge{Digitaltechnik}}
@@ -159,9 +159,9 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 
 	\subsection{Boolesche Operatoren (Wahrheitstabelle WT)}
 	\begin{tabular}{c|c!{\vrule width 1pt}c|c|c|c|c|c}
-		& & \imglog{./img/logic/and-us.png} & \imglog{./img/logic/or-us.png} & \imglog{./img/logic/xor-us.png} & \imglog{./img/logic/nand-us.png} & \imglog{./img/logic/nor-us.png} & \imglog{./img/logic/xnor-us.png} \\
-		& & \imglog{./img/logic/and-din.png} & \imglog{./img/logic/or-din.png} & \imglog{./img/logic/xor-din.png} & \imglog{./img/logic/nand-din.png} & \imglog{./img/logic/nor-din.png} & \imglog{./img/logic/xnor-din.png} \\
-		& & \imglog{./img/logic/and-iec.png} & \imglog{./img/logic/or-iec.png} & \imglog{./img/logic/xor-iec.png} & \imglog{./img/logic/nand-iec.png} & \imglog{./img/logic/nor-iec.png} & \imglog{./img/logic/xnor-iec.png} \\
+		& & \imglog{img/logic/and-us.png} & \imglog{img/logic/or-us.png} & \imglog{img/logic/xor-us.png} & \imglog{img/logic/nand-us.png} & \imglog{img/logic/nor-us.png} & \imglog{img/logic/xnor-us.png} \\
+		& & \imglog{img/logic/and-din.png} & \imglog{img/logic/or-din.png} & \imglog{img/logic/xor-din.png} & \imglog{img/logic/nand-din.png} & \imglog{img/logic/nor-din.png} & \imglog{img/logic/xnor-din.png} \\
+		& & \imglog{img/logic/and-iec.png} & \imglog{img/logic/or-iec.png} & \imglog{img/logic/xor-iec.png} & \imglog{img/logic/nand-iec.png} & \imglog{img/logic/nor-iec.png} & \imglog{img/logic/xnor-iec.png} \\
 		x & y &    AND     &  OR   &     XOR     &         NAND          &       NOR        &          EQV           \\
 		  &   & $x\cdot y$ & $x+y$ & $x\oplus y$ & $\overline{x\cdot y}$ & $\overline{x+y}$ & $\overline{x\oplus y}$ \\ \hline\hline
 		0 & 0 &     0      &   0   &      0      &           1           &        1         &           1            \\ \hline
@@ -376,7 +376,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 \section{MOS-FET's}
 % ======================================================================
 \textbf{M}etal \textbf{O}xide \textbf{S}emiconductor \textbf{F}ield \textbf{E}ffekt \textbf{T}ransistor\\
-\parbox{4.0cm}{ \includegraphics{./img/ds/mosfet.pdf} \\ $V_{Pinch-Off} = V_{GS} - V_{th}$ } \parbox{3.0cm}{ \includegraphics{./img/ds/char_nmos.pdf} } 
+\parbox{4.0cm}{ \includegraphics{img/ds/mosfet.pdf} \\ $V_{Pinch-Off} = V_{GS} - V_{th}$ } \parbox{3.0cm}{ \includegraphics{img/ds/char_nmos.pdf} } 
 
 
 	\subsection{Bauteilparameter}
@@ -421,7 +421,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 
 	
 	\subsection{pMos und nMos}
-	\pbox{3.0cm}{ \includegraphics{./img/ds/cmos.pdf} } 
+	\pbox{3.0cm}{ \includegraphics{img/ds/cmos.pdf} } 
 	\pbox{10.0cm}{
 	\begin{tabular}{c|c|c|c}
 		Transistor & Source liegt immer am & $V_{GS},V_{DS},I_D$ & Substrat \\ \midrule
@@ -438,7 +438,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 Drei Grundgatter der CMOS-Technologie:\\
 	\begin{tabular}{ccc}
 		NOT (2 Trans.) & NAND (4 Trans.) & NOR (4 Trans.)\\
-		\includegraphics{./img/ds/mosfet_not.pdf} \qquad & \includegraphics{./img/ds/mosfet_nand.pdf} \qquad & \includegraphics{./img/ds/mosfet_nor.pdf} \\
+		\includegraphics{img/ds/mosfet_not.pdf} \qquad & \includegraphics{img/ds/mosfet_nand.pdf} \qquad & \includegraphics{img/ds/mosfet_nor.pdf} \\
 	\end{tabular}\\
 	Falls $GND$ und $V_{DD}$ vertauscht würden, dann $NAND \ra AND$ und $NOR \ra OR$\\
 	Allerdings schlechte Pegelgenerierung.
@@ -455,7 +455,7 @@ Drei Grundgatter der CMOS-Technologie:\\
 	
 	\subsection{CMOS Verlustleistung}
 	Inverterschaltvorgang $V_A: 0 \ra 1$:\\
-	\includegraphics{./img/ds/char_inverter.pdf}
+	\includegraphics{img/ds/char_inverter.pdf}
 	
 	\emph{Dynamische Verlustleistung} \qquad \ $P_{dyn} = P_{cap} + P_{short}$\\
 	\begin{tabular}{ll}
@@ -475,8 +475,8 @@ Drei Grundgatter der CMOS-Technologie:\\
 	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)
 
 \section{Volladdierer (VA)/Ripple-C(u)arry-Adder}
-\parbox{5.0cm}{ \includegraphics{./img/ds/volladdierer.pdf} }
-\hspace*{-.7cm}\parbox{5.0cm}{ \includegraphics[width=5.0cm]{./img/ds/volladdierer-iec.png} } \\
+\parbox{5.0cm}{ \includegraphics{img/ds/volladdierer.pdf} }
+\hspace*{-.7cm}\parbox{5.0cm}{ \includegraphics[width=5.0cm]{img/ds/volladdierer-iec.png} } \\
 \textbf{Generate} $g_n = a_n \cdot b_n$\\
 \textbf{Propagate} $p_n = a_n \oplus b_n$\\
 \textbf{Summenbit} $S_n = c_n \oplus p_n= a_n \oplus b_n \oplus c_n$\\
@@ -584,7 +584,7 @@ $f: S \times I \ra S$  &  Übergangsrelation \\
 $g$ & Ausgaberelation \\
 \end{tabular}
 
-\includegraphics{./img/ds/automaten.pdf}\\
+\includegraphics{img/ds/automaten.pdf}\\
 
 
 \begin{tabular}{c | c}

@@ -105,7 +105,7 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %=======================================================================
 \parbox{2.3cm}{
-	\includegraphics[height=2cm]{./img/Logo.pdf}
+	\includegraphics[height=2cm]{img/Logo.pdf}
 }
 \parbox{4cm}{
 	\emph{\huge{Digitale Schaltungen}}
@@ -210,7 +210,7 @@ $N \cdot M = 3n$ Bit
 \section{MOS-FET's}
 % ======================================================================
 \textbf{M}etal \textbf{O}xide \textbf{S}emiconductor \textbf{F}ield \textbf{E}ffekt \textbf{T}ransistor\\
-\parbox{4.0cm}{ \includegraphics{./img/ds/mosfet.pdf} \\ $V_{Pinch-Off} = V_{GS} - V_{th}$ } \parbox{3.0cm}{ \includegraphics{./img/ds/char_nmos.pdf} } 
+\parbox{4.0cm}{ \includegraphics{img/ds/mosfet.pdf} \\ $V_{Pinch-Off} = V_{GS} - V_{th}$ } \parbox{3.0cm}{ \includegraphics{img/ds/char_nmos.pdf} } 
 
 
 	\subsection{Bauteilparameter}
@@ -236,7 +236,7 @@ $N \cdot M = 3n$ Bit
 	
 	
 	\subsection{pMos und nMos}
-	\pbox{3.0cm}{ \includegraphics{./img/ds/cmos.pdf} } 
+	\pbox{3.0cm}{ \includegraphics{img/ds/cmos.pdf} } 
 	\pbox{10.0cm}{
 	\begin{tabular}{c|c|c|c}
 		Transistor & Source liegt immer am & $V_{GS},V_{DS},I_D$ & Substrat \\ \midrule
@@ -290,7 +290,7 @@ Komplementäre Logik liefert grundsätzlich negierte Ausgänge. $\Rightarrow$ NA
 Drei Grundgatter der CMOS-Technologie:\\
 	\begin{tabular}{ccc}
 		NOT (2 Trans.) & NAND (4 Trans.) & NOR (4 Trans.)\\
-		\includegraphics{./img/ds/mosfet_not.pdf} \quad & \includegraphics{./img/ds/mosfet_nand.pdf} \quad & \includegraphics{./img/ds/mosfet_nor.pdf} \\
+		\includegraphics{img/ds/mosfet_not.pdf} \quad & \includegraphics{img/ds/mosfet_nand.pdf} \quad & \includegraphics{img/ds/mosfet_nor.pdf} \\
 	\end{tabular}\\
 	Falls $GND$ und $V_{DD}$ vertauscht würden, dann $NAND \ra AND$ und $NOR \ra OR$\\
 	Allerdings schlechte Pegelgenerierung.
@@ -308,7 +308,7 @@ Drei Grundgatter der CMOS-Technologie:\\
 
 	\subsection{CMOS Verlustleistung}
 	Inverterschaltvorgang $V_A: 0 \ra 1$:\\
-	\includegraphics{./img/ds/char_inverter.pdf}
+	\includegraphics{img/ds/char_inverter.pdf}
 	
 	\begin{tabular}{ll}
 		\emph{Dynamische Verlustleistung}	& $P_{dyn} = P_{cap} + P_{short}$\\
@@ -365,7 +365,7 @@ Durchsatz = $\frac{\#\text{Modul}}{t_{clk,Modul}} = f$ \qquad \quad Latenz = $t_
 % subsection Parallel Processing (end)
 
 \section{Volladdierer (VA) / Ripple-C(u)arry-Adder}
-\parbox{5.0cm}{ \includegraphics{./img/ds/volladdierer.pdf} }
+\parbox{5.0cm}{ \includegraphics{img/ds/volladdierer.pdf} }
 \pbox{6.0cm}{
 Generate $g_n = a_n \cdot b_n$\\
 Propagate $p_n = a_n \oplus b_n$\\
@@ -409,7 +409,7 @@ $t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and}
 	\end{multicols}
 	\subsection{DRAM Zelle (dynamisch)}
 
-	\parbox{3.0cm}{ \includegraphics{./img/ds/DRAM.pdf} }
+	\parbox{3.0cm}{ \includegraphics{img/ds/DRAM.pdf} }
 	\parbox{6.0cm}{ 
 	
 	lange Bitlines $\ra C_{BL} \uparrow$, Laufzeit$\uparrow$\\
@@ -436,16 +436,16 @@ $t_{cn+1} = \begin{cases} t_{and} + t_{or} & p_n = 0, g_n=1 \\ t_{xor} + t_{and}
 
 \begin{multicols}{2}	
 	\subsection{SRAM Zelle (statisch)}
-	\includegraphics{./img/ds/SRAM.pdf}
+	\includegraphics{img/ds/SRAM.pdf}
 
 
 	\subsection{ROM - Read Only Memory}
-	\includegraphics{./img/ds/ROM.pdf}
+	\includegraphics{img/ds/ROM.pdf}
 \end{multicols}
 
 	\subsection{Flash (nicht flüchtig)}
 	nMos Transistor mit zusätzlichem floating Gate in der Oxidschicht.\\
-	\includegraphics{./img/ds/flash.pdf} \qquad \includegraphics{./img/ds/flashsymbol.pdf}\\
+	\includegraphics{img/ds/flash.pdf} \qquad \includegraphics{img/ds/flashsymbol.pdf}\\
 	‚0’ speichern: $V_{GS} = V_{DS} = 4 \cdot V_{DD}$, S an GND\\
 	‚0’ löschen: S von GND trennen, G an GND und D an 4mal VDD\\
  
@@ -484,7 +484,7 @@ $f: S \times I \ra S$  &  Übergangsrelation \\
 $g$ & Ausgaberelation \\
 \end{tabular}
 
-\includegraphics{./img/ds/automaten.pdf}\\
+\includegraphics{img/ds/automaten.pdf}\\
 
 
 \begin{tabular}{c | c}
@@ -553,7 +553,7 @@ $g$ & Ausgaberelation \\
 %=======================================================================
 
 \parbox{2.3cm}{
-	\includegraphics[height=2cm]{./img/Logo.pdf}
+	\includegraphics[height=2cm]{img/Logo.pdf}
 }
 \parbox{4cm}{
 	\emph{\huge{Entwurfsverfahren}}
@@ -687,7 +687,7 @@ $m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
 	Alternativ: Mit Überdeckungstabelle bestimmen.
 
 	\subsection{Kubengraph}
-	\parbox{3.0cm}{\includegraphics{./img/ds/kubengraph.pdf} }
+	\parbox{3.0cm}{\includegraphics{img/ds/kubengraph.pdf} }
 	\parbox{6.0cm}{Kubenabstand $\delta(c_1, c_2)$: Kleinste Anzahl an Kanten, die nötig sind, um $c_i$ und $c_j$ zu verbinden bzw.
 	Anzahl an Literalen die in $c_1$ negiert und in $c_2$ nicht negiert vorkommen.\\
 	
@@ -697,7 +697,7 @@ $m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
 	überdeckte Minterme: $2^{\text{Kubendimension}}$
 	\subsection{(R)OBDD}
 	(\textbf{R}educed) \textbf{O}rdered \textbf{B}inary \textbf{D}ecision \textbf{D}iagram\\
-	\parbox{2.0cm}{ \includegraphics{./img/ds/robdd.pdf} }
+	\parbox{2.0cm}{ \includegraphics{img/ds/robdd.pdf} }
 	\parbox{5.0cm}{ ROBDD $\rightarrow$ SOP: Alle Pfade zur 1 verodern:\\ $f = x + \overline xy$ \\ 
 					ROBDD $ \ra$ POS: Alle Pfade zu 0 verodern, kompletten Term negieren, DeMorgan anwenden} \\
 	
@@ -705,7 +705,7 @@ $m_7$ & $x_1 x_2 x_3$ & $\surd$ & $x_1 x_2$ & $m_6 \& m_7 $ & $ \surd$ & &\\
 
 \section{Funktionale Dekomposition} % (fold)
 \label{sub:Funktionale Dekomposition}
-\parbox{2.7cm}{ \includegraphics[width = 2.2cm]{./img/ds/decomp.pdf} }
+\parbox{2.7cm}{ \includegraphics[width = 2.2cm]{img/ds/decomp.pdf} }
 \parbox{6.0cm}{
 Bei einer Funktion $f(\vec v)$ mit $n$ Eingängen und einer möglichen Aufteilung von $\vec v$ in $\vec v = \vec x$ und $\vec y$ (wobei die Aufteilung disjunkt ist), kann $f(\vec v) = f(\vec x, \vec y)$ in $g(h(\vec x), \vec y)$ zerlegt werden. \\
 \\
@@ -761,7 +761,7 @@ Verfahren:
 
 \subsection{Funktionale Dekomposition mit ROBDD}
 Ermitteln der gebundenen bzw. freien Variablen mittels BDD: \\
-\parbox{2.7cm}{ \includegraphics[width = 5cm]{./img/eds/fdk.pdf} }
+\parbox{2.7cm}{ \includegraphics[width = 5cm]{img/eds/fdk.pdf} }
 \paragraph{Dekompositionsbedingung} % (fold)
 $\abs{\vec z} \le \abs{\vec x} - 1$ bzw. $\abs{Z} \le \frac{1}{2} \abs{X}$ \\
 \begin{itemize}
@@ -974,7 +974,7 @@ Mit wenig Fragen viel Information erhalten. Signal muss beobachtbar und einstell
 		
 	\subsubsection{Schaltnetze}
 	\parbox{3.6cm}{
-	\includegraphics{./img/ds/schaltnetz.pdf} }
+	\includegraphics{img/ds/schaltnetz.pdf} }
 	\parbox{5.0cm}{ 
 	\begin{tabular}{ll}
 	& $y = z \circ w$ \\
@@ -1035,7 +1035,7 @@ Mit wenig Fragen viel Information erhalten. Signal muss beobachtbar und einstell
 	Lokale Implikation:
 	\begin{tabular}{ll}
 	Vorwärtsimlikation & Rückwärtsimlikation\\
-	\includegraphics[scale = 0.8]{./img/ds/vorimplikation.pdf} & \includegraphics[scale = 0.7]{./img/ds/backimplication.pdf}\\%	\includegraphics{./img/ds/vorimplikaiton.pdf} & \includegraphics{./img/ds/rückimplikaiton.pdf} \\
+	\includegraphics[scale = 0.8]{img/ds/vorimplikation.pdf} & \includegraphics[scale = 0.7]{img/ds/backimplication.pdf}\\%	\includegraphics{img/ds/vorimplikaiton.pdf} & \includegraphics{img/ds/rückimplikaiton.pdf} \\
 	\end{tabular}
 	\\
 	globale Implikation: mehr als 1 Gatter zwischen Testsignal und implizierten Signal:\\
@@ -1086,7 +1086,7 @@ Mit wenig Fragen viel Information erhalten. Signal muss beobachtbar und einstell
 	
 \section{Auch wichtig}
 \parbox{1.2cm}{
- \includegraphics[width=1cm]{./cat.jpg}
+ \includegraphics[width=1cm]{img/cat.jpg}
  }
  \parbox{3cm}{
 \emph{Schrödingers Katze}
