@@ -296,18 +296,18 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\subsection{Quine Methode}
 	\textbf{Vorteile}: automatisierbar (DEA/FSM), beliebig viele Inputvariablen\\
 	\textbf{Nachteile}: viele paarweise Vergleiche, Erweiterung auf KKNF oder KDNF notwendig, viele Min- und Maxterme\\
-	geg.: DNF/SOP oder Wertetabelle von $f(x)$ \\
+	geg.: DNF/KNF oder Wertetabelle von $f(x)$ \\
 	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
 	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
 	Absorptionsgesetz: $a + a\cdot b = a$
 	
 	\begin{enumerate}
-		\item KDNF/CSOP bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
-		\item Alle Minterme in Tabelle eintragen (Index von m ist (binär)Wert des Minterms)
-		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz)
+		\item kanonische Form (KKNF/KDNF) bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
+		\item Alle Min-/Maxterme in Tabelle eintragen (Index von m ist (binär)Wert des Min-/Maxterms), sortieren nach der Anzahl der negierten Literale (=Klasse)
+		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz), dabei notieren aus welchen 0-Kuben er besteht und alle verwendeten 0-Kuben abhaken
 		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
 		\item Wenn möglich 2-Kubus bilden.
-		\item Wenn keine Kubenbildung mehr möglich $\ra$ Primimplikanten
+		\item Wenn keine Kubenbildung mehr möglich $\ra$ Nicht abgehakte Kuben sind Primimplikanten
 	\end{enumerate}
 	Beispiel (Quine Methode):
 	
