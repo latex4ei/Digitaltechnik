@@ -245,6 +245,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		Wichtige Begriffe: & Definition & Bemerkung\\ \hline
 		Signalvariable & $x$ & $\hat x \in \eset{0,1}$ \\
 		Literal & $l_i = x_i$ oder $\overline{x_i}$ & $i \in I_0=\eset{1,...,n}$\\
+		Literallänge &$\#\text{Teilterme}+\sum_{i=1}^{\#\text{Teilterme}}\#\text{Literale v. Teilterm}$ & Summe aller Eingänge\\
 		Minterme,0-Kuben & M0C $\ni m_j = \prod\limits_{i\in I_0} l_i$ & $|$M0C$| = 2^n$ \\
 		d-Kuben & MC $\ni c_j = \prod\limits_{i\in I_j \subseteq I_0} l_i$ & $|$MC$|=3^n$\\
 		Distanz & $\delta(c_i,c_j) = \bigl| \iset{l}{l \in c_i \land \overline{l}\in c_j}  \bigr|$ & $\delta_{ij} = \delta(c_i,c_j)$ \\
@@ -252,13 +253,13 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		Primimplikanten & $MPI = \iset{p \in MI}{p \not\subset c \ \forall c \in MI}$ & $MPI \subseteq MI \subseteq MC$\\
 	\end{tabular}\\ \\ \\
 	\begin{tabular}{l|l|l}	
-		SOP (DNF) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
-		POS (KNF) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
-		CSOP (KDNF)& Summe aller Minterme & WT: 1-Zeilen sind Minterme\\
-		CPOS (KKNF)& Menge aller Maxterme & WT: 0-Zeilen negiert sind Maxterme \\
+		DNF (SOP) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
+		KNF (POS) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
+		KDNF (CSOP)& Summe aller Minterme & WT: 1-Zeilen sind Minterme\\
+		KKNF (CPOS)& Menge aller Maxterme & WT: 0-Zeilen negiert sind Maxterme \\
 		VollSOP (nur 1)& Menge aller Primimplikanten & Bestimmung siehe Quine Methode\\
 		& & oder Schichtenalgorithmus\\
-		MinSOP (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
+		DMF (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
 	\end{tabular}
 	\\ \\
 	FPGA: Field Programmable Gate Array\\
@@ -312,15 +313,15 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\textbf{Vorteile}: automatisierbar (DEA/FSM), beliebig viele Inputvariablen\\
 	\textbf{Nachteile}: viele paarweise Vergleiche, Erweiterung auf KKNF oder KDNF notwendig, viele Min- und Maxterme\\
 	geg.: DNF/KNF oder Wertetabelle von $f(x)$ \\
-	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
+	ges.: alle Primimplikanten/-kate $p_i$ (VollSOP/VollPOS)  \\ \\
 	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
 	Absorptionsgesetz: $a + a\cdot b = a$
 	
 	\begin{enumerate}
 		\item kanonische Form (KKNF/KDNF) bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
 		\item Alle Min-/Maxterme in Tabelle eintragen (Index von m ist (binär)Wert des Min-/Maxterms), sortieren nach der Anzahl der positiven Literale (=Klasse)
-		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz), dabei notieren aus welchen 0-Kuben er besteht und alle verwendeten 0-Kuben abhaken
-		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
+		\item 1-Kubus: Min-/Maxterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz), dabei notieren aus welchen 0-Kuben er besteht und alle verwendeten 0-Kuben abhaken
+		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Min-/Maxterme müssen zusammenhängen)
 		\item Wenn möglich 2-Kubus bilden.
 		\item Wenn keine Kubenbildung mehr möglich $\ra$ Nicht abgehakte Kuben sind Primimplikanten
 	\end{enumerate}
@@ -363,8 +364,8 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		\end{tabular}
 	% section Resolventenmethode (end)
 
-	\subsection{Überlagerung (Bestimmung der MinSOP)}
-	Geg: CSOP/KDNF ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP (Minimalform)\\
+	\subsection{Überlagerung (Bestimmung der Minimalform)}
+	Geg: CSOP/KDNF ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: DMF (Minimalform)\\
 	\subsubsection{Überdeckung:} $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
 	\subsubsection{Alternativ: Mit Überdeckungstabelle bestimmen} Bsp:\\
 	\begin{tabular}{|c|c|c|c|c|c|}
@@ -379,8 +380,8 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	$K$: Anzahl der Primterme\\
 	$N$: Anzahl der Minterme \\
 	$L(p_i)$: Kosten/Länge der Primimplikanten\\
-	\textbf{Vorgehen}: erst alle \textbf{dominierenden} Spalten, dann alle \textbf{dominierten} Zeilen streichen.
-	
+	\textbf{Vorgehen}: erst alle \textbf{dominierenden} Spalten, dann alle \textbf{dominierten} Zeilen streichen. \\ \\
+	Analog auch für Bestimmung der konjunktiven Minimalform (KMF)
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
 	& Isolator & Metall & undotiert & N-Typ & P-Typ \\ \hline
