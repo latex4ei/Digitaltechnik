@@ -68,6 +68,7 @@
 \newcommand{\vect}[1]{\ensuremath{\begin{pmatrix} #1 \end{pmatrix}}}				% Vektor
 \newcommand{\mvect}[1]{\ensuremath{\left. \begin{matrix} #1 \end{matrix}  \right]}} % Matrixvektor
 \newcommand{\ma}[1]{\ensuremath{\utilde{\bs {#1}}}}
+\newcommand{\lighthline}{\noalign{\global\arrayrulewidth=0.005pt}\hline\noalign{\global\arrayrulewidth=0.4pt}}
 
 % Abkürzungen
 \newcommand{\ul}[1]{\ensuremath{\underline{#1}}}								%Untersteichen
@@ -170,32 +171,34 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	Konfiguration: $f = c_1 + c_2 + c_3 \Ra cov(f) = \eset{c_1, c_2, c_3}$
 
 	\subsection{Gesetze der booleschen Algebra}
-	\begin{tabular}{l|l}
-		Gesetz & Boolesche Algebra                                        \\
-		            & $({0,1};\cdot , +, \overline{x})$                        \\ \hline
-		Kommutativ  & $x \cdot y = y \cdot x$                                             \\
-		            & $x + y = y + x$                                                             \\
-		Assoziativ  & $x \cdot (y \cdot z) = (x \cdot y) \cdot z$                      \\
-		            & $x + (y + z) = (x + y) + z$                                        \\
-		Distributiv & $x \cdot (y + z) = x \cdot y + x \cdot z$                \\
-		            & $x + (y \cdot z) = (x + y) \cdot (x + z)$              \\
-		Äquivalenz & $x \cdot x = x$                                                              \\
-		            & $x + x = x$                                                                        \\
-		Absorbtion  & $x \cdot (x+y) = x$                                                          \\
-		            & $x + (x \cdot y) = x$                                               \\
-		Konstanz     & $x \cdot 1 = x$                                                     \\
-		            & $x + 0 = x$                                                         \\
-			 & $x \cdot 0 = 0$                                                   \\
-		            & $x + 1 = 1$                                                             \\
-		Komplement  & $x \cdot \overline{x} = 0$                                      \\
-		            & $x + \overline{x} = 1$                                               \\
-		            & $\overline{\overline{x}} = x$                                       \\
-		De Morgan   & $\overline{x \cdot y} = \overline{x} + \overline{y}$ \\
-		            & $\overline{x + y} = \overline{x} \cdot \overline{y}$\\
-		Resolution (allgemein)   & $x\cdot a + \overline{x} \cdot b = x \cdot a + \overline{x} \cdot b + a \cdot b$  \\
-		            &  $(x + a) \cdot (\overline{x} + b) = (x + a) \cdot (\overline{x} + b) \cdot (a + b)$ \\ 
-		Resolution (speziell)   & $x\cdot a + \overline{x} \cdot a = a$  \\
-		            &  $(x + a) \cdot (\overline{x} + a) = a$  
+	\begin{tabular}{l|l|l}
+		            & Boolesche Algebra                                     & Mengenalgebra                                         \\
+		            & $({0,1};\cdot , +, \overline{x})$                     & $(P(G);\cap , \cup, \overline{A};G,\emptyset )$       \\ \hline
+		Kommutativ  & $x \cdot y = y \cdot x$                               & $A \cap B = B \cap A$                                 \\
+		            & $x + y = y + x$                                       & $A \cup B = B \cup A$                                 \\ \lighthline
+		Assoziativ  & $x \cdot (y \cdot z) = (x \cdot y) \cdot z$           & $(A \cap B) \cap C = A \cap (B \cap C)$               \\
+		            & $x + (y + z) = (x + y) + z$                           & $(A \cup B) \cup C = A \cap (B \cup C)$               \\ \lighthline
+		Distributiv & $x \cdot (y + z) = x \cdot y + x \cdot z$             & $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$      \\
+		            & $x + (y \cdot z) = (x + y) \cdot (x + z)$             & $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$      \\ \lighthline
+		Äquivalenz & $x \cdot x = x$                                       & $A \cap A = A$                                        \\
+		            & $x + x = x$                                           & $A \cup A = A$                                        \\ \lighthline
+		Absorbtion  & $x \cdot (x+y) = x$                                   & $A \cap (A \cup B) = A$                               \\
+		            & $x + (x \cdot y) = x$                                 & $A \cup (A \cap B) = A$                               \\ \lighthline
+		Konstanz     & $x \cdot 1 = x$                                       & $A \cap G = A$                                        \\
+		            & $x + 0 = x$                                           & $A \cup \emptyset = A$                                \\
+			    & $x \cdot 0 = 0$                                       & $A \cap \emptyset = \emptyset$                        \\
+		            & $x + 1 = 1$                                           & $A \cup G = G$                                        \\ \lighthline
+		Komplement  & $x \cdot \overline{x} = 0$                            & $A \cap \overline{A} = \emptyset$                     \\
+		            & $x + \overline{x} = 1$                                & $A \cup \overline{A} = G$                             \\
+		            & $\overline{\overline{x}} = x$                         & $\overline{\overline{A}} = A$                         \\ \lighthline
+		De Morgan   & $\overline{x \cdot y} = \overline{x} + \overline{y}$  & $\overline{A \cap B} = \overline{A} \cup \overline{B}$\\
+		            & $\overline{x + y} = \overline{x} \cdot \overline{y}$ & $\overline{A \cup B} = \overline{A} \cap \overline{B}$\\ \lighthline
+		Resolution & $x\cdot a + \overline{x} \cdot b$ & $(A\cap Y) \cup (\overline{A} \cap Z)$\\
+		(allgemein) &$= x \cdot a + \overline{x} \cdot b + a \cdot b$ & $= (A \cap Y) \cup (\overline{A} \cap Z) \cup (Y \cap Z)$  \\
+		            &  $(x + a) \cdot (\overline{x} + b)$ & $(A \cup Y) \cap (\overline{A} \cup Z)$\\
+			 & $= (x + a) \cdot (\overline{x} + b) \cdot (a + b)$ & $= (A \cup Y) \cap (\overline{A} \cup Z) \cap (Y \cup Z)$\\ \lighthline
+		Resolution & $x\cdot a + \overline{x} \cdot a = a$ & $(A\cap Y) \cup (\overline{A} \cap Y) = Y$\\
+		 (speziell)   &  $(x + a) \cdot (\overline{x} + a) = a$  & $(A \cup Y) \cap (\overline{A} \cup Y) = Y$  
 	\end{tabular}
 
 
