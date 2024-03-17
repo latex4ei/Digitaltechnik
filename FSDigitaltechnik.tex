@@ -68,6 +68,7 @@
 \newcommand{\vect}[1]{\ensuremath{\begin{pmatrix} #1 \end{pmatrix}}}				% Vektor
 \newcommand{\mvect}[1]{\ensuremath{\left. \begin{matrix} #1 \end{matrix}  \right]}} % Matrixvektor
 \newcommand{\ma}[1]{\ensuremath{\utilde{\bs {#1}}}}
+\newcommand{\lighthline}{\noalign{\global\arrayrulewidth=0.005pt}\hline\noalign{\global\arrayrulewidth=0.4pt}}
 
 % Abkürzungen
 \newcommand{\ul}[1]{\ensuremath{\underline{#1}}}								%Untersteichen
@@ -119,7 +120,6 @@
 	\item Exponentielles Wachstum der Transistorzahl, exponentieller Rückgange des Preises pro Transistor
 	\item Herstellungskosten (Fixkosten, Variable Kosten, Technologiefaktor), Entwicklerproduktivität, Verlustleistungsdichte
 \end{itemize}
-
 \section{Einheiten}
 \begin{multicols}{3}
 \begin{tabular}{c | c}
@@ -153,8 +153,7 @@ $\Omega $ & $ V A^{-1} $\\
 $ H $ & $ V s  A^{-1}$
 \end{tabular}
 \end{multicols}
-$Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdot 1024} MByte$\\
-	
+$Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdot 1024} MByte$	
 \section{Boolsche Algebra}
 
 	\subsection{Boolesche Operatoren (Wahrheitstabelle WT)}
@@ -176,24 +175,30 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		            & Boolesche Algebra                                     & Mengenalgebra                                         \\
 		            & $({0,1};\cdot , +, \overline{x})$                     & $(P(G);\cap , \cup, \overline{A};G,\emptyset )$       \\ \hline
 		Kommutativ  & $x \cdot y = y \cdot x$                               & $A \cap B = B \cap A$                                 \\
-		            & $x + y = y + x$                                       & $A \cup B = B \cup A$                                 \\
+		            & $x + y = y + x$                                       & $A \cup B = B \cup A$                                 \\ \lighthline
 		Assoziativ  & $x \cdot (y \cdot z) = (x \cdot y) \cdot z$           & $(A \cap B) \cap C = A \cap (B \cap C)$               \\
-		            & $x + (y + z) = (x + y) + z$                           & $(A \cup B) \cup C = A \cap (B \cup C)$               \\
+		            & $x + (y + z) = (x + y) + z$                           & $(A \cup B) \cup C = A \cap (B \cup C)$               \\ \lighthline
 		Distributiv & $x \cdot (y + z) = x \cdot y + x \cdot z$             & $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$      \\
-		            & $x + (y \cdot z) = (x + y) \cdot (x + z)$             & $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$      \\
-		Indempotenz & $x \cdot x = x$                                       & $A \cap A = A$                                        \\
-		            & $x + x = x$                                           & $A \cup A = A$                                        \\
+		            & $x + (y \cdot z) = (x + y) \cdot (x + z)$             & $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$      \\ \lighthline
+		Äquivalenz & $x \cdot x = x$                                       & $A \cap A = A$                                        \\
+		            & $x + x = x$                                           & $A \cup A = A$                                        \\ \lighthline
 		Absorbtion  & $x \cdot (x+y) = x$                                   & $A \cap (A \cup B) = A$                               \\
-		            & $x + (x \cdot y) = x$                                 & $A \cup (A \cap B) = A$                               \\
-		Neutral     & $x \cdot 1 = x$                                       & $A \cap G = A$                                        \\
+		            & $x + (x \cdot y) = x$                                 & $A \cup (A \cap B) = A$                               \\ \lighthline
+		Konstanz     & $x \cdot 1 = x$                                       & $A \cap G = A$                                        \\
 		            & $x + 0 = x$                                           & $A \cup \emptyset = A$                                \\
-		Dominant    & $x \cdot 0 = 0$                                       & $A \cap \emptyset = \emptyset$                        \\
-		            & $x + 1 = 1$                                           & $A \cup G = G$                                        \\
+			    & $x \cdot 0 = 0$                                       & $A \cap \emptyset = \emptyset$                        \\
+		            & $x + 1 = 1$                                           & $A \cup G = G$                                        \\ \lighthline
 		Komplement  & $x \cdot \overline{x} = 0$                            & $A \cap \overline{A} = \emptyset$                     \\
 		            & $x + \overline{x} = 1$                                & $A \cup \overline{A} = G$                             \\
-		            & $\overline{\overline{x}} = x$                         & $\overline{\overline{A}} = A$                         \\
+		            & $\overline{\overline{x}} = x$                         & $\overline{\overline{A}} = A$                         \\ \lighthline
 		De Morgan   & $\overline{x \cdot y} = \overline{x} + \overline{y}$  & $\overline{A \cap B} = \overline{A} \cup \overline{B}$\\
-		            & $\overline{x + y} = \overline{x} \cdot \overline{y}$ & $\overline{A \cup B} = \overline{A} \cap \overline{B}$
+		            & $\overline{x + y} = \overline{x} \cdot \overline{y}$ & $\overline{A \cup B} = \overline{A} \cap \overline{B}$\\ \lighthline
+		Resolution & $x\cdot a + \overline{x} \cdot b$ & $(A\cap Y) \cup (\overline{A} \cap Z)$\\
+		(allgemein) &$= x \cdot a + \overline{x} \cdot b + a \cdot b$ & $= (A \cap Y) \cup (\overline{A} \cap Z) \cup (Y \cap Z)$  \\
+		            &  $(x + a) \cdot (\overline{x} + b)$ & $(A \cup Y) \cap (\overline{A} \cup Z)$\\
+			 & $= (x + a) \cdot (\overline{x} + b) \cdot (a + b)$ & $= (A \cup Y) \cap (\overline{A} \cup Z) \cap (Y \cup Z)$\\ \lighthline
+		Resolution & $x\cdot a + \overline{x} \cdot a = a$ & $(A\cap Y) \cup (\overline{A} \cap Y) = Y$\\
+		 (speziell)   &  $(x + a) \cdot (\overline{x} + a) = a$  & $(A \cup Y) \cap (\overline{A} \cup Y) = Y$  
 	\end{tabular}
 
 
@@ -208,13 +213,27 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\item $x_i: f_{x_i}=f|_{x_i=1}=f(x_1,\dots,1,\dots,x_n)$
 	\item $\overline x_i: f_{\overline x_i}=f|_{x_i=0}=f(x_1,\dots,0,\dots,x_n)$
 	\end{itemize}
+	\paragraph{Substitutionsregel}
+	\begin{itemize}\itemsep0pt
+		\item $x_i \cdot f(\vec{x})=x_i \cdot f_{x_{i}}$
+		\item $\overline{x}_i \cdot f(\vec{x})=\overline{x}_i \cdot f_{\overline{x}_{i}}$
+		\item $x_i + f(\vec{x})=x_i + f_{\overline{x}_{i}}$
+		\item $\overline{x}_i + f(\vec{x})=\overline{x}_i \cdot f_{x_{i}}$
+	\end{itemize}
+	\paragraph{Boolsche Expansion}
+	\begin{itemize}\itemsep0pt
+		\item $f(\vec{x})=x_i \cdot f_{x_i} + \overline{x}_i \cdot f_{\overline{x}_i}$
+		\item $f(\vec{x})=(x_i + f_{\overline{x}_i}) \cdot (\overline{x}_i + f_{x_i})$
+		\item $\overline{f(\vec{x})}=\overline{x}_i \cdot \overline{f_{\overline{x}_i}} + x_i \cdot \overline{f_{x_i}}$
+		\item $\overline{f(\vec{x})}=(\overline{x}_i + \overline{f_{x_i}}) \cdot (x_i + \overline{f_{\overline{x}_i}})$
+	\end{itemize}
 	\paragraph{Eigenschaften von $f(\vec{x})$}
 	\begin{itemize}\itemsep0pt
 		\item tautologisch $\Leftrightarrow f(\vec{x})=1 \qquad \forall \vec x \in \{0,1\}^n$
 		\item kontradiktorisch $\Leftrightarrow f(\vec{x})=0 \qquad \forall \vec x \in \{0,1\}^n$
-				\item unabhängig von $x_i \Leftrightarrow f_{x_i} = f_{\overline x_i}$
-						\item abhängig von $x_i \Leftrightarrow f_{x_i} \ne f_{\overline x_i}$
-			\end{itemize}
+		\item unabhängig von $x_i \Leftrightarrow f_{x_i} = f_{\overline x_i}$
+		\item abhängig von $x_i \Leftrightarrow f_{x_i} \ne f_{\overline x_i}$
+	\end{itemize}
 	
 	\subsection{Multiplexer}
 	\begin{tabular}{ll}
@@ -229,6 +248,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		Wichtige Begriffe: & Definition & Bemerkung\\ \hline
 		Signalvariable & $x$ & $\hat x \in \eset{0,1}$ \\
 		Literal & $l_i = x_i$ oder $\overline{x_i}$ & $i \in I_0=\eset{1,...,n}$\\
+		Literallänge &$\#\text{Teilterme}+\sum_{i=1}^{\#\text{Teilterme}}\#\text{Literale v. Teilterm}$ & Summe aller Eingänge\\
 		Minterme,0-Kuben & M0C $\ni m_j = \prod\limits_{i\in I_0} l_i$ & $|$M0C$| = 2^n$ \\
 		d-Kuben & MC $\ni c_j = \prod\limits_{i\in I_j \subseteq I_0} l_i$ & $|$MC$|=3^n$\\
 		Distanz & $\delta(c_i,c_j) = \bigl| \iset{l}{l \in c_i \land \overline{l}\in c_j}  \bigr|$ & $\delta_{ij} = \delta(c_i,c_j)$ \\
@@ -236,13 +256,13 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		Primimplikanten & $MPI = \iset{p \in MI}{p \not\subset c \ \forall c \in MI}$ & $MPI \subseteq MI \subseteq MC$\\
 	\end{tabular}\\ \\ \\ \\
 	\begin{tabular}{l|l|l}	
-		SOP (DNF) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
-		POS (KNF) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
-		CSOP (KDNF)& Summe aller Minterme & WT: 1-Zeilen sind Minterme\\
-		CPOS (KKNF)& Menge aller Maxterme & WT: 0-Zeilen negiert sind Maxterme \\
+		DNF (SOP) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
+		KNF (POS) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
+		KDNF (CSOP)& Summe aller Minterme & WT: 1-Zeilen sind Minterme\\
+		KKNF (CPOS)& Menge aller Maxterme & WT: 0-Zeilen negiert sind Maxterme \\
 		VollSOP (nur 1)& Menge aller Primimplikanten & Bestimmung siehe Quine Methode\\
 		& & oder Schichtenalgorithmus\\
-		MinSOP (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
+		DMF (min. 1)& Minimale Summe v. Primimplikanten & durch Überdeckungstabelle \\
 	\end{tabular}
 	\\ \\
 	FPGA: Field Programmable Gate Array\\
@@ -296,15 +316,15 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\textbf{Vorteile}: automatisierbar (DEA/FSM), beliebig viele Inputvariablen\\
 	\textbf{Nachteile}: viele paarweise Vergleiche, Erweiterung auf KKNF oder KDNF notwendig, viele Min- und Maxterme\\
 	geg.: DNF/KNF oder Wertetabelle von $f(x)$ \\
-	ges.: alle Primimplikanten $p_i$ (VollSOP)  \\ \\
+	ges.: alle Primimplikanten/-kate $p_i$ (VollSOP/VollPOS)  \\ \\
 	Spezielles Resoltuionsgesetz: $x\cdot a + \overline x \cdot a = a$ \\
 	Absorptionsgesetz: $a + a\cdot b = a$
 	
 	\begin{enumerate}
 		\item kanonische Form (KKNF/KDNF) bestimmen (z.B. $f(x,y,z) = xy = xyz + xy\overline z$)
 		\item Alle Min-/Maxterme in Tabelle eintragen (Index von m ist (binär)Wert des Min-/Maxterms), sortieren nach der Anzahl der positiven Literale (=Klasse)
-		\item 1-Kubus: Minterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz), dabei notieren aus welchen 0-Kuben er besteht und alle verwendeten 0-Kuben abhaken
-		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Minterme müssen zusammenhängen)
+		\item 1-Kubus: Min-/Maxterme die sich um eine Negation unterscheiden, zu einem Term verschmelzen (Resolutionsgesetz), dabei notieren aus welchen 0-Kuben er besteht und alle verwendeten 0-Kuben abhaken
+		\item Der 1-Kubus muss zusammenhängend sein! (d.h. alle 1-Kubus Min-/Maxterme müssen zusammenhängen)
 		\item Wenn möglich 2-Kubus bilden.
 		\item Wenn keine Kubenbildung mehr möglich $\ra$ Nicht abgehakte Kuben sind Primimplikanten
 	\end{enumerate}
@@ -347,10 +367,10 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		\end{tabular}
 	% section Resolventenmethode (end)
 
-	\subsection{Überlagerung Bestimmung der MinSOP}
-	Geg: CSOP/KDNF ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: MinSOP (Minimalform)\\
-	Überdeckung: $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
-	Alternativ: Mit Überdeckungstabelle bestimmen. Bsp:\\
+	\subsection{Überlagerung (Bestimmung der Minimalform)}
+	Geg: CSOP/KDNF ($\sum m_i$) und VollSOP ($\sum p_i$) \qquad Ges: DMF (Minimalform)\\
+	\subsubsection{Überdeckung:} $\begin{array}{rccl} C = & (m_0 \subseteq p_1) & \cdot (m_2 \subseteq p_1 + m_2 \subseteq p_2) & \stackrel{!}=1 \\ C = & \tau_1 & \cdot (\tau_1 + \tau_2) & = \tau_1 + \tau_1 \tau_2 = \tau_1 \end{array}$ \\
+	\subsubsection{Alternativ: Mit Überdeckungstabelle bestimmen} Bsp:\\
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
 		          &      \multicolumn{4}{c|}{Minterme}  &      \\ \hline
@@ -363,8 +383,8 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	$K$: Anzahl der Primterme\\
 	$N$: Anzahl der Minterme \\
 	$L(p_i)$: Kosten/Länge der Primimplikanten\\
-	\textbf{Vorgehen}: erst alle \textbf{überdeckenden} Spalten, dann alle \textbf{überdeckten} Zeilen streichen.
-	
+	\textbf{Vorgehen}: erst alle \textbf{dominierenden} Spalten, dann alle \textbf{dominierten} Zeilen streichen. \\ \\
+	Analog auch für Bestimmung der konjunktiven Minimalform (KMF)
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
 	& Isolator & Metall & undotiert & N-Typ & P-Typ \\ \hline
@@ -375,7 +395,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 \section{MOS-FET's}
 % ======================================================================
 \textbf{M}etal \textbf{O}xide \textbf{S}emiconductor \textbf{F}ield \textbf{E}ffekt \textbf{T}ransistor\\
-\parbox{4.0cm}{ \includegraphics{img/ds/mosfet.pdf} \\ $V_{Pinch-Off} = V_{GS} - V_{th}$ } \parbox{3.0cm}{ \includegraphics{img/ds/char_nmos.pdf} } 
+\parbox{4.0cm}{ \includegraphics{img/ds/mosfet.pdf} \\ Beispiel: n-Mos \\ $V_{Pinch-Off} = V_{GS} - V_{th}$} \parbox{3.0cm}{ \includegraphics{img/ds/char_nmos.pdf} } 
 
 
 	\subsection{Bauteilparameter}
@@ -398,7 +418,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		Aber: große Fläche.
 		\item nMos schaltet schneller als pMOS, da nMOS und pMOS unterschiedliche Majoritätsladungsträger haben. Die Beweglichkeit der Löcher ist im Allgemeinen geringer als die der Elektronen. 
 	\end{itemize}
-	
+	\begin{minipage}{\columnwidth}
 	\subsection{Drainstrom}
 		\textbf{nMos} (p-dotiertes Substrat, n-dotierte Drain/Source), schlechter pull up (Pegeldegenerierung)
 		\begin{equation*}
@@ -417,7 +437,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	
 		\end{cases}
 		\end{equation*}
-
+ \end{minipage}
 	
 	\subsection{pMos und nMos}
 	\pbox{3.0cm}{ \includegraphics{img/ds/cmos.pdf} } 
@@ -446,12 +466,11 @@ Drei Grundgatter der CMOS-Technologie:\\
 	\begin{tabular}{l|l|l}
 		Netzwerk & Pull-Dow\bf{n} & Pull-U\bf{p} \\
 		Transistoren & \textbf{n}Mos & \textbf{p}Mos \\ \hline
-		AND & Serienschaltung	 & Parallelschaltung \\
-		OR & Parallelschaltung & Serienschaltung \\
+		\textbf{N}AND & Serienschaltung	 & Parallelschaltung \\
+		\textbf{N}OR & Parallelschaltung & Serienschaltung \\
 	\end{tabular}\\ \\
 	1. Möglichkeit: Direkt; ggf. Inverter vor die Eingänge und Ausgänge schalten.\\
 	2. Möglichkeit: Mit boolescher Algebra die Funktion nur mit NAND und NOR darstellen.
-	
 	\subsection{CMOS Verlustleistung}
 	Inverterschaltvorgang $V_A: 0 \ra 1$:\\
 	\includegraphics{img/ds/char_inverter.pdf}
@@ -502,11 +521,11 @@ Logik mit Gedächtnis (Speicher).
 	 Min. Taktperiode &  $t_{clk} \ge t_{1,c2q} + t_{logic,max} + t_{2,setup}$  \\
 	 Max. Taktfrequenz & $f_{max} = \left\lfloor \frac{1}{t_{clk}} \right\rfloor$ \qquad (Nicht aufrunden) \\
 	 Holdzeitbedingung & $t_{hold} \le t_{c2q} + t_{logic,min}$  $\ra$ Dummy Gatter einbauen\\
-	 Durchsatz & $\frac{1 \text{Sample}}{t_{clk,pipe}} = f$ \\
-	 Latenz & $t_{clk} \cdot \#$Pipelinestufen (das zwischen den FFs) \\
+	 Durchsatz & $\frac{1 \text{Sample}}{t_{clk,pipe}} = f$ \qquad (Sample: Anzahl der Eingänge ins Register)\\
+	 Latenz & $t_{clk} \cdot \#$Pipelinestufen (das zwischen den Registern) \\
 	\end{tabular}
 	
-	
+	\begin{minipage}{\columnwidth}
 	\subsection{Pipelining} % (fold)
 	Nur bei synchronen(taktgesteuerten) Schaltungen möglich!
 	\begin{itemize} \itemsep0pt
@@ -517,6 +536,7 @@ Logik mit Gedächtnis (Speicher).
 		\item Gesamtlatenz wird eher größer
 		\item Taktfrequenz erhöht sich
 	\end{itemize}
+	\end{minipage}
 	% subsection Pipelining (end)
 	
 	\subsection{Parallel Processing} % (fold)
@@ -548,7 +568,7 @@ Logik mit Gedächtnis (Speicher).
 	\subsection{Speicherzelle/Register}
 	Ring aus zwei Invertern.
 	
-	\subsection{Latch}
+	\subsection{Latch (Pegelgesteuert)}
 	\parbox{5cm}{
 		\emph{Set-Reset Latch:} \\ Zwei gegenseitig rückgekoppelte NAND-Gatter. $0$ an R/S schaltet.
 		\\	\emph{Enable-Latch:} ändert Speicherzustand auf $D$ nur wenn $e=1$
@@ -559,7 +579,7 @@ Logik mit Gedächtnis (Speicher).
 	}
 	
 
-	\subsection{Flip-Flop}
+	\subsection{Flip-Flop (Flankengesteuert)}
 		\parbox{5cm}{
 			Besteht aus zwei enable-Latches \\
 			\emph{Flip-Flop:} Ändert Zustand bei steigender/(fallender) Taktflanke.\\
@@ -570,8 +590,8 @@ Logik mit Gedächtnis (Speicher).
 		}
 
 
-\section{Automaten} % (fold)
-
+\section{Automaten (FSM)} % (fold)
+\subsection{Deterministic finite state machine (DFA)}
 DFA 6-Tupel $\eset{I, O, S, R, f, g}$ \\
 
 \begin{tabular}{r | l} 
@@ -582,9 +602,8 @@ $R \subseteq S$ &  Menge der Anfangszustände \\
 $f: S \times I \ra S$  &  Übergangsrelation \\
 $g$ & Ausgaberelation \\
 \end{tabular}
-
+\subsection{Moore und Mealy FSMs}
 \includegraphics{img/ds/automaten.pdf}\\
-
 
 \begin{tabular}{c | c}
  Moore & Mealy \\ \hline
@@ -615,9 +634,8 @@ $g$ & Ausgaberelation \\
  \item Lange kombinatorische Pfade bei Verkettung
  \item in der Praxis zu vermeiden
 \end{itemize}
-
-
 \end{multicols}
+Beim Zeichnen jede Eingabemöglichkeit für jeden Zustand berücksichtigen und Startzustand mit leerem Pfeil kennzeichnen.
 
 % subsection Vorgehensweise (end)
 
