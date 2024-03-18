@@ -218,7 +218,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		\item $x_i \cdot f(\vec{x})=x_i \cdot f_{x_{i}}$
 		\item $\overline{x}_i \cdot f(\vec{x})=\overline{x}_i \cdot f_{\overline{x}_{i}}$
 		\item $x_i + f(\vec{x})=x_i + f_{\overline{x}_{i}}$
-		\item $\overline{x}_i + f(\vec{x})=\overline{x}_i \cdot f_{x_{i}}$
+		\item $\overline{x}_i + f(\vec{x})=\overline{x}_i + f_{x_{i}}$
 	\end{itemize}
 	\paragraph{Boolsche Expansion}
 	\begin{itemize}\itemsep0pt
@@ -383,7 +383,13 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	$K$: Anzahl der Primterme\\
 	$N$: Anzahl der Minterme \\
 	$L(p_i)$: Kosten/Länge der Primimplikanten\\
-	\textbf{Vorgehen}: erst alle \textbf{dominierenden} Spalten, dann alle \textbf{dominierten} Zeilen streichen. \\ \\
+	\textbf{Vorgehen}:
+	\begin{enumerate}
+	\item Kernprimimplikanten auswählen
+	\item Spaltendominanzen prüfen und dominierende Spalten streichen
+	\item Zeilendominanzen prüfen und dominierte Zeilen streichen
+	\item zurück zu 2. falls keine vollständige Überdeckung
+	\end{enumerate}
 	Analog auch für Bestimmung der konjunktiven Minimalform (KMF)
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
@@ -522,7 +528,7 @@ Logik mit Gedächtnis (Speicher).
 	 Max. Taktfrequenz & $f_{max} = \left\lfloor \frac{1}{t_{clk}} \right\rfloor$ \qquad (Nicht aufrunden) \\
 	 Holdzeitbedingung & $t_{hold} \le t_{c2q} + t_{logic,min}$  $\ra$ Dummy Gatter einbauen\\
 	 Durchsatz & $\frac{1 \text{Sample}}{t_{clk,pipe}} = f$ \qquad (Sample: Anzahl der Eingänge ins Register)\\
-	 Latenz & $t_{clk} \cdot \#$Pipelinestufen (das zwischen den Registern) \\
+	 Latenz & $t_{clk} \cdot \#$Pipelinestufen (Anzahl von Logik+Register-Blöcken) \\
 	\end{tabular}
 	
 	\begin{minipage}{\columnwidth}
@@ -603,7 +609,7 @@ $f: S \times I \ra S$  &  Übergangsrelation \\
 $g$ & Ausgaberelation \\
 \end{tabular}
 \subsection{Moore und Mealy FSMs}
-\includegraphics{img/ds/automaten.pdf}\\
+\includegraphics{img/ds/automaten_neu.pdf}\\
 
 \begin{tabular}{c | c}
  Moore & Mealy \\ \hline
