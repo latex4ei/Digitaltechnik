@@ -5,7 +5,7 @@
 % ======================================================================
 
 % Dokumentklasse (Schriftgröße 6, DIN A4, Artikel)
-\documentclass[6pt,a4paper]{scrartcl}
+\documentclass[ngerman, threecolumn]{latex4ei/latex4ei_sheet}
 
 % Seitenlayout und Ränder:
 \usepackage{geometry}
@@ -16,40 +16,17 @@
 \author{Emanuel Regnath, Martin Zellner, Hendrik Böttcher}
 
 % Pakete laden
-\usepackage[utf8x]{inputenc}	% Zeichenkodierung: UTF-8 (für Umlaute)   
-\usepackage[german]{babel}		% Deutsche Sprache
-\usepackage{multicol}			% Spaltenpaket
-\usepackage{amsmath}			% Mathematische Formelzeichen
-\usepackage{amssymb}			% Mathematische Formelzeichen
-\usepackage{esint}				% erweiterte Integralsymbole
-\usepackage{multicol}			% ermöglicht Seitenspalten  
 \usepackage{booktabs}			% bessere Tabellenlinien
-\usepackage{color}				% Farben
 \usepackage{colortbl}			% für die Hintergrundfarbe einzelner Zellen in Tabellen
-\usepackage{graphicx}			% Grafiken
 \usepackage{pbox}				% Intelligent parbox: \pbox{maximum width}{blabalbalb \\ blabal}
-%\usepackage{undertilde}			% Tilde unter Zeichen
-\newcommand{\utilde}[1]{#1}
-\usepackage{scrtime}			% Uhrzeit
+\usepackage{setspace}
 
 %Farben
 \definecolor{lightgray}{rgb}{0.8,0.8,0.8}
 \definecolor{gray}{rgb}{0.9,0.9,0.9}
 
 %Kopf- und Fußzeile
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-
    \fancyfoot[C]{Emanuel Regnath (Emanuel.Regnath@tum.de), Martin Zellner (martin.zellner@mytum.de), Hendrik Böttcher (hendrik.boettcher@tum.de)}
-   \renewcommand{\headrulewidth}{0.0pt} %obere Linie ausblenden
-   \renewcommand{\footrulewidth}{0.1pt} %obere Linie ausblenden
-   \fancyfoot[R]{(Gekürzt, überarbeitet - lukas.kompatscher@tum.de) Stand: \todayV \qquad \thepage}
-   \fancyfoot[L]{Homepage: www.latex4ei.de -  Fehler bitte \emph{sofort} melden.}
-	
-% Schriftart SANS für bessere Lesbarkeit bei kleiner Schrift
-\renewcommand{\familydefault}{\sfdefault} 
-\renewcommand{\emph}[1]{\textsf{\textbf{#1}}}
 
 % Array- und Tabellenabstände vergrößern
 \renewcommand{\arraystretch}{1.2}
@@ -57,62 +34,29 @@
 
 
 % Eigene Befehle
-\newcommand{\todayV}{\the\day.\the\month.\the\year}                     	    	% Datum D.M.YYYY
-\newcommand{\iset}[2]{\ensuremath{\bigl\{ \bigl. #1 \, \bigr| \, #2 \bigr\}}}		% intensional set
-\newcommand{\eset}[1]{\ensuremath{\bigl\{#1\bigr\}}}								% extensional set
-\newcommand{\norm}[1]{\ensuremath{\|#1\|}}											% Norm
-\newcommand{\gk}[1]{\ensuremath{\left\lfloor#1\right\rfloor}} 						% Gaußklammer
-\newcommand{\sprod}[2]{\ensuremath{\left\langle #1, #2 \right\rangle }}				% Skalarprodukt
-\newcommand{\abs}[1]{\ensuremath{\left\vert#1\right\vert}} 							% Betrag
-\newcommand{\mat}[1]{\ensuremath{\begin{bmatrix} #1 \end{bmatrix}}}					% Matrix
-\newcommand{\vect}[1]{\ensuremath{\begin{pmatrix} #1 \end{pmatrix}}}				% Vektor
-\newcommand{\mvect}[1]{\ensuremath{\left. \begin{matrix} #1 \end{matrix}  \right]}} % Matrixvektor
-\newcommand{\ma}[1]{\ensuremath{\utilde{\bs {#1}}}}
 \newcommand{\lighthline}{\noalign{\global\arrayrulewidth=0.005pt}\hline\noalign{\global\arrayrulewidth=0.4pt}}
-
-% Abkürzungen
-\newcommand{\ul}[1]{\ensuremath{\underline{#1}}}								%Untersteichen
-\newcommand{\ol}[1]{\ensuremath{\overline{#1}}}									%Überstreichen
-\newcommand{\Ra}[0]{\ensuremath{\Rightarrow}}									%Rightarrow
-\newcommand{\ra}[0]{\ensuremath{\rightarrow}} 									%Rightarrow
-\newcommand{\n}[0]{\ensuremath{\overline}}										%NOT
-\newcommand{\bs}[1]{\ensuremath{\boldsymbol{#1}}}								%Fett und kursiv im mathmode
-\newcommand{\diff}{\ensuremath{\ \mathrm d}}									%delta
-\newcommand{\grad}{\ensuremath{\mathrm{grad}\ }}								%Gradient
-\renewcommand{\div}{\ensuremath{\mathrm{div}\ }}								%Divergenz
-\newcommand{\rot}{\ensuremath{\mathrm{rot}\ }}									%Rotation
-\newcommand{\Sp}{\ensuremath{\mathrm{Sp}\ }}									%Spur
-	% Für Mengen
-	\newcommand{\N}{\ensuremath{\mathbb N}}
-	\newcommand{\R}{\ensuremath{\mathbb R}}
-	\newcommand{\C}{\ensuremath{\mathbb C}}
 
 %Überschreibungen
 \renewcommand{\arraystretch}{1.2}
 \renewcommand{\vec}[1]{\ensuremath{\underline{\boldsymbol {#1}}}}
 \newcommand{\imglog}{\includegraphics[width=.85cm]}
-
+\setstretch{1.2}
+\titlespacing*{\section}{0pt}{2pt}{2pt}
+\titlespacing*{\subsection}{1pt}{1pt}{2pt}
+\titlespacing*{\subsubsection}{1.5pt}{.5pt}{1pt}
+\colorlet{col_section}{black}
 
 % Dokumentbeginn
 % ======================================================================
 
 \begin{document}
 
-
-% Aufteilung in Spalten
-\begin{multicols*}{3}
-
 % -------------------------------------------
 % | 		Digitaltechik					|
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %=======================================================================
-\parbox{2.3cm}{
-	\includegraphics[height=2cm]{img/Logo.pdf}
-}
-\parbox{4cm}{
-	\emph{\huge{Digitaltechnik}}
-}
-
+\maketitle
+\fancyfoot[C]{von Emanuel Regnath (\href{mailto:emanuel.regnath@tum.de}{emanuel.regnath@tum.de}), Martin Zellner (\href{mailto:martin.zellner@mytum.de}{martin.zellner@mytum.de}), Hendrik Böttcher (\href{mailto:hendrik.boettcher@tum.de}{hendrik.boettcher@tum.de})}
 % ======================================================================
 \section{Moore'sches Gesetz}
 \begin{itemize} \itemsep0pt
@@ -121,6 +65,7 @@
 	\item Herstellungskosten (Fixkosten, Variable Kosten, Technologiefaktor), Entwicklerproduktivität, Verlustleistungsdichte
 \end{itemize}
 \section{Einheiten}
+\setlength{\multicolsep}{4pt}
 \begin{multicols}{3}
 \begin{tabular}{c | c}
 	Potenz & Vorsatz \\ \midrule
@@ -203,6 +148,8 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 
 
 	\subsection{Boolesche Funktionen}	
+	\setlength{\abovedisplayshortskip}{5pt}
+	\setlength{\belowdisplayshortskip}{5pt}
 	\begin{equation*}
 	f:\{0,1\}^n\ra \{0,1\} \qquad \qquad f(\vec{x})=f(x_1,x_2,\dots,x_n) 
 	\end{equation*} \\
@@ -266,11 +213,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\end{tabular}
 	\\ \\
 	FPGA: Field Programmable Gate Array\\
-	LUT: Look Up Table\\
-
-
-
-
+	LUT: Look Up Table
 \section{Beschreibungsformen}
 	\subsection{Disjunktive Normalform/Sum of products (DNF/SOP)}
 	\textbf{Eins-Zeilen} als \textbf{Implikanten} (UND) schreiben und alle Implikanten mit \textbf{ODER} verknüpfen: \\
@@ -297,12 +240,11 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\item $p_i$ Primimplikant: UND-Term mit maximal freien Variablen
 	\item $P_i$ Primimplikat: ODER-Term mit maximal freien Variablen
 	\end{itemize}
-
 	\subsection{Karnaugh-Diagramm} % (fold)
 	\textbf{Vorteile}: sehr anschaulich\\
 	\textbf{Nachteile}: Gray-Kodierung notwendig, nur wenige Inputvariablen\\
 		Zyklische Gray-Codierung: 2dim:$00,01,11,10$ 3dim:$000,001,011,010,110,111,101,100$
-		
+		\begin{minipage}{\columnwidth}	
 	\begin{tabular}{l | c | c |  c | r}
 	$_z\!\!\diagdown \!\!^{xy}$ & 00 	& 	01	&	11 	&	10	 	\\ \midrule
 	0		&	1 \cellcolor{gray}	&	0	&	0	&	0		\\	
@@ -310,6 +252,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\end{tabular}
 	Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + y \cdot z$\\
 	Don't Care Werte ausnutzen!
+	\end{minipage}
 	% subsection Karnaugh- Diagramm (end)
 
 	\subsection{Quine Methode}
@@ -479,8 +422,8 @@ Drei Grundgatter der CMOS-Technologie:\\
 	2. Möglichkeit: Mit boolescher Algebra die Funktion nur mit NAND und NOR darstellen.
 	\subsection{CMOS Verlustleistung}
 	Inverterschaltvorgang $V_A: 0 \ra 1$:\\
-	\includegraphics{img/ds/char_inverter.pdf}
-	
+	\includegraphics{img/ds/char_inverter.pdf}\\
+	\begin{minipage}{\columnwidth}
 	\emph{Dynamische Verlustleistung} \qquad \ $P_{dyn} = P_{cap} + P_{short}$\\
 	\begin{tabular}{ll}
 		\quad Kapazitive Verluste \qquad \ \quad \ & $P_{cap} = \alpha_{01} f C_L V_{DD}^2$\\
@@ -497,6 +440,7 @@ Drei Grundgatter der CMOS-Technologie:\\
 	Sinkend mit: Kanalweite, Ladungsträger Beweglichkeit, Oxyd Dielektrizität, Versorgungsspannung \\ \\
 	\emph{Statische Verlustleistung} $P_{stat}$: Sub-Schwellströme, Leckströme, Gate-Ströme
 	Abhängigkeit: $V_{DD}\uparrow:P_{stat}\uparrow$ \qquad $V_{th}\uparrow:P_{stat}\downarrow$ \quad (aber nicht proportional)
+	\end{minipage}
 
 \section{Volladdierer (VA)/Ripple-C(u)arry-Adder}
 \parbox{5.0cm}{ \includegraphics{img/ds/volladdierer.pdf} }
@@ -644,9 +588,6 @@ $g$ & Ausgaberelation \\
 Beim Zeichnen jede Eingabemöglichkeit für jeden Zustand berücksichtigen und Startzustand mit leerem Pfeil kennzeichnen.
 
 % subsection Vorgehensweise (end)
-
-% Ende der Spalten
-\end{multicols*}
 % Dokumentende
 % ======================================================================
 \end{document}
