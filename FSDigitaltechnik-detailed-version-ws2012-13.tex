@@ -36,16 +36,69 @@
 \definecolor{lightgray}{rgb}{0.8,0.8,0.8}
 \definecolor{gray}{rgb}{0.9,0.9,0.9}
 
-%Kopf- und Fußzeile
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
+% UPDATE WITHOUT CLASS CHANGE
+% ----------------------------------------------------------------------
 
-   \fancyfoot[C]{von Emanuel Regnath (Emanuel.Regnath@tum.de), Martin Zellner (martin.zellner@mytum.de) und Hendrik Böttcher (hendrik.boettcher@tum.de)}
-   \renewcommand{\headrulewidth}{0.0pt} %obere Linie ausblenden
-   \renewcommand{\footrulewidth}{0.1pt} %obere Linie ausblenden
-   \fancyfoot[R]{Stand: \todayV \ um \thistime \ Uhr \qquad \thepage}
-   \fancyfoot[L]{Homepage: www.latex4ei.de -  Fehler bitte \emph{sofort} melden.}
+% LastPage
+\usepackage{lastpage}
+
+% Allow hyperlinks
+	\RequirePackage[pagebackref=true,pdfpagelabels]{hyperref}
+	
+% Colors
+	\RequirePackage{latex4ei/latex4ei_colors}
+	\colorlet{col_link}{tum_blue_dark}
+	\hypersetup{
+	colorlinks=true,
+	linkcolor=col_link,
+	urlcolor=col_link,
+	citecolor=col_link,
+}
+
+% set pdfoptions
+	\AtBeginDocument{
+		\hypersetup{
+			pdftitle={Digitaltechnik},
+	        pdfauthor={Emanuel Regnath, Martin Zellner, Hendrik Böttcher},
+	        pdfcreator={LaTeX4EI template (www.latex4ei.de)},
+	        pdfkeywords={latex4ei}
+	    }
+	}
+
+% Date with git commit number
+	\newcommand{\themydate}{\today} % Default URL placeholder
+	\newcommand{\mydate}[1]{\renewcommand{\themydate}{#1}}	
+
+% Header and Footer
+	\RequirePackage{fancyhdr}
+
+	\pagestyle{fancy}
+	\fancyhf{}
+
+	\AtBeginDocument{
+	\IfFileExists{git.id}{\input{git.id}}{}
+	\ifdefined\GitNiceDate\mydate{\GitNiceDate\ (git \GitRevision)}\fi
+	\ifdefined\GitIssuesURL
+		\ifdefined\setissueslinkurl
+		\setissueslinkurl{\GitIssuesURL} % Set the actual URL
+		\fi
+	\fi
+	}
+	
+% Define Email
+	\providecommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
+	
+%
+	\fancyfoot[C]{von Emanuel Regnath (\email{emanuel.regnath@tum.de}), Martin Zellner (\email{martin.zellner@mytum.de}), Hendrik Böttcher (\email{hendrik.boettcher@tum.de})}
+	\fancyfoot[R]{Stand: \themydate \qquad \thepage/\pageref{LastPage}}
+	\fancyfoot[L]{Homepage: \url{www.latex4ei.de} -- Fehler bitte \emph{sofort} \href{\issueslinkurl}{melden}.}
+	
+	\renewcommand{\headrulewidth}{0.0pt} %obere Linie ausblenden
+	\renewcommand{\footrulewidth}{0.1pt} %obere Linie ausblenden
+	
+	\newcommand{\issueslinkurl}{https://github.com/latex4ei/Allgemein/issues} % Default URL placeholder
+	\newcommand{\setissueslinkurl}[1]{\renewcommand{\issueslinkurl}{#1}}
+% ----------------------------------------------------------------------
 	
 % Schriftart SANS für bessere Lesbarkeit bei kleiner Schrift
 \renewcommand{\familydefault}{\sfdefault} 
