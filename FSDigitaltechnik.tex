@@ -696,6 +696,25 @@ $g$ & Ausgaberelation \\
 \end{multicols}
 Beim Zeichnen jede Eingabemöglichkeit für jeden Zustand berücksichtigen und Startzustand mit leerem Pfeil kennzeichnen.
 
+\section{Block Parity Schaltungen}
+\subsection{Paritätsprüfsumme}
+Konzept zur Absicherung von digitalen Daten durch Anhängen eines Paritätsbits $p$.\\
+- Gerade Anzahl an Einsen im Datenwort: $p = 0$.\\
+- Ungerade Anzahl an Einsen im Datenwort: $p = 1$.\\
+- Realisierung durch XOR-Gatter
+\subsection{Block Parity}
+„Zweidimensionale“ Erweiterung der Paritätsprüfsumme\\
+\textbf{Vorteile:}\\
+ - Erkennung und Korrektur von einzelnen Bitfehlern.\\
+ - Erkennung von zusammenhängenden Mehrfachfehlern (Bursts).
+\subsection{Daten- und Kontrollpfad}
+%TODO Add images from slide 4
+\begin{description}
+	\item[Datenpfad:] Transformation der Daten innerhalb einer Verarbeitungseinheit.
+	\item[Kontrollpfad:] Sequentielle Steuerung der Einheiten im Datenpfad\\
+		- FSM basiert: \\\includegraphics[scale=0.4]{./img/ds/parity_fsm.png}
+\end{description}
+
 % subsection Vorgehensweise (end)
 
 % Ende der Spalten
