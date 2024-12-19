@@ -41,6 +41,12 @@ jobs:
           mkdir -p build && cd build
           cmake ..
           make
+          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: ./build
 
       - name: Prepare Deployment
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -49,12 +55,6 @@ jobs:
           echo "# This branch is for deployment only" >> export/README.md
           cp build/*.pdf export
           cp build/git.id export
-          
-      - name: Upload contents as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifact
-          path: ./export  # The folder you want to upload
 
       - name: Deploy
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
