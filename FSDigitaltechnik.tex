@@ -89,7 +89,7 @@
 	\providecommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 	
 %
-	\fancyfoot[C]{von Emanuel Regnath (\email{emanuel.regnath@tum.de}), Martin Zellner (\email{martin.zellner@mytum.de}), Hendrik Böttcher (\email{hendrik.boettcher@tum.de}) }
+	\fancyfoot[C]{von Emanuel Regnath, Martin Zellner, Hendrik Böttcher, Lukas Kompatscher, Paul Thiel, Justus Rossmeier, Darius Peters, Timotheus Lass - Mail: \email{info@latex4ei.de} }
 	\fancyfoot[R]{Stand: \themydate \qquad \thepage/\pageref{LastPage}}
 	\fancyfoot[L]{Homepage: \url{www.latex4ei.de} -- Fehler bitte \emph{sofort} \href{\issueslinkurl}{melden}.}
 	
@@ -695,6 +695,26 @@ $g$ & Ausgaberelation \\
 \end{itemize}
 \end{multicols}
 Beim Zeichnen jede Eingabemöglichkeit für jeden Zustand berücksichtigen und Startzustand mit leerem Pfeil kennzeichnen.
+
+\section{Block Parity Schaltungen}
+\subsection{Paritätsprüfsumme}
+Konzept zur Absicherung von digitalen Daten durch Anhängen eines Paritätsbits $p$.\\
+- Gerade Anzahl an Einsen im Datenwort: $p = 0$.\\
+- Ungerade Anzahl an Einsen im Datenwort: $p = 1$.\\
+- Realisierung durch XOR-Gatter
+\subsection{Block Parity}
+„Zweidimensionale“ Erweiterung der Paritätsprüfsumme\\
+Beispielblock:\\
+ \includegraphics[scale=0.5]{./img/ds/Block_Parity.png}\\
+\textbf{Vorteile:}\\
+ - Erkennung und Korrektur von einzelnen Bitfehlern.\\
+ - Erkennung von zusammenhängenden Mehrfachfehlern (Bursts).
+\subsection{Realisierung der Block Parity Schaltung}
+\textbf{Datenpfad:}\\ Das n-Bit Datenwort wird durch das Paritybit zu (n+1)-Bit erweitert und übertragen\\
+\textbf{Kontrollpfad:} \\- Die Datenworte (Zeilen im obigen Beispielblock) aus dem Datenpfad werden bitweise verxodert und es entsteht die Pbits-Zeile\\
+- Nach einem Block wird die Pbit-Zeile übertragen
+
+
 
 % subsection Vorgehensweise (end)
 
