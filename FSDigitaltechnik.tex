@@ -307,7 +307,7 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 		Distanz & $\delta(c_i,c_j) = \bigl| \iset{l}{l \in c_i \land \overline{l}\in c_j}  \bigr|$ & $\delta_{ij} = \delta(c_i,c_j)$ \\
 		Implikanten & $MI = \iset{c \in MC}{c \subseteq f}$ &  \\
 		Primimplikanten & $MPI = \iset{p \in MI}{p \not\subset c \ \forall c \in MI}$ & $MPI \subseteq MI \subseteq MC$\\
-	\end{tabular}\\ \\ \\ \\
+	\end{tabular}\\ \\
 	\begin{tabular}{l|l|l}	
 		DNF (SOP) & eine Summe von Produkttermen & Terme sind ODER-verknüpft \\
 		KNF (POS) & ein Produkt von Summentermen & Terme sind UND-verknüpft\\
@@ -349,6 +349,8 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\item $C_i$ Implikat: ODER-Term in dem freie Variablen vorkommen können
 	\item $p_i$ Primimplikant: UND-Term mit maximal freien Variablen
 	\item $P_i$ Primimplikat: ODER-Term mit maximal freien Variablen
+	\item $K_{pi}$ Kernprimimplikant: Überdeckt einen Minterm als \textbf{einziger} $c_i$
+	\item $K_{Pi}$ Kernprimimplikat: Überdeckt einen Maxterm als \textbf{einziger} $C_i$
 	\end{itemize}
 
 	\subsection{Karnaugh-Diagramm} % (fold)
@@ -361,8 +363,11 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	0		&	1 \cellcolor{gray}	&	0	&	0	&	0		\\	
 	1		&	X \cellcolor{gray}	&	1 \cellcolor{lightgray}	&	1 \cellcolor{lightgray}	&	0		\\	
 	\end{tabular}
-	Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + y \cdot z$\\
-	Don't Care Werte ausnutzen!
+	\begin{minipage}{\linewidth}
+		Gleiche Zellen zusammenfassen: z.B. $\overline x \overline y + yz$ \\
+		Don't Care Werte ausnutzen!
+	\end{minipage}
+
 	% subsection Karnaugh- Diagramm (end)
 
 	\subsection{Quine Methode}
@@ -435,14 +440,12 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 	\end{tabular} \\
 	$K$: Anzahl der Primterme\\
 	$N$: Anzahl der Minterme \\
-	$L(p_i)$: Kosten/Länge der Primimplikanten\\
-	\textbf{Vorgehen}:
-	\begin{enumerate}
-	\item Kernprimimplikanten auswählen
-	\item Spaltendominanzen prüfen und dominierende Spalten streichen
-	\item Zeilendominanzen prüfen und dominierte Zeilen streichen
-	\item zurück zu 2. falls keine vollständige Überdeckung
-	\end{enumerate}
+	$L(p_i)$: Kosten/Länge der Primimplikanten \vspace{0.1cm} \\
+	\textbf{Vorgehen}: \vspace{0.1cm}  \\
+	1. Kernprimimplikanten auswählen \\
+	2. Spaltendominanzen prüfen und dominierende Spalten streichen \\
+	3. Zeilendominanzen prüfen und dominierte Zeilen streichen \\
+	4. zurück zu 2. falls keine vollständige Überdeckung \vspace{0.1cm}  \\
 	Analog auch für Bestimmung der konjunktiven Minimalform (KMF)
 \section{Halbleiter}
 \begin{tabular}{l|c|c|c|c|c}
@@ -453,9 +456,15 @@ $Bit \xrightarrow{\cdot 8} Byte \xrightarrow{\cdot 1024} kByte \xrightarrow{\cdo
 
 \section{MOS-FET's}
 % ======================================================================
-\textbf{M}etal \textbf{O}xide \textbf{S}emiconductor \textbf{F}ield \textbf{E}ffekt \textbf{T}ransistor\\
-\parbox{4.0cm}{ \includegraphics{img/ds/mosfet.pdf} \\ Beispiel: n-Mos \\ $V_{Pinch-Off} = V_{GS} - V_{th}$} \parbox{3.0cm}{ \includegraphics{img/ds/char_nmos.pdf} } 
-
+	\textbf{M}etal \textbf{O}xide \textbf{S}emiconductor \textbf{F}ield \textbf{E}ffekt \textbf{T}ransistor\\	
+	\begin{tabular}{m{3.7cm} m{4cm}}
+		\begin{minipage}[t]{\linewidth}
+			\includegraphics{img/ds/mosfet.pdf} \\[0.2cm]
+			\textbf{Bereiche NMOS:}
+		\end{minipage} & \includegraphics{img/ds/char_nmos.pdf} \\
+		Sperrbereich: $U_{GS} < U_{th}$ & Pinch-Off: $U_{DS} = U_{GS} - U_{th}$ \\
+		Linearer Bereich: $U_{DS} < U_{GS} - U_{th}$ & Sättigung: $U_{DS} > U_{GS} - U_{th}$ \\
+	\end{tabular}
 
 	\subsection{Bauteilparameter}
 	Verstärkung: \framebox{
@@ -577,9 +586,9 @@ Logik mit Gedächtnis (Speicher).
 	$t_{Setup}$ & Stabilitätszeit vor der aktiven Taktflanke\\
 	$t_{hold}$ & Stabilitätszeit nach  der aktiven Taktflanke\\
 	$t_{c2q}$ & Eingang wird spätestens nach $t_{c2q}$ am Ausgang verfügbar\\
-	 Min. Taktperiode &  $t_{clk} \ge t_{1,c2q} + t_{logic,max} + t_{2,setup}$  \\
+	 Min. Taktperiode &  $t_{clk} > t_{1,c2q} + t_{logic,max} + t_{2,setup}$  \\
 	 Max. Taktfrequenz & $f_{max} = \left\lfloor \frac{1}{t_{clk}} \right\rfloor$ \qquad (Nicht aufrunden) \\
-	 Holdzeitbedingung & $t_{hold} \le t_{c2q} + t_{logic,min}$  $\ra$ Dummy Gatter einbauen\\
+	 Holdzeitbedingung & $t_{2,hold} < t_{1,c2q} + t_{logic,min}$  $\ra$ Dummy Gatter einbauen\\
 	 Durchsatz & $\frac{1 \text{Sample}}{t_{clk,pipe}} = f$ \qquad (Sample: Anzahl der Eingänge ins Register)\\
 	 Latenz & $t_{clk} \cdot \#$Pipelinestufen (Anzahl von Logik+Register-Blöcken) \\
 	\end{tabular}
